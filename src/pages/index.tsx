@@ -8,7 +8,9 @@ export default function Home(): ReactNode {
       <Head>
         <title>인프런 - 프로가 되는 온라인 클래스 | 온라인 강의 플랫폼</title>
       </Head>
-      <div>nav</div>
+      <header>
+        <nav>nav</nav>
+      </header>
       <main>Main page</main>
       <footer>footer</footer>
     </>
