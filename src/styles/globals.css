@@ -3,6 +3,7 @@
   --color-dark-grey: #363636;
 }
 
+/* Universal tags */
 html,
 body {
   padding: 0;
@@ -27,7 +28,17 @@ button {
   outline: none;
 }
 
+ul {
+  list-style: none;
+  padding-left: 0;
+}
+
 .container {
   max-width: 1200px;
+  padding: 0 10px;
   margin: auto;
+}
+
+.title {
+  color: var(--color-dark-grey);
 }

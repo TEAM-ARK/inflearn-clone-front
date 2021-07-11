@@ -144,6 +144,24 @@ react-hook-form 적용
 <li className="lecture__card">card10</li>
 ```
 
+</details>
+
+<details>
+<summary>2021.07.12(Tony)</summary>
+
+### Things to do
+
+- [ ] 강의 카드 컴포넌트 만들기
 - [ ] 더미 데이터(json)으로 강의 컴포넌트 home에 띄우기
+- [ ] media query 로 반응형 화면 만들 때 스크린 사이즈 나누는 구간 알아보기
+- [ ] slider 공간만 만들기
+
+### home page
+
+- html 원달러 표시 : `&#8361;`
+
+### 참고 문헌
+
+- [html에 원달러 표시 대신 reverse solidus 나올 때](https://sqlplus.tistory.com/entry/html-%EC%86%8C%EC%8A%A4%EC%97%90-%EC%9B%90%ED%99%94%ED%86%B5%ED%99%94%ED%91%9C%EC%8B%9C%EB%A5%BC-%ED%95%A0%EB%95%8C-%EC%97%AD%EC%8A%AC%EB%A0%88%EC%89%AC%EB%A1%9C-%EB%82%98%EC%98%AC%EB%95%8C-%EC%B2%98%EB%A6%AC%EB%B0%A9%EB%B2%95)
 
 </details>

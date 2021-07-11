@@ -10,10 +10,6 @@
   text-align: center;
 }
 
-.search__title {
-  color: var(--color-dark-grey);
-}
-
 .search__form {
   width: 100%;
   margin: auto;
@@ -54,7 +50,31 @@
 }
 
 .lecture__list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
 }
 
 .lecture__card {
+  padding-right: 6px;
+  padding-bottom: 6px;
+  width: 25%;
+  height: 300px;
+  background-color: lightgrey;
+}
+
+.lecture__card__wrapper {
+  background-color: linen;
+}
+
+@media screen and (min-width: 618px) and (max-width: 1079px) {
+  .lecture__card {
+    width: calc(100% / 3);
+  }
+}
+
+@media screen and (max-width: 617px) {
+  .lecture__card {
+    width: 50%;
+  }
 }
