@@ -117,3 +117,33 @@ react-hook-form 적용
 - [ ] tsconfig.json 에서 include 부분 다시 확인하기
 
 </details>
+
+<details>
+<summary>2021.07.11(Tony)</summary>
+
+- [x] header, footer 윤곽만 잡기
+
+### home page
+
+- [ ] slider 공간만 만들기
+- [x] 검색창 모양만 만들기
+- [ ] 강의 카드 컴포넌트 만들기
+  - li.lecture\_\_card{card$}\*10
+  - [emmet을 통해 효율적으로 작성](https://webruden.tistory.com/77)
+
+```html
+<li className="lecture__card">card1</li>
+<li className="lecture__card">card2</li>
+<li className="lecture__card">card3</li>
+<li className="lecture__card">card4</li>
+<li className="lecture__card">card5</li>
+<li className="lecture__card">card6</li>
+<li className="lecture__card">card7</li>
+<li className="lecture__card">card8</li>
+<li className="lecture__card">card9</li>
+<li className="lecture__card">card10</li>
+```
+
+- [ ] 더미 데이터(json)으로 강의 컴포넌트 home에 띄우기
+
+</details>
