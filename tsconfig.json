@@ -30,11 +30,6 @@
     "experimentalDecorators": true /* Enables experimental support for ES7 decorators. */,
     "emitDecoratorMetadata": true /* Enables experimental support for emitting type metadata for decorators. */
   },
-  "include": [
-    "next-env.d.ts",
-    "src/pages/**/*",
-    "src/**/*src/styles/**/***/*", // *** The files TypeScript should type check ***
-    "src/api"
-  ],
+  "include": ["src"],
   "exclude": ["node_modules", "coverage"] // *** The files to not type check ***
 }

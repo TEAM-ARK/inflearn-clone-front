@@ -155,6 +155,7 @@ react-hook-form 적용
 - [ ] 더미 데이터(json)으로 강의 컴포넌트 home에 띄우기
 - [ ] media query 로 반응형 화면 만들 때 스크린 사이즈 나누는 구간 알아보기
 - [ ] slider 공간만 만들기
+- [ ] search안의 title 문구 매일 바뀌게 하기
 
 ### home page
 

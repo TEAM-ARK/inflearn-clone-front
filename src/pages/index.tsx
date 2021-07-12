@@ -1,9 +1,8 @@
 import { ReactNode } from 'react';
 import SearchIcon from '@material-ui/icons/Search';
-import StarIcon from '@material-ui/icons/Star';
-import StarBorderIcon from '@material-ui/icons/StarBorder';
-import StarHalfIcon from '@material-ui/icons/StarHalf';
 import Head from 'next/head';
+import data from 'src/api/dummyData'; // test용 더미데이터
+import LectureCard from 'src/components/lectureCard';
 
 export default function Home(): ReactNode {
   return (
@@ -32,60 +31,18 @@ export default function Home(): ReactNode {
         <section className="container">
           <h1 className="title">전체 강의</h1>
           <ul className="lecture__list">
-            <li className="lecture__card">
-              <div className="lecture__card__wrapper">
-                <div className="lecture__card__image" />
-                <div className="lecture__card__contents">
-                  <h3 className="lecture__card__title">만들면서 학습하는 리액트(react)</h3>
-                  <div className="lecture__card__author">김정환</div>
-                  <div className="rating">
-                    <span className="rating__star">
-                      <StarIcon />
-                      <StarIcon />
-                      <StarIcon />
-                      <StarHalfIcon />
-                      <StarBorderIcon />
-                    </span>
-                    <span className="lecture__card__review-count">(7)</span>
-                  </div>
-                  <div className="lecture__card__price">&#8361; 55,000</div>
-                  <div className="lecture__card__tags">
-                    <span className="tag">+200명</span>
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li className="lecture__card">
-              <div className="lecture__card__wrapper">
-                <div className="lecture__card__image" />
-                <div className="lecture__card__contents">
-                  <h3 className="lecture__card__title">만들면서 학습하는 리액트(react)</h3>
-                  <div className="lecture__card__author">김정환</div>
-                  <div className="rating">
-                    <span className="rating__star">
-                      <StarIcon />
-                      <StarIcon />
-                      <StarIcon />
-                      <StarHalfIcon />
-                      <StarBorderIcon />
-                    </span>
-                    <span className="lecture__card__review-count">(7)</span>
-                  </div>
-                  <div className="lecture__card__price">&#8361; 55,000</div>
-                  <div className="lecture__card__tags">
-                    <span className="tag">+200명</span>
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li className="lecture__card">card3</li>
-            <li className="lecture__card">card4</li>
-            <li className="lecture__card">card5</li>
-            <li className="lecture__card">card6</li>
-            <li className="lecture__card">card7</li>
-            <li className="lecture__card">card8</li>
-            <li className="lecture__card">card9</li>
-            <li className="lecture__card">card10</li>
+            {data?.map((lecture) => (
+              <LectureCard
+                key={lecture.id}
+                id={`${lecture.id}`}
+                coverImage={lecture.coverImage}
+                title={lecture.title}
+                author={lecture.author}
+                commentCount={lecture.commentCount}
+                price={lecture.price}
+                studentCount={lecture.studentCount}
+              />
+            ))}
           </ul>
         </section>
       </main>
