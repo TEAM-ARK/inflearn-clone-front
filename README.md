@@ -151,15 +151,17 @@ react-hook-form 적용
 
 ### Things to do
 
-- [ ] 강의 카드 컴포넌트 만들기
-- [ ] 더미 데이터(json)으로 강의 컴포넌트 home에 띄우기
+- [x] 강의 카드 컴포넌트 만들기
+- [x] 더미 데이터(json)으로 강의 컴포넌트 home에 띄우기
+  - [ ] 실제로 api로 받아오는 과정 알아보기
 - [ ] media query 로 반응형 화면 만들 때 스크린 사이즈 나누는 구간 알아보기
-- [ ] slider 공간만 만들기
+- [x] slider 공간만 만들기
 - [ ] search안의 title 문구 매일 바뀌게 하기
 
 ### home page
 
 - html 원달러 표시 : `&#8361;`
+- 천단위 콤마 : [정규식 이용](https://hianna.tistory.com/441)
 
 ### 참고 문헌
 

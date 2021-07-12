@@ -1,2 +1,4 @@
 @import 'globals.css';
 @import 'home.css';
+@import 'components/lectureCard.css';
+@import 'components/ratingStar.css';

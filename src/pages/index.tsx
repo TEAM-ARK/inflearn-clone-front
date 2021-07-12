@@ -38,6 +38,7 @@ export default function Home(): ReactNode {
                 coverImage={lecture.coverImage}
                 title={lecture.title}
                 author={lecture.author}
+                rating={lecture.rating}
                 commentCount={lecture.commentCount}
                 price={lecture.price}
                 studentCount={lecture.studentCount}
