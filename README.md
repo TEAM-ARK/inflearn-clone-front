@@ -168,3 +168,31 @@ react-hook-form 적용
 - [html에 원달러 표시 대신 reverse solidus 나올 때](https://sqlplus.tistory.com/entry/html-%EC%86%8C%EC%8A%A4%EC%97%90-%EC%9B%90%ED%99%94%ED%86%B5%ED%99%94%ED%91%9C%EC%8B%9C%EB%A5%BC-%ED%95%A0%EB%95%8C-%EC%97%AD%EC%8A%AC%EB%A0%88%EC%89%AC%EB%A1%9C-%EB%82%98%EC%98%AC%EB%95%8C-%EC%B2%98%EB%A6%AC%EB%B0%A9%EB%B2%95)
 
 </details>
+
+<details>
+<summary>2021.07.17(Tony)</summary>
+
+### tsconfig.json 속성
+
+- [컴파일러 옵션 설정](https://typescript-kr.github.io/pages/compiler-options.html)
+
+- include, exclude 속성은 glob과 유사한 파일 패턴 목록을 가짐
+
+  - \*: 모든 문자(디렉토리 구분기호 제외)
+  - ?: 한 문자와 매칭(디렉토리 구분기호 제외)
+  - \*\*/ : 반복적으로 모든 하위 디렉토리와 매칭
+  - "src/\*/\*\*" : src 안의 모든 하위 디렉토리 + 지원하는 확장자(ex. .ts, .tsx, .d.ts)
+    - allowJs가 true(true로 설정 해놓은 상태)이면 .js와 .jsx 도 포함
+
+- [ ] next에서 typescript return type, prop type 알아보기
+  - [x] type vs interface
+    - interface로 표현할 수 없는 형태가 아니면 interface를 이용하자
+  - [ ] next에서 return type, prop type을 어떻게 지정하는게 좋은지 알아보기
+
+### 참고 문헌
+
+- [typescript-kr, tsconfig.json](https://typescript-kr.github.io/pages/tsconfig.json.html)
+- [type vs interface가 더 낫다](https://yceffort.kr/2021/03/typescript-interface-vs-type)
+- [type과 interface 차이](https://medium.com/@alexsung/typescript-type%EA%B3%BC-interface-%EC%B0%A8%EC%9D%B4-86666e3e90c)
+
+</details>

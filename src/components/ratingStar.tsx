@@ -27,22 +27,18 @@ const RatingStar: FC<IRatingStarProps> = ({ rating, size }: IRatingStarProps) =>
     <span className="rating__star">
       {Array(ratingInteger)
         .fill()
-        .map(() => (
-          <StarIcon
-            style={{
-              fontSize: `${size}`,
-            }}
-          />
+        .map((_, index) => (
+          <StarIcon key={index} style={starStyle} />
         ))}
       {Array(halfStarCount)
         .fill()
-        .map(() => (
-          <StarHalfIcon style={starStyle} />
+        .map((_, index) => (
+          <StarHalfIcon key={index} style={starStyle} />
         ))}
       {Array(emptyStartCount)
         .fill()
-        .map(() => (
-          <StarBorderIcon style={starStyle} />
+        .map((_, index) => (
+          <StarBorderIcon key={index} style={starStyle} />
         ))}
     </span>
   );
