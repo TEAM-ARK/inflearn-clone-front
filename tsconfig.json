@@ -23,17 +23,16 @@
     "baseUrl": ".",
     "paths": {
       //alias pathing for absolute paths
-      "@src/*": ["src/*"],
       "@pages/*": ["src/pages/*"],
-      "@styles/*": ["src/styles/*"]
+      "@styles/*": ["src/styles/*"],
+      "@components/*": ["src/components/*"]
     },
     "experimentalDecorators": true /* Enables experimental support for ES7 decorators. */,
     "emitDecoratorMetadata": true /* Enables experimental support for emitting type metadata for decorators. */
   },
   "include": [
     "next-env.d.ts",
-    "src/pages/**/*",
-    "src/**/*src/styles/**/***/*", // *** The files TypeScript should type check ***
+    "src/**/*", // *** The files TypeScript should type check ***
     "src/api"
   ],
   "exclude": ["node_modules", "coverage"] // *** The files to not type check ***

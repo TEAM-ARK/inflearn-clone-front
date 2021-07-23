@@ -1,8 +1,10 @@
-import { ReactNode } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { Button, Container, Grid, Typography } from '@material-ui/core';
 import Head from 'next/head';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm, SubmitHandler, FormProvider } from 'react-hook-form';
 import * as yup from 'yup';
+import SignUpForm from '@components/SignUpForm';
+import useStyles from '@styles/styles';
 
 interface IFormInputs {
   email: string;
@@ -14,17 +16,14 @@ const schema = yup.object().shape({
   password: yup.string().min(12).max(32).required(),
 });
 
-export default function Signup(): ReactNode {
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm<IFormInputs>({
+export default function SignUp() {
+  const methods = useForm<IFormInputs>({
     resolver: yupResolver(schema),
   });
 
-  const formSubmitHandler: SubmitHandler<IFormInputs> = (data: IFormInputs) => {
+  const classes = useStyles();
+
+  const onSubmit: SubmitHandler<IFormInputs> = (data) => {
     console.log('form data', data);
   };
 
@@ -33,19 +32,27 @@ export default function Signup(): ReactNode {
       <Head>
         <title>회원가입 - 인프런 | 온라인 강의 플랫폼</title>
       </Head>
-      <nav>nav</nav>
       <main>
-        <form onSubmit={handleSubmit(formSubmitHandler)}>
-          <input {...register('email')} />
-          <br />
-          <br />
-          <input {...register('password')} />
-          <br />
-          <br />
-          <input type="submit" />
-        </form>
+        <FormProvider {...methods}>
+          <Container component="section" maxWidth="xs">
+            <form onSubmit={methods.handleSubmit(onSubmit)}>
+              <Typography className={classes.bold} component="h2" variant="h6">
+                회원가입
+              </Typography>
+              <SignUpForm />
+              <Button type="submit" fullWidth variant="outlined">
+                가입하기
+              </Button>
+            </form>
+          </Container>
+        </FormProvider>
       </main>
-      <footer>footer</footer>
     </>
   );
+}
+
+export async function getServerSideProps() {
+  // Check if the user signed in or not to enter this page
+  // Pass data to the page via props
+  return { props: {} };
 }

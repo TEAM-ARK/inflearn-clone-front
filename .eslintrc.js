@@ -38,6 +38,7 @@ module.exports = {
     'react/jsx-filename-extension': 'off',
     'import/extensions': 'off',
     'import/no-unresolved': 'error',
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
     'import/order': [
       'error',
       {
