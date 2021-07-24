@@ -6,8 +6,6 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import theme from '@src/styles/theme';
-import Footer from '../components/footer';
-import Header from '../components/header';
 import '../styles/styles.css';
 
 const MyApp: FC<AppProps> = ({ Component, pageProps }: AppProps) => {
@@ -27,9 +25,7 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }: AppProps) => {
       <ThemeProvider theme={theme}>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
-        <Header />
         <Component {...pageProps} />
-        <Footer />
       </ThemeProvider>
     </>
   );

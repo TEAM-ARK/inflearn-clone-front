@@ -196,3 +196,33 @@ react-hook-form 적용
 - [type과 interface 차이](https://medium.com/@alexsung/typescript-type%EA%B3%BC-interface-%EC%B0%A8%EC%9D%B4-86666e3e90c)
 
 </details>
+
+<details>
+<summary>2021.07.23(Tony)</summary>
+
+## Issue #9 : AppLayout 구조 적용
+
+### \_document, \_app, index 우선순위 파악
+
+- \_document.js는 시작점 : HTML Document
+- \_app.js : 공통의 레이아웃 작성
+- index.js : "/"로 시작되는 경로
+- \_error.js : Error page : 아직 잘 모름
+
+참고 문헌
+
+- [개인블로그 : next.js 구조](https://salgum1114.github.io/nextjs/2019-05-06-nextjs-static-website-1/)
+
+document > app > index 순으로 내려와서 index에 본격적으로 만들면 될 것 같다
+
+- 현재 AppLayout 이라는 공통 component를 만들어서 header와 footer가 필요한 곳이면 사용 할 수 있게 함
+
+### styled component 설치
+
+- npm i styled-components
+- noah님하고 상의하고 웬만하면 .css파일을 작성하지 않는 방향으로 진행해볼 예정
+
+typescript는 입력이 예상되는 props에 대한 type검사는 할 수 있겠지만
+react에서 어떻게 써야되는지는 알아볼 필요가 있음
+
+</details>
