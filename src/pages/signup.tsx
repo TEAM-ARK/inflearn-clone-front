@@ -1,5 +1,6 @@
+import React, { useState } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Button, Container, Grid, Typography } from '@material-ui/core';
+import { Button, Container, Typography, FormControlLabel, Checkbox, Box, Grid, Divider } from '@material-ui/core';
 import Head from 'next/head';
 import { useForm, SubmitHandler, FormProvider } from 'react-hook-form';
 import * as yup from 'yup';
@@ -17,6 +18,8 @@ const schema = yup.object().shape({
 });
 
 export default function SignUp() {
+  const [policy, setPolicy] = useState(false);
+
   const methods = useForm<IFormInputs>({
     resolver: yupResolver(schema),
   });
@@ -25,6 +28,10 @@ export default function SignUp() {
 
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
     console.log('form data', data);
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPolicy(event.target.checked);
   };
 
   return (
@@ -40,9 +47,29 @@ export default function SignUp() {
                 회원가입
               </Typography>
               <SignUpForm />
-              <Button type="submit" fullWidth variant="outlined">
+              <Button
+                className={classes.submit}
+                color="primary"
+                size="large"
+                type="submit"
+                fullWidth
+                variant="contained"
+              >
                 가입하기
               </Button>
+              <Grid container direction="column" alignItems="center">
+                <Grid item>
+                  <Typography className={classes.policy}>
+                    가입 시, 인프런의 이용약관, 개인정보취급방침 에 동의합니다.
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <FormControlLabel
+                    control={<Checkbox size="small" checked={policy} onChange={handleChange} />}
+                    label={<Typography className={classes.policy}>인프런의 다양한 소식을 받아보시겠어요?</Typography>}
+                  />
+                </Grid>
+              </Grid>
             </form>
           </Container>
         </FormProvider>

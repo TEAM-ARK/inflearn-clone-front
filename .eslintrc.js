@@ -32,6 +32,7 @@ module.exports = {
         endOfLine: 'auto',
       },
     ],
+    'no-use-before-define': 'off',
     'no-console': 'off',
     'react/jsx-props-no-spreading': 'off',
     'react/react-in-jsx-scope': 'off',

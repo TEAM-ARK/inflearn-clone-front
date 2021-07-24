@@ -1,4 +1,4 @@
-import { TextField, Container, Grid } from '@material-ui/core';
+import { TextField } from '@material-ui/core';
 import { Controller, useFormContext } from 'react-hook-form';
 
 export default function SignUpForm() {
@@ -15,12 +15,14 @@ export default function SignUpForm() {
         render={({ field }) => (
           <TextField
             {...field}
+            margin="normal"
             autoComplete="email"
             fullWidth
             autoFocus
             type="email"
             label="이메일"
             variant="outlined"
+            placeholder="example@inflearn.com"
             error={errors.email}
             helperText={errors.email ? errors.email?.message : ''}
           />
@@ -32,11 +34,13 @@ export default function SignUpForm() {
         render={({ field }) => (
           <TextField
             {...field}
+            margin="normal"
             fullWidth
             autoComplete="email"
             type="email"
             label="이메일 확인"
             variant="outlined"
+            placeholder="example@inflearn.com"
             error={errors.email}
             helperText={errors.email ? errors.email?.message : ''}
           />
@@ -48,11 +52,13 @@ export default function SignUpForm() {
         render={({ field }) => (
           <TextField
             {...field}
+            margin="normal"
             fullWidth
             autoComplete="new-password"
             type="password"
             label="비밀번호"
             variant="outlined"
+            placeholder="******"
             error={errors.password}
             helperText={errors.password ? errors.password?.message : ''}
           />
@@ -64,11 +70,13 @@ export default function SignUpForm() {
         render={({ field }) => (
           <TextField
             {...field}
+            margin="normal"
             fullWidth
             autoComplete="new-password"
             type="password"
             label="비밀번호 확인"
             variant="outlined"
+            placeholder="******"
             error={errors.password}
             helperText={errors.password ? errors.password?.message : ''}
           />
