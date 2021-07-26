@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Button, Container, Typography, FormControlLabel, Checkbox, Box, Grid, Divider } from '@material-ui/core';
+import { Button, Container, Typography, FormControlLabel, Checkbox, Grid, Divider } from '@material-ui/core';
 import Head from 'next/head';
 import { useForm, SubmitHandler, FormProvider } from 'react-hook-form';
 import * as yup from 'yup';
@@ -41,7 +41,7 @@ export default function SignUp() {
       </Head>
       <main>
         <FormProvider {...methods}>
-          <Container component="section" maxWidth="xs">
+          <Container className={classes.signUpContainer} component="section">
             <form onSubmit={methods.handleSubmit(onSubmit)}>
               <Typography className={classes.bold} component="h2" variant="h6">
                 회원가입

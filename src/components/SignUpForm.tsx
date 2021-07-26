@@ -1,4 +1,7 @@
-import { TextField } from '@material-ui/core';
+import { useState } from 'react';
+import { TextField, IconButton } from '@material-ui/core';
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import { Controller, useFormContext } from 'react-hook-form';
 
 export default function SignUpForm() {
@@ -7,10 +10,22 @@ export default function SignUpForm() {
     formState: { errors },
   } = useFormContext();
 
+  const [showPassword, setShowPassword] = useState(true);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(true);
+
+  const onShowPassword = () => {
+    setShowPassword((prev) => !prev);
+  };
+
+  const onShowConfirmPassword = () => {
+    setShowConfirmPassword((prev) => !prev);
+  };
+
   return (
     <>
       <Controller
         name="email"
+        defaultValue=""
         control={control}
         render={({ field }) => (
           <TextField
@@ -30,6 +45,7 @@ export default function SignUpForm() {
       />
       <Controller
         name="email-confirm"
+        defaultValue=""
         control={control}
         render={({ field }) => (
           <TextField
@@ -48,6 +64,7 @@ export default function SignUpForm() {
       />
       <Controller
         name="password"
+        defaultValue=""
         control={control}
         render={({ field }) => (
           <TextField
@@ -55,30 +72,45 @@ export default function SignUpForm() {
             margin="normal"
             fullWidth
             autoComplete="new-password"
-            type="password"
+            type={showPassword ? 'password' : 'text'}
             label="비밀번호"
             variant="outlined"
             placeholder="******"
             error={errors.password}
             helperText={errors.password ? errors.password?.message : ''}
+            InputProps={{
+              endAdornment: (
+                <IconButton aria-label="toggle password visibility" onClick={onShowPassword} edge="end">
+                  {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                </IconButton>
+              ),
+            }}
           />
         )}
       />
       <Controller
         name="password-confirm"
+        defaultValue=""
         control={control}
         render={({ field }) => (
           <TextField
             {...field}
             margin="normal"
             fullWidth
-            autoComplete="new-password"
-            type="password"
             label="비밀번호 확인"
+            autoComplete="new-password"
+            type={showConfirmPassword ? 'password' : 'text'}
             variant="outlined"
             placeholder="******"
             error={errors.password}
             helperText={errors.password ? errors.password?.message : ''}
+            InputProps={{
+              endAdornment: (
+                <IconButton aria-label="assword visibility" onClick={onShowConfirmPassword} edge="end">
+                  {showConfirmPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                </IconButton>
+              ),
+            }}
           />
         )}
       />

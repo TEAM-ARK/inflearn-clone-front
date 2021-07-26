@@ -1,8 +1,9 @@
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
-  signupTitle: {
-    color: 'red',
+  signUpContainer: {
+    marginTop: 120,
+    width: 380,
   },
   bold: {
     fontWeight: 'bold',
