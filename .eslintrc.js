@@ -32,10 +32,14 @@ module.exports = {
         endOfLine: 'auto',
       },
     ],
+    'no-use-before-define': 'off',
+    'no-console': 'off',
+    'react/jsx-props-no-spreading': 'off',
     'react/react-in-jsx-scope': 'off',
     'react/jsx-filename-extension': 'off',
     'import/extensions': 'off',
     'import/no-unresolved': 'error',
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
     'import/order': [
       'error',
       {

@@ -1,8 +1,8 @@
 import { ReactNode } from 'react';
 import SearchIcon from '@material-ui/icons/Search';
 import Head from 'next/head';
-import AppLayout from '@src/components/AppLayout';
-import { MainSlider } from '@src/components/Slider';
+import AppLayout from '@components/AppLayout';
+import { MainSlider } from '@components/Slider';
 import { data } from 'src/api/dummyData'; // test용 더미데이터
 import LectureCard from 'src/components/lectureCard';
 

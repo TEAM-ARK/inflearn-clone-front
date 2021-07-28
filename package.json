@@ -13,6 +13,7 @@
     "tony:dev": "cross-env NODE_OPTIONS=inspect next dev"
   },
   "dependencies": {
+    "@hookform/resolvers": "^2.6.0",
     "@material-ui/core": "^4.12.1",
     "@material-ui/icons": "^4.11.2",
     "cross-env": "^7.0.3",
@@ -21,7 +22,8 @@
     "react-dom": "17.0.2",
     "react-hook-form": "^7.10.1",
     "react-slick": "^0.28.1",
-    "styled-components": "^5.3.0"
+    "styled-components": "^5.3.0",
+    "yup": "^0.32.9"
   },
   "devDependencies": {
     "@testing-library/dom": "^7.30.0",
