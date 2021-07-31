@@ -8,8 +8,6 @@ import Head from 'next/head';
 import Global from '@styles/GlobalStyle';
 import theme from '@styles/theme';
 
-import '../styles/styles.css';
-
 const MyApp: FC<AppProps> = ({ Component, pageProps }: AppProps) => {
   useEffect(() => {
     // Remove the server-side injected CSS.

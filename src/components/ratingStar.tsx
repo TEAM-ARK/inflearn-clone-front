@@ -2,6 +2,11 @@ import { FC } from 'react';
 import StarIcon from '@material-ui/icons/Star';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import StarHalfIcon from '@material-ui/icons/StarHalf';
+import styled from 'styled-components';
+
+const RatingStarStyle = styled.span`
+  color: var(--color-yellow);
+`;
 
 interface IRatingStarProps {
   rating: number;
@@ -24,7 +29,7 @@ const RatingStar: FC<IRatingStarProps> = ({ rating, size }: IRatingStarProps) =>
   };
 
   return (
-    <span className="rating__star">
+    <RatingStarStyle className="rating__star">
       {Array(ratingInteger)
         .fill()
         .map((_, index) => (
@@ -40,7 +45,7 @@ const RatingStar: FC<IRatingStarProps> = ({ rating, size }: IRatingStarProps) =>
         .map((_, index) => (
           <StarBorderIcon key={index} style={starStyle} />
         ))}
-    </span>
+    </RatingStarStyle>
   );
 };
 
