@@ -13,7 +13,7 @@ const Home = (): ReactNode => {
         <title>Team Ark | home</title>
       </Head>
 
-      <main>
+      <>
         <section>
           <MainSlider />
         </section>
@@ -47,7 +47,7 @@ const Home = (): ReactNode => {
             ))}
           </ul>
         </section>
-      </main>
+      </>
     </AppLayout>
   );
 };
