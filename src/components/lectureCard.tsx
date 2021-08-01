@@ -1,6 +1,74 @@
 import { FC } from 'react';
 import Link from 'next/link';
+import styled from 'styled-components';
 import RatingStar from 'src/components/ratingStar';
+
+const LectureCardStyle = styled.li`
+  padding: 12px;
+  width: 25%;
+  height: 300px;
+
+  @media screen and (min-width: 618px) and (max-width: 1079px) {
+    width: calc(100% / 3);
+  }
+  @media screen and (max-width: 617px) {
+    width: 50%;
+  }
+`;
+
+const LectureCardWrapper = styled.div`
+  height: 100%;
+  background-color: white;
+  cursor: pointer;
+`;
+
+const LectureCardImage = styled.div`
+  background: center/cover no-repeat;
+  height: 40%;
+`;
+
+const LectureCardTitle = styled.h3`
+  color: var(--color-dark-grey);
+  @media screen and (max-width: 617px) {
+    font-size: 0.9rem;
+  }
+`;
+
+const LectureCardAuthor = styled.div`
+  color: var(--color-light-grey);
+  font-weight: 600;
+  font-size: smaller;
+  margin-top: 6px;
+`;
+
+const LectureCardRating = styled.div`
+  padding-top: 6px;
+`;
+
+const LectureCardReviewCount = styled.span`
+  font-size: 0.8rem;
+  font-weight: 600;
+  vertical-align: top;
+  line-height: 1rem;
+  color: var(--color-grey);
+`;
+
+const LectureCardPrice = styled.div`
+  color: var(--color-blue);
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 5px;
+`;
+
+const LectureCardTag = styled.span`
+  background-color: var(--color-light-pink);
+  border-radius: 4px;
+  padding: 2px 6px;
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--color-grey);
+`;
 
 interface ILectureProps {
   id: string;
@@ -26,27 +94,27 @@ const LectureCard: FC<ILectureProps> = ({
   const studentCountFloor = Math.floor(studentCount / 100) * 100;
 
   return (
-    <li key={id} className="lecture__card">
+    <LectureCardStyle key={id}>
       <Link href={`/course/${id}`}>
-        <div className="lecture__card__wrapper">
-          <div className="lecture__card__image" style={{ backgroundImage: `url(${coverImage})` }} />
-          <div className="lecture__card__contents">
-            <h3 className="lecture__card__title">{title}</h3>
-            <div className="lecture__card__author">{author}</div>
-            <div className="lecture__card__rating">
+        <LectureCardWrapper>
+          <LectureCardImage style={{ backgroundImage: `url(${coverImage})` }} />
+          <div>
+            <LectureCardTitle>{title}</LectureCardTitle>
+            <LectureCardAuthor>{author}</LectureCardAuthor>
+            <LectureCardRating>
               <RatingStar rating={rating} size="1rem" />
-              <span className="lecture__card__review-count">{`(${commentCount})`}</span>
-            </div>
-            <div className="lecture__card__price">
+              <LectureCardReviewCount>{`(${commentCount})`}</LectureCardReviewCount>
+            </LectureCardRating>
+            <LectureCardPrice>
               &#8361;{price.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')}
-            </div>
-            <div className="lecture__card__tags">
-              <span className="tag">{`+${studentCountFloor}명`}</span>
+            </LectureCardPrice>
+            <div>
+              <LectureCardTag>{`+${studentCountFloor}명`}</LectureCardTag>
             </div>
           </div>
-        </div>
+        </LectureCardWrapper>
       </Link>
-    </li>
+    </LectureCardStyle>
   );
 };
 
