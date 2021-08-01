@@ -252,3 +252,22 @@ react에서 어떻게 써야되는지는 알아볼 필요가 있음
 #### 리덕스 및 사가 설정
 
 </details>
+
+<details>
+<summary>2021.08.01(Tony)</summary>
+
+### 작업내용
+
+리덕스 설치 및 세팅 중
+
+- [ ] State type 정의 해야 됨
+- [ ] User, Lecture - reducer, saga 설계 해야 됨
+
+### 참고 문헌
+
+- https://jktech.tistory.com/46
+- 인프런 노드버드 강의
+- https://medium.com/@raphat/next-js-typescript-redux-3fbc990cb901
+- [next-redux-wrapper 공식문서](https://github.com/kirill-konshin/next-redux-wrapper)
+
+</details>
