@@ -254,9 +254,29 @@ react에서 어떻게 써야되는지는 알아볼 필요가 있음
 </details>
 
 <details>
-<summary>2021.08.01(Tony)</summary>
+<summary>2021.08.01~2(Tony)</summary>
 
-### 작업내용
+### 설치 모듈
+
+npm install redux next-redux-wrapper react-redux --save
+
+- redux
+- next-redux-wrapper
+  - Next.js의 서버사이드 렌더링 관련 복잡한 설정을 쉽게 해주는 HOC
+- react-redux
+  - react 바인딩
+
+npm install -d redux-devtools-extension @types/next-redux-wrapper @types/react-redux
+
+- redux-devtools-extension : 개발자 도구 사용을 위한 라이브러리
+
+npm install redux-saga
+
+- redux-saga는 type을 자체적으로 지원하기 때문에 @type/redux-saga는 필요 없음(deprecated 됨)
+
+npm i immer
+
+- 알아서 불변성을 지켜주는 라이브러리
 
 리덕스 설치 및 세팅 중
 
