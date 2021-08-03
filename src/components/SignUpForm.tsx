@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { TextField, IconButton } from '@material-ui/core';
+import { TextField, IconButton, Typography } from '@material-ui/core';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import { Controller, useFormContext } from 'react-hook-form';
+import useStyles from '@styles/styles';
 
 export default function SignUpForm() {
   const {
@@ -10,8 +11,11 @@ export default function SignUpForm() {
     formState: { errors },
   } = useFormContext();
 
+  const classes = useStyles();
+
   const [showPassword, setShowPassword] = useState(true);
   const [showConfirmPassword, setShowConfirmPassword] = useState(true);
+  const [focusPassword, setFocusPassword] = useState(false);
 
   const onShowPassword = () => {
     setShowPassword((prev) => !prev);
@@ -19,6 +23,14 @@ export default function SignUpForm() {
 
   const onShowConfirmPassword = () => {
     setShowConfirmPassword((prev) => !prev);
+  };
+
+  const onFocusPassword = () => {
+    setFocusPassword(true);
+  };
+
+  const onBlurPassword = () => {
+    setFocusPassword(false);
   };
 
   return (
@@ -74,6 +86,8 @@ export default function SignUpForm() {
             autoComplete="new-password"
             type={showPassword ? 'password' : 'text'}
             label="비밀번호"
+            onFocus={onFocusPassword}
+            onBlur={onBlurPassword}
             variant="outlined"
             placeholder="******"
             error={errors.password}
@@ -88,6 +102,15 @@ export default function SignUpForm() {
           />
         )}
       />
+      {focusPassword ? (
+        <Typography className={classes.password}>
+          영문 대소문자/숫자/특수 문자 3가지 필수조합
+          <br /> 12자 이상 32자 이하 입력 (공백 제외)
+          <br /> 연속 3자 이상 동일한 문자/숫자 제외
+        </Typography>
+      ) : (
+        ''
+      )}
       <Controller
         name="password-confirm"
         defaultValue=""
