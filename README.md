@@ -40,9 +40,10 @@
 
 ## 📑 할 일 (Things to do)
 
-- [ ] 프론트엔드 세팅 : Typescript, Layout ...
+- [x] 프론트엔드 세팅 : Typescript, Layout ...
 - [ ] 메인 페이지
 - [ ] 회원가입 페이지
+- [ ] Header, Footer layout
 
 ---
 
@@ -250,5 +251,33 @@ react에서 어떻게 써야되는지는 알아볼 필요가 있음
 - [ ] 슬라이더에 링크 추가
 
 #### 리덕스 및 사가 설정
+
+</details>
+<details>
+<summary>2021.07.24(Tony)</summary>
+
+### 작업내용
+
+- signup page 작성
+  - Material-UI( CSS)
+    - TextField: input과 같은 역할을 함
+    - Typography: div와 같은 역할
+    - Grid: Grid를 사용하여 Flex나 Grid와 같은 디자인을 쉽게 구현
+    - IconButton: Material에서 제공하는 icon을 button으로 사용하게 해줌
+    - styles.ts: custom css파일, className으로 변수값을 넘기면 custom 디자인이 적용됨
+  - react-hook-form( form)
+  - yup( signup rule)
+
+### 향후 계획
+
+#### style
+
+- [ ] SNS 로그인 디자인
+
+#### 회원가입 rule
+
+- [ ] yup을 사용하여 회원가입 rule 설정
+- [ ] rule에 맞지 않은 경우 error 메시지 출력
+- [ ] 이용약관, 개인정보취급방침 페이지 생성
 
 </details>
