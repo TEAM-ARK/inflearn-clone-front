@@ -40,9 +40,10 @@
 
 ## 📑 할 일 (Things to do)
 
-- [ ] 프론트엔드 세팅 : Typescript, Layout ...
+- [x] 프론트엔드 세팅 : Typescript, Layout ...
 - [ ] 메인 페이지
 - [ ] 회원가입 페이지
+- [ ] Header, Footer layout
 
 ---
 
@@ -254,7 +255,36 @@ react에서 어떻게 써야되는지는 알아볼 필요가 있음
 </details>
 
 <details>
-<summary>2021.08.01~2(Tony)</summary>
+<summary>2021.08.04(Noah)</summary>
+
+### 작업내용
+
+- signup page 작성
+  - Material-UI( CSS)
+    - TextField: input과 같은 역할을 함
+    - Typography: div와 같은 역할
+    - Grid: Grid를 사용하여 Flex나 Grid와 같은 디자인을 쉽게 구현
+    - IconButton: Material에서 제공하는 icon을 button으로 사용하게 해줌
+    - styles.ts: custom css파일, className으로 변수값을 넘기면 custom 디자인이 적용됨
+  - react-hook-form( form)
+  - yup( signup rule)
+
+### 향후 계획
+
+#### style
+
+- [ ] SNS 로그인 디자인
+
+#### 회원가입 rule
+
+- [ ] yup을 사용하여 회원가입 rule 설정
+- [ ] rule에 맞지 않은 경우 error 메시지 출력
+- [ ] 이용약관, 개인정보취급방침 페이지 생성
+
+</details>
+
+<details>
+<summary>2021.08.01~2, 5(Tony)</summary>
 
 ### 설치 모듈
 
@@ -282,6 +312,26 @@ npm i immer
 
 - [ ] State type 정의 해야 됨
 - [ ] User, Lecture - reducer, saga 설계 해야 됨
+  - 설계 중
+
+eslint rule 중 'no-param-reassign': 'off' => immer 사용을 위해
+
+### redux tree
+
+redux
+
+- reducers
+  - index
+  - user
+  - lecture
+  - commonState (다른 폴더로 분류 할지 말지 고민 중)
+  - types
+- sagas
+  - index
+  - user
+  - lecture
+  - types
+- configureStore (store 폴더 만들지 말지 고민 중)
 
 ### 참고 문헌
 
@@ -289,5 +339,4 @@ npm i immer
 - 인프런 노드버드 강의
 - https://medium.com/@raphat/next-js-typescript-redux-3fbc990cb901
 - [next-redux-wrapper 공식문서](https://github.com/kirill-konshin/next-redux-wrapper)
-
 </details>

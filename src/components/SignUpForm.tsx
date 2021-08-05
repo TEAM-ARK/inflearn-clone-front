@@ -102,14 +102,12 @@ export default function SignUpForm() {
           />
         )}
       />
-      {focusPassword ? (
+      {focusPassword && (
         <Typography className={classes.password}>
           영문 대소문자/숫자/특수 문자 3가지 필수조합
           <br /> 12자 이상 32자 이하 입력 (공백 제외)
           <br /> 연속 3자 이상 동일한 문자/숫자 제외
         </Typography>
-      ) : (
-        ''
       )}
       <Controller
         name="password-confirm"
