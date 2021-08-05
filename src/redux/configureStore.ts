@@ -3,6 +3,7 @@ import { applyMiddleware, compose, createStore, Store } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import createSagaMiddleware, { Task } from 'redux-saga';
 import reducer from './reducers';
+import rootSaga from './sagas';
 
 interface SagaStore extends Store {
   sagaTask?: Task;

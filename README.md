@@ -333,6 +333,16 @@ redux
   - types
 - configureStore (store 폴더 만들지 말지 고민 중)
 
+### 라이브러리 설치
+
+#### npm i axios
+
+- saga에서 사용, 비동기 http통신(Promise based HTTP client for the browser and node.js)
+
+#### npm i -S @redux-saga/core
+
+- eslint가 지적해줘서 설치함
+
 ### 참고 문헌
 
 - https://jktech.tistory.com/46
