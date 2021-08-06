@@ -4,8 +4,10 @@
  * card에 필요한 데이터를 채워넣기
  */
 
+import { ILecture, IMainSliderData } from 'src/redux/reducers/types';
+
 const arrayLength = 10;
-export const data = Array(arrayLength)
+export const data: ILecture[] = Array(arrayLength)
   .fill()
   .map((_, index) => {
     return {
@@ -21,7 +23,7 @@ export const data = Array(arrayLength)
     };
   });
 
-export const mainSliderData = [
+export const mainSliderData: IMainSliderData[] = [
   {
     id: 1,
     tags: ['얼리버드 20%'],

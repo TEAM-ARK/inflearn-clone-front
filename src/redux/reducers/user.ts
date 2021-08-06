@@ -1,12 +1,12 @@
 import produce from 'immer';
 import CommonState from './commonState';
-import { IAction, IInitialState, IUser } from './types';
+import { IAction, IUserState, IUser } from './types';
 
 const login = new CommonState();
 const signUp = new CommonState();
 const logout = new CommonState();
 
-export const initialState: IInitialState = {
+export const initialState: IUserState = {
   login, // login : login (<- new CommonState)
   logout,
   signUp,

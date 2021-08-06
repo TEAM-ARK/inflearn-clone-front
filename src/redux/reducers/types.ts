@@ -1,6 +1,6 @@
 import CommonState from './commonState';
 
-export interface IInitialState {
+export interface IUserState {
   login: CommonState;
   signUp: CommonState;
   logout: CommonState;
@@ -9,7 +9,29 @@ export interface IInitialState {
 
 export interface ILecture {
   id: number;
-  lectureName: string;
+  coverImage: string;
+  title: string;
+  description: string;
+  author: string;
+  rating: number;
+  price: number;
+  studentCount: number;
+  hashTags?: string[];
+  categories?: string[];
+  level: string;
+  onDiscount?: number;
+  isExclusive: boolean;
+  createdAt: Date;
+}
+
+export interface IMainSliderData {
+  id: number;
+  tags: string[];
+  title: string;
+  text: string;
+  pcImg: string;
+  mobileImg: string;
+  btnTitle: string;
 }
 
 export interface IUser {
