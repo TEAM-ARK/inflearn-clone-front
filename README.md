@@ -255,7 +255,7 @@ react에서 어떻게 써야되는지는 알아볼 필요가 있음
 </details>
 
 <details>
-<summary>2021.08.04(Noah)</summary>
+<summary>2021.08.03(NOAH)</summary>
 
 ### 작업내용
 
