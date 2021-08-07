@@ -1,5 +1,6 @@
 import CommonState from './commonState';
 
+// redux login state
 export interface IUserState {
   login: CommonState;
   signUp: CommonState;
@@ -7,23 +8,26 @@ export interface IUserState {
   me: IUser | null;
 }
 
+// from DB lecture table
 export interface ILecture {
   id: number;
-  coverImage: string;
+  coverImage?: string;
   title: string;
   description: string;
   author: string;
   rating: number;
   price: number;
   studentCount: number;
+  commentCount: number;
   hashTags?: string[];
   categories?: string[];
-  level: string;
+  level: 'basic' | 'intermediate' | 'advanced';
   onDiscount?: number;
   isExclusive: boolean;
   createdAt: Date;
 }
 
+// DB slider table
 export interface IMainSliderData {
   id: number;
   tags: string[];
@@ -34,13 +38,17 @@ export interface IMainSliderData {
   btnTitle: string;
 }
 
+// DB user table
 export interface IUser {
   id: number;
   email: string;
   nickname?: string;
-  Lecture?: ILecture[];
+  lecture?: ILecture[];
+  latestLecture: ILecture;
+  isInstructor: boolean;
 }
 
+// redux action
 export interface IAction {
   type: string;
   data: any;

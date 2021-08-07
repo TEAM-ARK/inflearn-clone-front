@@ -4,10 +4,67 @@
  * card에 필요한 데이터를 채워넣기
  */
 
-import { ILecture, IMainSliderData } from 'src/redux/reducers/types';
+import { ILecture, IMainSliderData, IUser } from 'src/redux/reducers/types';
+
+export const dummyUser: IUser = {
+  id: 1,
+  email: 'team@ark.com',
+  nickname: 'ark',
+  isInstructor: true,
+  lecture: [
+    {
+      id: 1,
+      title: 'Node bird',
+      description: 'learning nextjs and express',
+      author: 'Zero Cho',
+      rating: 4.8,
+      commentCount: 52,
+      studentCount: 564,
+      hashTags: ['nextjs', 'nodejs'],
+      categories: ['web', 'front'],
+      level: 'intermediate',
+      onDiscount: 0,
+      isExclusive: true,
+      createdAt: new Date('2021-07-11T03:24:00'),
+      price: 110000,
+    },
+    {
+      id: 2,
+      title: 'browser 101',
+      description: 'learning web basic and browser',
+      author: 'Elly',
+      rating: 4.5,
+      commentCount: 24,
+      studentCount: 240,
+      hashTags: ['nextjs', 'nodejs'],
+      categories: ['web', 'front'],
+      level: 'intermediate',
+      onDiscount: 0,
+      isExclusive: true,
+      createdAt: new Date('2021-07-14T03:24:00'),
+      price: 99000,
+    },
+  ],
+  latestLecture: {
+    id: 1,
+    title: 'Node bird',
+    description: 'learning nextjs and express',
+    author: 'Zero Cho',
+    rating: 4.8,
+    commentCount: 52,
+    studentCount: 564,
+    hashTags: ['nextjs', 'nodejs'],
+    categories: ['web', 'front'],
+    level: 'intermediate',
+    onDiscount: 0,
+    isExclusive: true,
+    createdAt: new Date('2021-07-11T03:24:00'),
+    price: 110000,
+  },
+};
 
 const arrayLength = 10;
-export const data: ILecture[] = Array(arrayLength)
+export const dummyLectureList: ILecture[] = Array(arrayLength)
   .fill()
   .map((_, index) => {
     return {
@@ -20,6 +77,12 @@ export const data: ILecture[] = Array(arrayLength)
       commentCount: 8,
       price: 55000,
       studentCount: 215,
+      isExclusive: true,
+      onDiscount: 20,
+      createdAt: new Date('2021-07-05T03:24:00'),
+      description:
+        '리액트는 실무에서 가장 많이 찾는 인기있는 프론트엔드 기술입니다. 리액트 기술을 이용해 어플리케이션을 빠르게 개발하고 유지 보수 가능한 코드를 만들어 보세요.',
+      level: 'intermediate',
     };
   });
 

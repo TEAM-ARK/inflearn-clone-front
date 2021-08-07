@@ -23,13 +23,6 @@ export const LOG_OUT_FAILURE = 'LOG_OUT_FAILURE';
 
 const dummyUser = (data: IUser) => ({
   ...data,
-  nickname: 'Ark',
-  id: 1,
-  Lectures: [
-    { id: 1, lectureName: 'Node bird' },
-    { id: 2, lectureName: 'browser 101' },
-  ],
-  latestLecture: { id: 1, lectureName: 'Node bird' },
 });
 
 export const loginRequestAction = (data: any) => ({

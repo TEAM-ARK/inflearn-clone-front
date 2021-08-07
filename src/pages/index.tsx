@@ -4,7 +4,7 @@ import Head from 'next/head';
 import styled from 'styled-components';
 import AppLayout from '@components/AppLayout';
 import { MainSlider } from '@components/Slider';
-import { data } from 'src/api/dummyData'; // test용 더미데이터
+import { dummyLectureList } from 'src/api/dummyData'; // test용 더미데이터
 import LectureCard from 'src/components/lectureCard';
 
 const Search = styled.section`
@@ -97,18 +97,8 @@ const Home = (): ReactNode => {
         <section className="container">
           <LectureTitle className="title">전체 강의</LectureTitle>
           <LectureList>
-            {data?.map((lecture) => (
-              <LectureCard
-                key={lecture.id}
-                id={`${lecture.id}`}
-                coverImage={lecture.coverImage}
-                title={lecture.title}
-                author={lecture.author}
-                rating={lecture.rating}
-                commentCount={lecture.commentCount}
-                price={lecture.price}
-                studentCount={lecture.studentCount}
-              />
+            {dummyLectureList?.map((lecture) => (
+              <LectureCard lecture={lecture} />
             ))}
           </LectureList>
         </section>
