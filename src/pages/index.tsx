@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import SearchIcon from '@material-ui/icons/Search';
 import Head from 'next/head';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import AppLayout from '@components/AppLayout';
 import { MainSlider } from '@components/Slider';
@@ -72,7 +73,24 @@ const LectureTitle = styled.h1`
   margin-left: 12px;
 `;
 
+const AddLectureBtnWrapper = styled.div`
+  width: 100%;
+  padding: 10px;
+  text-align: right;
+  & > button {
+    padding: 10px;
+    background-color: var(--color-light-green);
+    border-radius: 4px;
+    color: white;
+  }
+`;
+
 const Home = (): ReactNode => {
+  const dispatch = useDispatch();
+  const onClickAddLecture = () => {
+    console.log('onClickAddLecture');
+    // dispatch()
+  };
   return (
     <AppLayout>
       <Head>
@@ -84,6 +102,12 @@ const Home = (): ReactNode => {
           <MainSlider />
         </section>
         <Search className="container">
+          {/* create lecture test button */}
+          <AddLectureBtnWrapper>
+            <button onClick={onClickAddLecture} type="button">
+              add lecture
+            </button>
+          </AddLectureBtnWrapper>
           <h1 className="title">성장기회의 평등을 추구합니다.</h1>
           <SearchWrapper>
             <SearchForm>
@@ -98,7 +122,7 @@ const Home = (): ReactNode => {
           <LectureTitle className="title">전체 강의</LectureTitle>
           <LectureList>
             {dummyLectureList?.map((lecture) => (
-              <LectureCard lecture={lecture} />
+              <LectureCard key={lecture.id} lecture={lecture} />
             ))}
           </LectureList>
         </section>

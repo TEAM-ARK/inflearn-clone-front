@@ -1,15 +1,9 @@
 import produce from 'immer';
-import CommonState from './commonState';
-import { IAction, IUserState, IUser } from './types';
-
-const login = new CommonState();
-const signUp = new CommonState();
-const logout = new CommonState();
+import { IAction, IUserState } from './types';
 
 export const initialState: IUserState = {
-  login, // login : login (<- new CommonState)
-  logout,
-  signUp,
+  loginLoading: false,
+  loginError: undefined,
   me: null,
 };
 
@@ -21,16 +15,17 @@ export const LOG_OUT_REQUEST = 'LOG_OUT_REQUEST';
 export const LOG_OUT_SUCCESS = 'LOG_OUT_SUCCESS';
 export const LOG_OUT_FAILURE = 'LOG_OUT_FAILURE';
 
-const dummyUser = (data: IUser) => ({
-  ...data,
-});
+interface ILoginActionData {
+  email: string;
+  password: string;
+}
 
-export const loginRequestAction = (data: any) => ({
+export const loginRequestAction = (data: ILoginActionData) => ({
   type: LOG_IN_REQUEST,
   data,
 });
 
-export const logoutRequestAction = (data: any) => ({
+export const logoutRequestAction = () => ({
   type: LOG_OUT_REQUEST,
 });
 
@@ -38,14 +33,15 @@ const reducer = (state = initialState, action: IAction) =>
   produce(state, (draft) => {
     switch (action.type) {
       case LOG_IN_REQUEST:
-        draft.login.request();
+        draft.loginLoading = true;
         break;
       case LOG_IN_SUCCESS:
-        draft.login.success();
-        draft.me = dummyUser(action.data);
+        draft.loginLoading = false;
+        draft.me = action.data;
         break;
       case LOG_IN_FAILURE:
-        draft.login.failure();
+        draft.loginLoading = false;
+        draft.loginError = action.error;
         break;
       // logout, signUp 도 login과 동일하게 구성할 예정
       default:

@@ -284,11 +284,11 @@ react에서 어떻게 써야되는지는 알아볼 필요가 있음
 </details>
 
 <details>
-<summary>2021.08.01~2, 5(Tony)</summary>
+<summary>2021.08.01~2, 5, 7(Tony)</summary>
 
-### 설치 모듈
+### 1. 설치 모듈
 
-npm install redux next-redux-wrapper react-redux --save
+#### npm install redux next-redux-wrapper react-redux --save
 
 - redux
 - next-redux-wrapper
@@ -296,44 +296,21 @@ npm install redux next-redux-wrapper react-redux --save
 - react-redux
   - react 바인딩
 
-npm install -d redux-devtools-extension @types/next-redux-wrapper @types/react-redux
+#### npm install -d redux-devtools-extension @types/next-redux-wrapper @types/react-redux
 
 - redux-devtools-extension : 개발자 도구 사용을 위한 라이브러리
 
-npm install redux-saga
+#### npm install redux-saga
 
 - redux-saga는 type을 자체적으로 지원하기 때문에 @type/redux-saga는 필요 없음(deprecated 됨)
 
-npm i immer
+#### npm i immer
 
 - 알아서 불변성을 지켜주는 라이브러리
 
-리덕스 설치 및 세팅 중
+#### npm i faker shortid
 
-- [ ] State type 정의 해야 됨
-- [ ] User, Lecture - reducer, saga 설계 해야 됨
-  - 설계 중
-
-eslint rule 중 'no-param-reassign': 'off' => immer 사용을 위해
-
-### redux tree
-
-redux
-
-- reducers
-  - index
-  - user
-  - lecture
-  - commonState (다른 폴더로 분류 할지 말지 고민 중)
-  - types
-- sagas
-  - index
-  - user
-  - lecture
-  - types
-- configureStore (store 폴더 만들지 말지 고민 중)
-
-### 라이브러리 설치
+- dummy data test를 동적으로 하기 위해 faker와 shortid를 설치
 
 #### npm i axios
 
@@ -343,7 +320,37 @@ redux
 
 - eslint가 지적해줘서 설치함
 
-### 참고 문헌
+### 2. redux tree
+
+redux
+
+- reducers
+  - index
+  - user
+  - lecture
+  - types
+- sagas
+  - index
+  - user
+  - lecture
+- configureStore
+
+#### 2-1. commonState class 삭제
+
+- loading, done, error의 반복되는 타이핑을 피하려고 했으나 done을 제거하고 loading, error만 사용하면 없는게 더 직관적이라서 없는게 낫다고 판단 함
+- data도 class member 변수로 있었으나 막상 사용해보니 class 내 멤버변수에 있을 필요가 없었음
+
+### 3. 기타
+
+#### 리덕스 설치 및 세팅 중
+
+- [x] State type 정의 해야 됨
+- [ ] User, Lecture - reducer, saga 설계
+  - lecture만 샘플로 생성
+
+#### eslint rule 중 'no-param-reassign': 'off' => immer 사용을 위해
+
+### 4. 참고 문헌
 
 - https://jktech.tistory.com/46
 - 인프런 노드버드 강의

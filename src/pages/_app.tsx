@@ -7,6 +7,7 @@ import { AppProps } from 'next/app';
 import Head from 'next/head';
 import Global from '@styles/GlobalStyle';
 import theme from '@styles/theme';
+import wrapper from 'src/redux/configureStore';
 
 const MyApp: FC<AppProps> = ({ Component, pageProps }: AppProps) => {
   useEffect(() => {
@@ -40,4 +41,4 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }: AppProps) => {
   );
 };
 
-export default MyApp;
+export default wrapper.withRedux(MyApp);

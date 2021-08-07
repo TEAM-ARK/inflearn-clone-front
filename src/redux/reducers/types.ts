@@ -1,14 +1,11 @@
-import CommonState from './commonState';
-
 // redux login state
 export interface IUserState {
-  login: CommonState;
-  signUp: CommonState;
-  logout: CommonState;
+  loginLoading: boolean;
+  loginError?: string;
   me: IUser | null;
 }
 
-// from DB lecture table
+// from DB lecture table and etc
 export interface ILecture {
   id: number;
   coverImage?: string;
@@ -51,5 +48,6 @@ export interface IUser {
 // redux action
 export interface IAction {
   type: string;
-  data: any;
+  data?: any;
+  error?: string;
 }
