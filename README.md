@@ -310,6 +310,9 @@ react에서 어떻게 써야되는지는 알아볼 필요가 있음
 
 #### npm i faker shortid
 
+- npm i --save-dev @types/faker
+- npm i --save-dev @types/shortid
+
 - dummy data test를 동적으로 하기 위해 faker와 shortid를 설치
 
 #### npm i axios

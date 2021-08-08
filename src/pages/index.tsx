@@ -7,6 +7,8 @@ import AppLayout from '@components/AppLayout';
 import { MainSlider } from '@components/Slider';
 import { dummyLectureList } from 'src/api/dummyData'; // test용 더미데이터
 import LectureCard from 'src/components/lectureCard';
+import { LOAD_MAINPAGE_REQUEST } from 'src/redux/reducers/lecture';
+import { ILecture } from 'src/redux/reducers/types';
 
 const Search = styled.section`
   margin-top: 48px;
@@ -89,7 +91,7 @@ const Home = (): ReactNode => {
   const dispatch = useDispatch();
   const onClickAddLecture = () => {
     console.log('onClickAddLecture');
-    // dispatch()
+    dispatch({ type: LOAD_MAINPAGE_REQUEST });
   };
   return (
     <AppLayout>
@@ -121,7 +123,7 @@ const Home = (): ReactNode => {
         <section className="container">
           <LectureTitle className="title">전체 강의</LectureTitle>
           <LectureList>
-            {dummyLectureList?.map((lecture) => (
+            {dummyLectureList(10)?.map((lecture: ILecture) => (
               <LectureCard key={lecture.id} lecture={lecture} />
             ))}
           </LectureList>

@@ -7,7 +7,7 @@ export interface IUserState {
 
 // from DB lecture table and etc
 export interface ILecture {
-  id: number;
+  id: string | number;
   coverImage?: string;
   title: string;
   description: string;
