@@ -253,6 +253,7 @@ react에서 어떻게 써야되는지는 알아볼 필요가 있음
 #### 리덕스 및 사가 설정
 
 </details>
+
 <details>
 <summary>2021.08.03(NOAH)</summary>
 
@@ -279,5 +280,107 @@ react에서 어떻게 써야되는지는 알아볼 필요가 있음
 - [ ] yup을 사용하여 회원가입 rule 설정
 - [ ] rule에 맞지 않은 경우 error 메시지 출력
 - [ ] 이용약관, 개인정보취급방침 페이지 생성
+
+</details>
+
+<details>
+<summary>2021.08.01~2, 5, 7, 8(Tony)</summary>
+
+## Redux setting
+
+### 1. 설치 모듈
+
+#### npm install redux next-redux-wrapper react-redux --save
+
+- redux
+- next-redux-wrapper
+  - Next.js의 서버사이드 렌더링 관련 복잡한 설정을 쉽게 해주는 HOC
+- react-redux
+  - react 바인딩
+
+#### npm install -d redux-devtools-extension @types/next-redux-wrapper @types/react-redux
+
+- redux-devtools-extension : 개발자 도구 사용을 위한 라이브러리
+
+#### npm install redux-saga
+
+- redux-saga는 type을 자체적으로 지원하기 때문에 @type/redux-saga는 필요 없음(deprecated 됨)
+
+#### npm i immer
+
+- 알아서 불변성을 지켜주는 라이브러리
+
+#### npm i faker shortid
+
+- npm i --save-dev @types/faker
+- npm i --save-dev @types/shortid
+
+- dummy data test를 동적으로 하기 위해 faker와 shortid를 설치
+
+#### npm i axios
+
+- saga에서 사용, 비동기 http통신(Promise based HTTP client for the browser and node.js)
+
+#### npm i -S @redux-saga/core
+
+- eslint가 지적해줘서 설치함
+
+### 2. redux tree
+
+redux
+
+- reducers
+  - index
+  - user
+  - lecture
+  - types
+- sagas
+  - index
+  - user
+  - lecture
+- configureStore
+
+#### 2-1. commonState class 삭제
+
+- loading, done, error의 반복되는 타이핑을 피하려고 했으나 done을 제거하고 loading, error만 사용하면 없는게 더 직관적이라서 없는게 낫다고 판단 함
+- data도 class member 변수로 있었으나 막상 사용해보니 class 내 멤버변수에 있을 필요가 없었음
+
+### 3. 기타
+
+#### 리덕스 설치 및 세팅 중
+
+- [x] State type 정의 해야 됨
+- [x] User, Lecture - reducer, saga 설계
+  - lecture만 샘플로 생성
+
+#### eslint rule 중 'no-param-reassign': 'off' => immer 사용을 위해
+
+#### main(home) page redux 동작 흐름
+
+- 처음 화면을 불러올 때 LOAD_REQUEST action을 시작으로 데이터(Lecture card)를 불러 옴
+- add 버튼을 누를 때마다 데이터가(Lecture card) 추가 됨
+- 지금은 더미 데이터로 불러 오지만 api를 요청할 경우 request에서 호출 하는 부분만 추가하면 됨
+
+#### 별점 표시 방식
+
+- 소수점 둘 째 자리에서 반올림 후 소수점 첫 째 자리 저장
+- n.2 ~ n.8 까진 별 반개(3.2~3.8은 3개 반)
+- n.1 점까진 버림(3.1은 별 3개로 표시)
+- n.9 점은 올림(3.9는 별 4개로 표시 됨)
+
+### 4. 참고 문헌
+
+- https://jktech.tistory.com/46
+- 인프런 노드버드 강의
+- https://medium.com/@raphat/next-js-typescript-redux-3fbc990cb901
+- [next-redux-wrapper 공식문서](https://github.com/kirill-konshin/next-redux-wrapper)
+- [RootState](https://stackoverflow.com/questions/60777859/ts2339-property-tsreducer-does-not-exist-on-type-defaultrootstate)
+
+### 5. 프론트 회의 안건
+
+- [ ] 타입 저장 위치 : interface나 type을 해당 파일에 놓을 것인지 따로 파일을 만들어서 정리를 할 것 인지
+- [ ] 리덕스가 전체 강의 로드하는 부분을 샘플로 만들었는데 자신이 만들 UI관련 리덕스는 직접 만드는 것이 좋을 것 같음
+- [ ] 관리자 페이지를 만들어야 하나..? slider 배경색은 DB에서 가져와야 될 것 같은데 이걸 매번 백엔드 개발자가 저장하는 것 보다 관리자페이지가 있으면 좋을 것 같음
+  - 우선순위 낮음
 
 </details>

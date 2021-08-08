@@ -1,7 +1,8 @@
-import { FC } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
 import RatingStar from 'src/components/ratingStar';
+import { ILecture } from 'src/redux/reducers/types';
 
 const LectureCardStyle = styled.li`
   padding: 12px;
@@ -70,27 +71,13 @@ const LectureCardTag = styled.span`
   color: var(--color-grey);
 `;
 
-interface ILectureProps {
-  id: string;
-  coverImage: string;
-  title: string;
-  author: string;
-  rating: number;
-  commentCount: number;
-  price: number;
-  studentCount: number;
-}
+// 중간 다리 역할로 이게 필요하구나, Props 없이 ILecture로 받으려니 안받아짐
+type Props = {
+  lecture: ILecture;
+};
 
-const LectureCard: FC<ILectureProps> = ({
-  id,
-  coverImage,
-  title,
-  author,
-  rating,
-  commentCount,
-  price,
-  studentCount,
-}: ILectureProps) => {
+const LectureCard = ({ lecture }: Props) => {
+  const { id, coverImage, title, author, rating, commentCount, price, studentCount } = lecture;
   const studentCountFloor = Math.floor(studentCount / 100) * 100;
 
   return (

@@ -1,11 +1,14 @@
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 import SearchIcon from '@material-ui/icons/Search';
 import Head from 'next/head';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import AppLayout from '@components/AppLayout';
 import { MainSlider } from '@components/Slider';
-import { data } from 'src/api/dummyData'; // test용 더미데이터
 import LectureCard from 'src/components/lectureCard';
+import { RootState } from 'src/redux/reducers';
+import { LOAD_ALL_LECTURES_REQUEST } from 'src/redux/reducers/lecture';
+import { ILecture } from 'src/redux/reducers/types';
 
 const Search = styled.section`
   margin-top: 48px;
@@ -72,7 +75,28 @@ const LectureTitle = styled.h1`
   margin-left: 12px;
 `;
 
+const AddLectureBtnWrapper = styled.div`
+  width: 100%;
+  padding: 10px;
+  text-align: right;
+  & > button {
+    padding: 10px;
+    background-color: var(--color-light-green);
+    border-radius: 4px;
+    color: white;
+  }
+`;
+
 const Home = (): ReactNode => {
+  const { mainLectures } = useSelector((state: RootState) => state.lecture);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch({ type: LOAD_ALL_LECTURES_REQUEST });
+  }, []); // [] : Home component 처음 로드 시 1회만 실행
+  const onClickAddLecture = () => {
+    console.log('onClickAddLecture');
+    dispatch({ type: LOAD_ALL_LECTURES_REQUEST });
+  };
   return (
     <AppLayout>
       <Head>
@@ -84,6 +108,12 @@ const Home = (): ReactNode => {
           <MainSlider />
         </section>
         <Search className="container">
+          {/* test button to add lectures  */}
+          <AddLectureBtnWrapper>
+            <button onClick={onClickAddLecture} type="button">
+              add lectures
+            </button>
+          </AddLectureBtnWrapper>
           <h1 className="title">성장기회의 평등을 추구합니다.</h1>
           <SearchWrapper>
             <SearchForm>
@@ -97,18 +127,8 @@ const Home = (): ReactNode => {
         <section className="container">
           <LectureTitle className="title">전체 강의</LectureTitle>
           <LectureList>
-            {data?.map((lecture) => (
-              <LectureCard
-                key={lecture.id}
-                id={`${lecture.id}`}
-                coverImage={lecture.coverImage}
-                title={lecture.title}
-                author={lecture.author}
-                rating={lecture.rating}
-                commentCount={lecture.commentCount}
-                price={lecture.price}
-                studentCount={lecture.studentCount}
-              />
+            {mainLectures?.map((lecture: ILecture) => (
+              <LectureCard key={lecture.id} lecture={lecture} />
             ))}
           </LectureList>
         </section>

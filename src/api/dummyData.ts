@@ -1,27 +1,102 @@
-/**
- * dummy data 만들기
- * length만큼 array를 만들고
- * card에 필요한 데이터를 채워넣기
- */
+import faker from 'faker';
+import shortId from 'shortid';
+import { ILecture, IMainSliderData, IUser } from 'src/redux/reducers/types';
 
-const arrayLength = 10;
-export const data = Array(arrayLength)
-  .fill()
-  .map((_, index) => {
-    return {
-      id: index,
-      coverImage:
-        'https://cdn.inflearn.com/public/courses/326905/cover/739f7b4b-1a9f-478f-a6a8-1a13bf58cae3/326905-eng.png',
-      title: '만들면서 학습하는 리액트(react)',
-      author: '김정환',
+export const dummyUser: IUser = {
+  id: 1,
+  email: 'team@ark.com',
+  nickname: 'ark',
+  isInstructor: true,
+  lecture: [
+    {
+      id: 1,
+      title: 'Node bird',
+      description: 'learning nextjs and express',
+      author: 'Zero Cho',
+      rating: 4.8,
+      commentCount: 52,
+      studentCount: 564,
+      hashTags: ['nextjs', 'nodejs'],
+      categories: ['web', 'front'],
+      level: 'intermediate',
+      onDiscount: 0,
+      isExclusive: true,
+      createdAt: new Date('2021-07-11T03:24:00'),
+      price: 110000,
+    },
+    {
+      id: 2,
+      title: 'browser 101',
+      description: 'learning web basic and browser',
+      author: 'Elly',
       rating: 4.5,
-      commentCount: 8,
-      price: 55000,
-      studentCount: 215,
-    };
-  });
+      commentCount: 24,
+      studentCount: 240,
+      hashTags: ['nextjs', 'nodejs'],
+      categories: ['web', 'front'],
+      level: 'intermediate',
+      onDiscount: 0,
+      isExclusive: true,
+      createdAt: new Date('2021-07-14T03:24:00'),
+      price: 99000,
+    },
+  ],
+  latestLecture: {
+    id: 1,
+    title: 'Node bird',
+    description: 'learning nextjs and express',
+    author: 'Zero Cho',
+    rating: 4.8,
+    commentCount: 52,
+    studentCount: 564,
+    hashTags: ['nextjs', 'nodejs'],
+    categories: ['web', 'front'],
+    level: 'intermediate',
+    onDiscount: 0,
+    isExclusive: true,
+    createdAt: new Date('2021-07-11T03:24:00'),
+    price: 110000,
+  },
+};
 
-export const mainSliderData = [
+export const generateDummyLectureList = (num: number): ILecture[] =>
+  Array(num)
+    .fill('')
+    .map((_, index) => ({
+      id: shortId.generate(),
+      coverImage: faker.image.image(),
+      title: faker.name.title(),
+      author: faker.name.findName(),
+      rating: +(Math.random() * 5).toFixed(1),
+      commentCount: Math.floor(Math.random() * 100 + 1),
+      price: +faker.commerce.price() * 1000,
+      studentCount: Math.floor(Math.random() * 200 + 1),
+      isExclusive: true,
+      onDiscount: Math.floor(Math.random() * 5) * 10,
+      createdAt: new Date(faker.datatype.datetime()),
+      description: faker.lorem.paragraph(),
+      level: 'intermediate',
+    }));
+
+// {
+//   id: index,
+//   coverImage:
+//     'https://cdn.inflearn.com/public/courses/326905/cover/739f7b4b-1a9f-478f-a6a8-1a13bf58cae3/326905-eng.png',
+//   title: '만들면서 학습하는 리액트(react)',
+//   author: '김정환',
+//   rating: 4.5,
+//   commentCount: 8,
+//   price: 55000,
+//   studentCount: 215,
+//   isExclusive: true,
+//   onDiscount: 20,
+//   createdAt: new Date('2021-07-05T03:24:00'),
+//   description:
+//     '리액트는 실무에서 가장 많이 찾는 인기있는 프론트엔드 기술입니다. 리액트 기술을 이용해 어플리케이션을 빠르게 개발하고 유지 보수 가능한 코드를 만들어 보세요.',
+//   level: 'intermediate',
+// }
+
+export const mainSliderData: IMainSliderData[] = [
   {
     id: 1,
     tags: ['얼리버드 20%'],

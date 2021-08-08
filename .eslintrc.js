@@ -63,6 +63,7 @@ module.exports = {
       'error',
       { devDependencies: ['jest.setup.ts', '**/*.test.tsx', '**/*.spec.tsx', '**/*.test.ts', '**/*.spec.ts'] },
     ],
+    'no-param-reassign': 'off',
   },
   settings: {
     react: {
