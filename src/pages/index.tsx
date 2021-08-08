@@ -1,13 +1,13 @@
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 import SearchIcon from '@material-ui/icons/Search';
 import Head from 'next/head';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import AppLayout from '@components/AppLayout';
 import { MainSlider } from '@components/Slider';
-import { dummyLectureList } from 'src/api/dummyData'; // test용 더미데이터
 import LectureCard from 'src/components/lectureCard';
-import { LOAD_MAINPAGE_REQUEST } from 'src/redux/reducers/lecture';
+import { RootState } from 'src/redux/reducers';
+import { LOAD_ALL_LECTURES_REQUEST } from 'src/redux/reducers/lecture';
 import { ILecture } from 'src/redux/reducers/types';
 
 const Search = styled.section`
@@ -88,10 +88,14 @@ const AddLectureBtnWrapper = styled.div`
 `;
 
 const Home = (): ReactNode => {
+  const { mainLectures } = useSelector((state: RootState) => state.lecture);
   const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch({ type: LOAD_ALL_LECTURES_REQUEST });
+  }, []); // [] : Home component 처음 로드 시 1회만 실행
   const onClickAddLecture = () => {
     console.log('onClickAddLecture');
-    dispatch({ type: LOAD_MAINPAGE_REQUEST });
+    dispatch({ type: LOAD_ALL_LECTURES_REQUEST });
   };
   return (
     <AppLayout>
@@ -104,10 +108,10 @@ const Home = (): ReactNode => {
           <MainSlider />
         </section>
         <Search className="container">
-          {/* create lecture test button */}
+          {/* test button to add lectures  */}
           <AddLectureBtnWrapper>
             <button onClick={onClickAddLecture} type="button">
-              add lecture
+              add lectures
             </button>
           </AddLectureBtnWrapper>
           <h1 className="title">성장기회의 평등을 추구합니다.</h1>
@@ -123,7 +127,7 @@ const Home = (): ReactNode => {
         <section className="container">
           <LectureTitle className="title">전체 강의</LectureTitle>
           <LectureList>
-            {dummyLectureList(10)?.map((lecture: ILecture) => (
+            {mainLectures?.map((lecture: ILecture) => (
               <LectureCard key={lecture.id} lecture={lecture} />
             ))}
           </LectureList>

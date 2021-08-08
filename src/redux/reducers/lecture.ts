@@ -16,21 +16,23 @@ export const initialState: ILectureState = {
   loadLectureError: undefined,
 };
 
-export const LOAD_MAINPAGE_REQUEST = 'LOAD_MAINPAGE_REQUEST';
-export const LOAD_MAINPAGE_SUCCESS = 'LOAD_MAINPAGE_SUCCESS';
-export const LOAD_MAINPAGE_FAILURE = 'LOAD_MAINPAGE_FAILURE';
+// action types
+export const LOAD_ALL_LECTURES_REQUEST = 'LOAD_ALL_LECTURES_REQUEST';
+export const LOAD_ALL_LECTURES_SUCCESS = 'LOAD_ALL_LECTURES_SUCCESS';
+export const LOAD_ALL_LECTURES_FAILURE = 'LOAD_ALL_LECTURES_FAILURE';
 
+// reducer
 const reducer = (state = initialState, action: IAction) => {
   return produce(state, (draft) => {
     switch (action.type) {
-      case LOAD_MAINPAGE_REQUEST:
+      case LOAD_ALL_LECTURES_REQUEST:
         draft.loadLectureLoading = true;
         break;
-      case LOAD_MAINPAGE_SUCCESS:
+      case LOAD_ALL_LECTURES_SUCCESS:
         draft.loadLectureLoading = false;
         draft.mainLectures = action.data.concat(draft.mainLectures);
         break;
-      case LOAD_MAINPAGE_FAILURE:
+      case LOAD_ALL_LECTURES_FAILURE:
         draft.loadLectureLoading = false;
         draft.loadLectureError = action.error;
         break;

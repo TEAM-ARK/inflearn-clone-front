@@ -10,7 +10,7 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "tony:next": "next",
-    "tony:dev": "cross-env NODE_OPTIONS=inspect next dev"
+    "tony:dev": "cross-env NODE_ENV=development next dev"
   },
   "dependencies": {
     "@hookform/resolvers": "^2.6.0",

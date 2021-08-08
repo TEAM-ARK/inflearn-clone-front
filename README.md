@@ -284,7 +284,9 @@ react에서 어떻게 써야되는지는 알아볼 필요가 있음
 </details>
 
 <details>
-<summary>2021.08.01~2, 5, 7(Tony)</summary>
+<summary>2021.08.01~2, 5, 7, 8(Tony)</summary>
+
+## Redux setting
 
 ### 1. 설치 모듈
 
@@ -348,10 +350,23 @@ redux
 #### 리덕스 설치 및 세팅 중
 
 - [x] State type 정의 해야 됨
-- [ ] User, Lecture - reducer, saga 설계
+- [x] User, Lecture - reducer, saga 설계
   - lecture만 샘플로 생성
 
 #### eslint rule 중 'no-param-reassign': 'off' => immer 사용을 위해
+
+#### main(home) page redux 동작 흐름
+
+- 처음 화면을 불러올 때 LOAD_REQUEST action을 시작으로 데이터(Lecture card)를 불러 옴
+- add 버튼을 누를 때마다 데이터가(Lecture card) 추가 됨
+- 지금은 더미 데이터로 불러 오지만 api를 요청할 경우 request에서 호출 하는 부분만 추가하면 됨
+
+#### 별점 표시 방식
+
+- 소수점 둘 째 자리에서 반올림 후 소수점 첫 째 자리 저장
+- n.2 ~ n.8 까진 별 반개(3.2~3.8은 3개 반)
+- n.1 점까진 버림(3.1은 별 3개로 표시)
+- n.9 점은 올림(3.9는 별 4개로 표시 됨)
 
 ### 4. 참고 문헌
 
@@ -359,4 +374,13 @@ redux
 - 인프런 노드버드 강의
 - https://medium.com/@raphat/next-js-typescript-redux-3fbc990cb901
 - [next-redux-wrapper 공식문서](https://github.com/kirill-konshin/next-redux-wrapper)
+- [RootState](https://stackoverflow.com/questions/60777859/ts2339-property-tsreducer-does-not-exist-on-type-defaultrootstate)
+
+### 5. 프론트 회의 안건
+
+- [ ] 타입 저장 위치 : interface나 type을 해당 파일에 놓을 것인지 따로 파일을 만들어서 정리를 할 것 인지
+- [ ] 리덕스가 전체 강의 로드하는 부분을 샘플로 만들었는데 자신이 만들 UI관련 리덕스는 직접 만드는 것이 좋을 것 같음
+- [ ] 관리자 페이지를 만들어야 하나..? slider 배경색은 DB에서 가져와야 될 것 같은데 이걸 매번 백엔드 개발자가 저장하는 것 보다 관리자페이지가 있으면 좋을 것 같음
+  - 우선순위 낮음
+
 </details>

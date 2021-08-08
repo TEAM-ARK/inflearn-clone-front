@@ -59,7 +59,7 @@ export const dummyUser: IUser = {
   },
 };
 
-export const dummyLectureList = (num: number): ILecture[] =>
+export const generateDummyLectureList = (num: number): ILecture[] =>
   Array(num)
     .fill('')
     .map((_, index) => ({
@@ -67,7 +67,7 @@ export const dummyLectureList = (num: number): ILecture[] =>
       coverImage: faker.image.image(),
       title: faker.name.title(),
       author: faker.name.findName(),
-      rating: +(Math.random() * 5 + 1).toFixed(1),
+      rating: +(Math.random() * 5).toFixed(1),
       commentCount: Math.floor(Math.random() * 100 + 1),
       price: +faker.commerce.price() * 1000,
       studentCount: Math.floor(Math.random() * 200 + 1),
