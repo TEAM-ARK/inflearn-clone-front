@@ -384,3 +384,12 @@ redux
   - 우선순위 낮음
 
 </details>
+
+<details>
+<summary>2021.08.10(Tony)</summary>
+
+슬라이더 리덕스 연결
+slider 하나 때문에 reducer와 saga에 파일을 하나씩 만들기 번거로워서
+lecture파일에 합쳐서 작업했습니다.
+
+</details>
