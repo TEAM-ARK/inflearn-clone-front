@@ -1,5 +1,5 @@
+import blue from '@material-ui/core/colors/blue';
 import green from '@material-ui/core/colors/green';
-import teal from '@material-ui/core/colors/teal';
 import { createTheme } from '@material-ui/core/styles';
 
 // Create a theme instance.
@@ -15,7 +15,7 @@ const theme = createTheme({
       dark: green.A700,
     },
     secondary: {
-      main: teal[700],
+      main: blue[700],
     },
   },
 });

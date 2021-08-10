@@ -1,4 +1,5 @@
 import grey from '@material-ui/core/colors/grey';
+import red from '@material-ui/core/colors/red';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
@@ -21,6 +22,11 @@ const useStyles = makeStyles({
   },
   password: {
     color: grey[500],
+    fontSize: '0.7rem',
+    fontWeight: 'bold',
+  },
+  passwordError: {
+    color: red[500],
     fontSize: '0.7rem',
     fontWeight: 'bold',
   },
