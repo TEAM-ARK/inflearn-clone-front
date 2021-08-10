@@ -6,6 +6,7 @@ import {
   LOAD_ALL_LECTURES_REQUEST,
   LOAD_ALL_LECTURES_SUCCESS,
   LOAD_SLIDER_FAILURE,
+  LOAD_SLIDER_REQUEST,
   LOAD_SLIDER_SUCCESS,
 } from '../reducers/lecture';
 
@@ -34,6 +35,7 @@ function* loadSlider(action) {
   try {
     // call 로 API 사용해야 함
     // const result = yield call('api/loadSlider')
+    yield delay(1000);
     yield put({
       type: LOAD_SLIDER_SUCCESS,
       data: mainSliderData,
@@ -50,10 +52,10 @@ function* watchLoadMainPage() {
   yield throttle(3000, LOAD_ALL_LECTURES_REQUEST, loadMainPage);
 }
 
-function* watchLoadSlisder() {
-  yield takeLatest(LOAD_SLIDER_SUCCESS, loadSlider);
+function* watchLoadSlider() {
+  yield takeLatest(LOAD_SLIDER_REQUEST, loadSlider);
 }
 
 export default function* lectureSaga() {
-  yield all([fork(watchLoadMainPage), fork(watchLoadSlisder)]);
+  yield all([fork(watchLoadMainPage), fork(watchLoadSlider)]);
 }

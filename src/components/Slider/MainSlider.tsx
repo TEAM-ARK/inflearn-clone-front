@@ -1,7 +1,11 @@
-import { useState } from 'react';
+import { useEffect } from 'react';
+// import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Slider from 'react-slick';
 import styled from 'styled-components';
-import { mainSliderData } from '../../api/dummyData';
+import { RootState } from 'src/redux/reducers';
+import { LOAD_SLIDER_REQUEST } from 'src/redux/reducers/lecture';
+// import { mainSliderData } from '../../api/dummyData';
 import MainSliderItem from './MainSliderItem';
 
 const SliderWrapper = styled.div`
@@ -11,7 +15,12 @@ const SliderWrapper = styled.div`
 `;
 
 const MainSlider = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
+  // const [currentSlide, setCurrentSlide] = useState(0);
+  const { mainSliderList } = useSelector((state: RootState) => state.lecture);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch({ type: LOAD_SLIDER_REQUEST });
+  }, []);
 
   return (
     <SliderWrapper>
@@ -27,7 +36,8 @@ const MainSlider = () => {
           autoplaySpeed={5000}
           // dots={true}
         >
-          {mainSliderData.map((item) => (
+          {console.log(mainSliderList)}
+          {mainSliderList.map((item) => (
             <MainSliderItem key={item.id} item={item} />
           ))}
         </Slider>
