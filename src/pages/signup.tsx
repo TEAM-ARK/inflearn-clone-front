@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Container, Typography, FormControlLabel, Checkbox, Grid, Link } from '@material-ui/core';
-import { seedValue } from 'faker/locale/en_AU';
 import Head from 'next/head';
 import { useForm, SubmitHandler, FormProvider } from 'react-hook-form';
 import * as yup from 'yup';

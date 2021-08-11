@@ -277,8 +277,8 @@ react에서 어떻게 써야되는지는 알아볼 필요가 있음
 
 #### 회원가입 rule
 
-- [ ] yup을 사용하여 회원가입 rule 설정
-- [ ] rule에 맞지 않은 경우 error 메시지 출력
+- [x] yup을 사용하여 회원가입 rule 설정
+- [x] rule에 맞지 않은 경우 error 메시지 출력
 - [ ] 이용약관, 개인정보취급방침 페이지 생성
 
 </details>
@@ -391,5 +391,47 @@ redux
 슬라이더 리덕스 연결
 slider 하나 때문에 reducer와 saga에 파일을 하나씩 만들기 번거로워서
 lecture파일에 합쳐서 작업했습니다.
+
+</details>
+
+<details>
+<summary>2021.08.10(NOAH)</summary>
+
+### 작업내용
+
+- signup page error case
+  - Material-UI( CSS)
+    - useStyle: material-ui에 직접 className으로 스타일을 적용하기 위한 hook, 적용하고자하는 속성을 객체로 생성하고 적용
+    - createTheme: meterial-ui에서 이미 디자인된 속성들을 변경하고 싶은 경우 사용, ex) 색상, 크기, 패딩.. 등
+  - react-hook-form( form)
+    - Controller: material-ui와 같은 라이브러리를 연동하기 위한 wrapper
+    - useFormContext: 중첩 된 구조에서 데이터를 전달하고자 할 때 사용, ex) 특정 form을 component로 빼서 관리하고 react-hook-form을 적용하는 경우
+    - FormProvider: userFormContext가 적용하고자 하는곳의 wrapper
+    - useForm: react-hook-form 기본 hook
+  - yup( signup rule)
+    - error 핸들시 schema 객체에 에러 핸들을 하고자하는 사항들을 정리하고 react-hook-form의 formState의 error에서 받아서 사용, ex) errors.email?.message
+    - yup을 태그에 적용할때 태그 name과 yup에서의 정의 이름을 같게 해야 적용이 됨, ex) name: email / email: yup.string().min(10).max(30)....
+    - matches: 정규표현식을 사용하기 위한 method
+    - oneOf([yup.ref('email'), null]: 다른 input과 값이 일치하는지 여부를 확인하고자 할 때 사용
+    - error 객체의 경우 submit하고 나서 적용 됨
+    - 현재 정규표현식의 에러 핸들은 errors 객체의 message method를 확인하여 일치하는 방식으로 적용
+
+### 오류해결
+
+- Warning: Failed prop type: Invalid prop `error` of type `object` supplied to `ForwardRef(TextField)`, expected `boolean`
+  - TextField 태그의 error에는 boolean값만 가능한데 yup에서의 에러 메시지는 문자열이 생성되기 때문에 문제가 되는 현상
+    - error 태그에 !!를 두번 넣어 boolean 변수로 만들어주면 됨, ex) !!error.password
+
+### 향후 계획
+
+- Redux와 연결
+- 로그인 모달 구현
+- 공통 레이아웃 구현
+
+#### 회원가입 rule
+
+- [x] yup을 사용하여 회원가입 rule 설정
+- [x] rule에 맞지 않은 경우 error 메시지 출력
+- [ ] 이용약관, 개인정보취급방침 페이지 생성
 
 </details>
