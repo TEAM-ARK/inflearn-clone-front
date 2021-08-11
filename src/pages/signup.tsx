@@ -14,8 +14,16 @@ interface IFormInputs {
 }
 
 const schema = yup.object().shape({
-  email: yup.string().email().required(),
-  password: yup.string().min(12).max(32).required(),
+  // Error handling with yup library
+  email: yup.string().email('이메일 형식이 올바르지 않습니다.').required('필수 정보입니다.'),
+  emailConfirm: yup.string().oneOf([yup.ref('email'), null], '이메일이 일치하지 않습니다.'),
+  password: yup
+    .string()
+    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]/, '조합')
+    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{12,32}/, '길이')
+    .required('필수 정보입니다.'),
+  // .matches(/(.)\1\1/, '반복')
+  passwordConfirm: yup.string().oneOf([yup.ref('password'), null], '비밀번호가 일치하지 않습니다.'),
 });
 
 export default function SignUp() {
@@ -31,7 +39,7 @@ export default function SignUp() {
     console.log('form data', data);
   };
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const onChangePolicy = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPolicy(event.target.checked);
   };
 
@@ -94,7 +102,7 @@ export default function SignUp() {
             </Grid>
             <Grid item>
               <FormControlLabel
-                control={<Checkbox size="small" checked={policy} onChange={handleChange} />}
+                control={<Checkbox size="small" checked={policy} onChange={onChangePolicy} />}
                 label={<Typography className={classes.policy}>인프런의 다양한 소식을 받아보시겠어요?</Typography>}
               />
             </Grid>
