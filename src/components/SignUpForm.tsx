@@ -16,8 +16,6 @@ export default function SignUpForm() {
   const [showPassword, setShowPassword] = useState(true);
   const [showConfirmPassword, setShowConfirmPassword] = useState(true);
   const [focusPassword, setFocusPassword] = useState(false);
-  const [password, setPassword] = useState('');
-  const [passwordErrorType, setPasswordErrorType] = useState('');
 
   const onShowPassword = () => {
     setShowPassword((prev) => !prev);
@@ -111,9 +109,9 @@ export default function SignUpForm() {
           <Typography className={errors.password?.message === '길이' ? classes.passwordError : classes.password}>
             12자 이상 32자 이하 입력 (공백 제외)
           </Typography>
-          <Typography className={errors.password?.message === '연속' ? classes.passwordError : classes.password}>
+          {/* <Typography className={errors.password?.message === '연속' ? classes.passwordError : classes.password}>
             연속 3자 이상 동일한 문자/숫자 제외
-          </Typography>
+          </Typography> */}
         </>
       )}
       <Controller

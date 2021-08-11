@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Container, Typography, FormControlLabel, Checkbox, Grid, Link } from '@material-ui/core';
+import { seedValue } from 'faker/locale/en_AU';
 import Head from 'next/head';
 import { useForm, SubmitHandler, FormProvider } from 'react-hook-form';
 import * as yup from 'yup';
@@ -21,8 +22,8 @@ const schema = yup.object().shape({
     .string()
     .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]/, '조합')
     .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{12,32}/, '길이')
-    .matches(/(.)\1\1/, '연속')
     .required('필수 정보입니다.'),
+  // .matches(/(.)\1\1/, '반복')
   passwordConfirm: yup.string().oneOf([yup.ref('password'), null], '비밀번호가 일치하지 않습니다.'),
 });
 
