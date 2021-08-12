@@ -74,8 +74,10 @@ export const generateDummyLectureList = (num: number): ILecture[] =>
       isExclusive: true,
       onDiscount: Math.floor(Math.random() * 5) * 10,
       createdAt: new Date(faker.datatype.datetime()),
-      description: faker.lorem.paragraph(),
+      description: faker.lorem.sentences(),
       level: 'intermediate',
+      hashTags: ['React', 'Front-end'],
+      categories: ['프레임워크 및 라이브러리', '웹 개발'],
     }));
 
 // {

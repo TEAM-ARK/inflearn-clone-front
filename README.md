@@ -435,3 +435,27 @@ lecture파일에 합쳐서 작업했습니다.
 - [ ] 이용약관, 개인정보취급방침 페이지 생성
 
 </details>
+
+<details>
+<summary>2021.08.12(Tony)</summary>
+
+### 메인페이지 리스트에 로딩 스피너 추가
+
+- 서버사이드 렌더링이기 때문에 필요 없을 것 같기도 함
+- 재미로 추가 해봄
+
+### 메인페이지 강의 리스트
+
+- 마우스 호버 시 나오는 description 추가
+- [ ] 장바구니, 좋아요 등 아이콘에 설명 라벨 추가 해야 함
+- [ ] 카드 전체적으로 크기 키워야 함
+
+### 기타
+
+- 컴포넌트 파일명 첫글자 대문자로 변경(노아님 요청사항)
+
+### 참고문헌
+
+- [react onHover event handling](https://upmostly.com/tutorials/react-onhover-event-handling-with-examples)
+
+</details>

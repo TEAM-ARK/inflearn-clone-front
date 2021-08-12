@@ -36,7 +36,7 @@ const MainSlider = () => {
           autoplaySpeed={5000}
           // dots={true}
         >
-          {console.log(mainSliderList)}
+          {/* {console.log(mainSliderList)} */}
           {mainSliderList.map((item) => (
             <MainSliderItem key={item.id} item={item} />
           ))}

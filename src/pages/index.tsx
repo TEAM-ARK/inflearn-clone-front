@@ -4,8 +4,9 @@ import Head from 'next/head';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import AppLayout from '@components/AppLayout';
+import LectureCard from '@components/LectureCard';
+import LoadingSpinner from '@components/loadingSpinner';
 import { MainSlider } from '@components/Slider';
-import LectureCard from 'src/components/lectureCard';
 import { RootState } from 'src/redux/reducers';
 import { LOAD_ALL_LECTURES_REQUEST } from 'src/redux/reducers/lecture';
 import { ILecture } from 'src/redux/reducers/types';
@@ -88,7 +89,7 @@ const AddLectureBtnWrapper = styled.div`
 `;
 
 const Home = (): ReactNode => {
-  const { mainLectures } = useSelector((state: RootState) => state.lecture);
+  const { mainLectures, loadLectureLoading } = useSelector((state: RootState) => state.lecture);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch({ type: LOAD_ALL_LECTURES_REQUEST });
@@ -126,11 +127,15 @@ const Home = (): ReactNode => {
         </Search>
         <section className="container">
           <LectureTitle className="title">전체 강의</LectureTitle>
-          <LectureList>
-            {mainLectures?.map((lecture: ILecture) => (
-              <LectureCard key={lecture.id} lecture={lecture} />
-            ))}
-          </LectureList>
+          {loadLectureLoading ? (
+            <LoadingSpinner />
+          ) : (
+            <LectureList>
+              {mainLectures?.map((lecture: ILecture) => (
+                <LectureCard key={lecture.id} lecture={lecture} />
+              ))}
+            </LectureList>
+          )}
         </section>
       </>
     </AppLayout>

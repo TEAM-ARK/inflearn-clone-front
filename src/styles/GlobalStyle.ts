@@ -10,6 +10,7 @@ const Global = createGlobalStyle`
   --color-orange: #feb546;
   --color-yellow: #fdcc11;
   --color-blue: #175cbe;
+  --color-light-blue: #3498db;
   --color-light-pink: hsl(321, 63%, 90%);
 }
 
