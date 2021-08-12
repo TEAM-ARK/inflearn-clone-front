@@ -76,23 +76,13 @@ const LectureCardHover = ({ lecture }: Props) => {
           <EachTags>
             <AccountTreeOutlinedIcon />
             {categories?.map((category, index) => {
-              return (
-                <span key={index}>
-                  {category}
-                  {!(index === categories.length - 1) && ', '}
-                </span>
-              );
+              return `${category}${!(index === categories.length - 1) && ', '}`;
             })}
           </EachTags>
           <EachTags>
             <LocalOfferOutlinedIcon />
             {hashTags?.map((tag, index) => {
-              return (
-                <span key={index}>
-                  {tag}
-                  {!(index === hashTags.length - 1) && ', '}
-                </span>
-              );
+              return `${tag}${!(index === hashTags.length - 1) && ', '}`;
             })}
           </EachTags>
         </TagsConatiner>

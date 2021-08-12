@@ -77,7 +77,7 @@ export const generateDummyLectureList = (num: number): ILecture[] =>
       description: faker.lorem.sentences(),
       level: 'intermediate',
       hashTags: ['React', 'Front-end'],
-      categories: ['프레임워크 및 라이브러리, 웹 개발'],
+      categories: ['프레임워크 및 라이브러리', '웹 개발'],
     }));
 
 // {
