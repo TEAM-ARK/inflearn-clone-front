@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
-import RatingStar from 'src/components/ratingStar';
+import RatingStar from '@components/RatingStar';
 import { ILecture } from 'src/redux/reducers/types';
+import LectureCardHover from './LectureCardHover';
 
 const LectureCardStyle = styled.li`
   padding: 12px;
@@ -21,6 +22,7 @@ const LectureCardWrapper = styled.div`
   height: 100%;
   background-color: white;
   cursor: pointer;
+  position: relative;
 `;
 
 const LectureCardImage = styled.div`
@@ -79,11 +81,12 @@ type Props = {
 const LectureCard = ({ lecture }: Props) => {
   const { id, coverImage, title, author, rating, commentCount, price, studentCount } = lecture;
   const studentCountFloor = Math.floor(studentCount / 100) * 100;
+  const [isHover, setIsHover] = useState(false);
 
   return (
     <LectureCardStyle key={id}>
       <Link href={`/course/${id}`}>
-        <LectureCardWrapper>
+        <LectureCardWrapper onMouseEnter={() => setIsHover(true)} onMouseLeave={() => setIsHover(false)}>
           <LectureCardImage style={{ backgroundImage: `url(${coverImage})` }} />
           <div>
             <LectureCardTitle>{title}</LectureCardTitle>
@@ -99,6 +102,8 @@ const LectureCard = ({ lecture }: Props) => {
               <LectureCardTag>{`+${studentCountFloor}명`}</LectureCardTag>
             </div>
           </div>
+          {isHover && <LectureCardHover lecture={lecture} />}
+          {/* <LectureCardHover lecture={lecture} /> */}
         </LectureCardWrapper>
       </Link>
     </LectureCardStyle>
