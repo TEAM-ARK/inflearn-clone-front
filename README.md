@@ -459,3 +459,51 @@ lecture파일에 합쳐서 작업했습니다.
 - [react onHover event handling](https://upmostly.com/tutorials/react-onhover-event-handling-with-examples)
 
 </details>
+
+<details>
+<summary>2021.08.13(Noah)</summary>
+
+### Update Nextjs version 11
+
+- Conformance
+  - `npx next lint` 명령어를 치면 현재 app의 ESLint를 전체적으로 수행해서 메시지로 CLI에 보여줌
+- Improved Performance
+  - 11버전 업데이트를 하며 app을 열고 startup time을 24%이상 감소시키고 React refresh 관련하여 프로세싱 타임을 40%이상 감소시킴
+  - Babel 관련 startup time 감소
+  - 새로운 Babel loader 구축
+  - 로딩, 메모리 캐싱과 관련하여 최적화
+  - 개발자가 실제로 할 것은 없고 update만으로 이미 적용이 되는 사항
+- Script Optimization
+
+  - `next/script`
+  - 웹사이트에 다른곳에서 가져와서 사용하는 기능들을 추가할때 라이브러리가 무겁거나 최적화의 문제가 있는데 이것을 Nextjs의 Script 태그가 해결해줌( polyfill, widgets 등)
+  - Script 태그에 strategy 속성을 추가하면 자동적으로 최적화 및 성능 향상
+    - third party 라이브러리의 실행 순서를 입맛에 맞게 설정 할 수 있음
+    - beforeInteractive, afterInteractive( default), lazyOnload 속성
+
+- Image Improvements
+  - `next/image`
+  - Image 로딩과 관련하여 성능 개선
+    - Nextjs의 Image 태그를 사용하면 정적이미지의 가로/세로 크기를 자동으로 정의해줌
+    - 인터넷이 느린 사용자를 위하여 blur 이미지를 Nextjs에서 태그 속성으로 제공
+- Webpack 5
+  - `next.config.js`
+  - 웹팩5와 관련하여 다양한 특징 및 개선점들이 구축됨
+- Create React App Migration (Experimental)
+  - 새로운 툴 `@next/codemod` 개발
+  - Create React App을 자동적으로 Nextjs로 변경해주는 툴
+- Next.js Live (Preview Release)
+  - 협업을 위한 기능
+  - 웹사이트를 띄워놓은 상태에서 라이브로 마우스로 공간을 지정 할 수 있고 실시간 채팅도 가능한 기능
+
+### 참고문헌
+
+- [Nextjs docs](https://nextjs.org/blog/next-11#upgrade-guide)
+- [Conformance](https://web.dev/introducing-aurora/)
+- [Script](https://github.com/vercel/next.js/discussions/24938)
+- [Script](https://docs.google.com/document/u/0/d/1ZEi-XXhpajrnq8oqs5SiW-CXR3jMc20jWIzN5QRy1QA/mobilebasic#)
+- [Image](https://vercel.com/blog/core-web-vitals#cumulative-layout-shift)
+- [Image](https://nextjs.org/docs/basic-features/image-optimization)
+- [Webpack](https://nextjs.org/docs/messages/webpack5)
+
+</details>
