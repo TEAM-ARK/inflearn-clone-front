@@ -515,6 +515,8 @@ lecture파일에 합쳐서 작업했습니다.
 
 - 강의 카드 마우스 오버 할 때 나오는 설명 밑 아이콘 3개에 말풍선 추가
 - lectureCard 폴더를 만들어서 components폴더 정리
+- node notifier가 자동으로 설치됨(업데이트 하려고 npm i 하니 설치 됨)
+  - cross platform(windows, mac, linux)에서 알람을 띄울 수 있는 모듈
 
 ### 참고문헌
 
