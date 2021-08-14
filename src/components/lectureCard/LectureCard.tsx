@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
-import RatingStar from '@components/RatingStar';
+import RatingStar from '@components/lectureCard/RatingStar';
 import { ILecture } from 'src/redux/reducers/types';
 import LectureCardHover from './LectureCardHover';
 
