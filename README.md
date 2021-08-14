@@ -507,3 +507,17 @@ lecture파일에 합쳐서 작업했습니다.
 - [Webpack](https://nextjs.org/docs/messages/webpack5)
 
 </details>
+
+<details>
+<summary>2021.08.14(Tony)</summary>
+
+### 작업 내용
+
+- 강의 카드 마우스 오버 할 때 나오는 설명 밑 아이콘 3개에 말풍선 추가
+- lectureCard 폴더를 만들어서 components폴더 정리
+
+### 참고문헌
+
+- [CSS로 말풍선 만들기](https://ungdoli0916.tistory.com/753)
+
+</details>
