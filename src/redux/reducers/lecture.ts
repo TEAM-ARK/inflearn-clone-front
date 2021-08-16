@@ -31,6 +31,10 @@ export const LOAD_SLIDER_REQUEST = 'LOAD_SLIDER_REQUEST';
 export const LOAD_SLIDER_SUCCESS = 'LOAD_SLIDER_SUCCESS';
 export const LOAD_SLIDER_FAILURE = 'LOAD_SLIDER_FAILURE';
 
+// export const CREATE_LECTURE_REQUEST = 'CREATE_LECTURE_REQUEST';
+// export const CREATE_LECTURE_SUCCESS = 'CREATE_LECTURE_SUCCESS';
+// export const CREATE_LECTURE_FAILURE = 'CREATE_LECTURE_FAILURE';
+
 // reducer
 const reducer = (state = initialState, action: IAction) => {
   return produce(state, (draft) => {
