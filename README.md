@@ -523,3 +523,64 @@ lecture파일에 합쳐서 작업했습니다.
 - [CSS로 말풍선 만들기](https://ungdoli0916.tistory.com/753)
 
 </details>
+
+<details>
+<summary>2021.08.16(Tony)</summary>
+
+### 작업 내용
+
+- AppLayout, CourseLayout을 components 폴더에서 layouts (신규)폴더로 이동
+- [ ] create course 페이지에서 제목 입력 후 강의 만들기를 누르면 수정 페이지로 이동
+- 강의 생성 후 id를 저장할 필요는 없을 것 같아서 리덕스를 사용하지 않음
+  - 어떻게 하는게 좋을지 토론 필요
+
+```typescript
+const inputTitle = useRef<HTMLInputElement>(null);
+```
+
+- 초기값에 null을 박아줘야 된다. -> HTMLInputElement | null
+
+#### next에서 redirect
+
+```typescript
+import { useRouter } from 'next/dist/client/router';
+const router = useRouter();
+router.push(`/course/${id}/edit/course_info`);
+```
+
+### 로컬 서버 세팅
+
+```typescript
+// app.ts or index.ts
+app.use(
+  cors({
+    origin: true,
+    // credentials: false
+  })
+);
+app.use(express.json()); // front에서 json형태의 data를 보낼때 그것을 req.body에 넣어줌
+app.use(express.urlencoded({ extended: true })); // form&submit을 하면 url encoded방식으로 data가 넘어오는데 그것을 req.body에 넣어줌
+
+app.use('/create_course', lectureRouter);
+```
+
+```typescript
+// lectureRouter
+import * as express from 'express';
+
+const router = express.Router();
+
+router.post('/', (req, res) => {
+  console.log('body', req.body);
+  res.json({ id: 1234, result: 'ok' });
+});
+
+export default router;
+```
+
+### 나중에 추가해야 될 부분
+
+- `/course/${id}/edit/course_info`으로 이동 시 내 강의가 아닌 곳으로 이동할 경우 404 띄워줘야 함
+  - 유저가 GET방식으로 접속을 시도 할 때 서버에서 검증 후 수정페이지를 보여줄지 말지 결정
+
+</details>

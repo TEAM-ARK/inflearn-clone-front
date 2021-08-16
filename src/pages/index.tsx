@@ -1,12 +1,13 @@
 import { ReactNode, useEffect } from 'react';
 import SearchIcon from '@material-ui/icons/Search';
+import { useRouter } from 'next/dist/client/router';
 import Head from 'next/head';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import AppLayout from '@components/AppLayout';
 import LectureCard from '@components/lectureCard/LectureCard';
 import LoadingSpinner from '@components/LoadingSpinner';
 import { MainSlider } from '@components/Slider';
+import AppLayout from 'src/layouts/AppLayout';
 import { RootState } from 'src/redux/reducers';
 import { LOAD_ALL_LECTURES_REQUEST } from 'src/redux/reducers/lecture';
 import { ILecture } from 'src/redux/reducers/types';
@@ -81,6 +82,7 @@ const AddLectureBtnWrapper = styled.div`
   padding: 10px;
   text-align: right;
   & > button {
+    margin: 10px;
     padding: 10px;
     background-color: var(--color-light-green);
     border-radius: 4px;
@@ -89,6 +91,7 @@ const AddLectureBtnWrapper = styled.div`
 `;
 
 const Home = (): ReactNode => {
+  const router = useRouter();
   const { mainLectures, loadLectureLoading } = useSelector((state: RootState) => state.lecture);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -97,6 +100,9 @@ const Home = (): ReactNode => {
   const onClickAddLecture = () => {
     console.log('onClickAddLecture');
     dispatch({ type: LOAD_ALL_LECTURES_REQUEST });
+  };
+  const onClickCreateLecture = () => {
+    router.push('/create_course');
   };
   return (
     <AppLayout>
@@ -113,6 +119,9 @@ const Home = (): ReactNode => {
           <AddLectureBtnWrapper>
             <button onClick={onClickAddLecture} type="button">
               add lectures
+            </button>
+            <button onClick={onClickCreateLecture} type="button">
+              create lecture
             </button>
           </AddLectureBtnWrapper>
           <h1 className="title">성장기회의 평등을 추구합니다.</h1>
