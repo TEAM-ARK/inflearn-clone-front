@@ -584,3 +584,40 @@ export default router;
   - 유저가 GET방식으로 접속을 시도 할 때 서버에서 검증 후 수정페이지를 보여줄지 말지 결정
 
 </details>
+
+<details>
+<summary>2021.08.19(Tony)</summary>
+
+### create_course page
+
+- create_course에서 강의 만들기 누르면 `/course/1/edit/course_info`로 이동하게 함
+  - 나중에 서버 붙일 땐 주석 해제하면 됨
+- 제목 없는 경우 alert 대신 경고 메세지가 뜨도록 함
+
+### create_course -> edit 강의 제목 넘기기
+
+- 리덕스 사용
+- 기존 axios만 사용하던 것을 redux를 이용하도록 변경
+  - saga effect의 put은 dispatch랑 비슷함
+
+### saga call type
+
+- `Generator<T, TReturn, TNext>`
+- [ ] generator function에서 type 지정하는 법 알아보기
+
+### test.css 파일 생성
+
+- styled component 에서 자동완성을 잘 지원하지 않으므로 css파일을 테스트목적으로 만들음
+
+### create course btn에 로딩 적용
+
+- 로딩 시간 동안 클릭 방지(pointer-events), 투명도 변경(opacity)
+
+### 참고문헌
+
+- [styled component props](https://styled-components.com/docs/basics)
+- [css prevent mouse click](https://stackoverflow.com/questions/44719980/how-to-prevent-the-click-event-using-css)
+- [css pointer-events](https://developer.mozilla.org/en-US/docs/Web/CSS/pointer-events)
+- [typescript styled components with props](https://stackoverflow.com/questions/47077210/using-styled-components-with-props-and-typescript)
+
+</details>

@@ -1,8 +1,10 @@
-import React, { useRef } from 'react';
-import axios from 'axios';
+import React, { useRef, useState, useEffect } from 'react';
 import { useRouter } from 'next/dist/client/router';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import AppLayout from 'src/layouts/AppLayout';
+import { RootState } from 'src/redux/reducers';
+import { CREATE_LECTURE_REQUEST } from 'src/redux/reducers/lecture';
 
 const InputTitle = styled.input`
   padding: 0 10px;
@@ -22,6 +24,10 @@ const InputTitle = styled.input`
   }
 `;
 
+interface IBtnProps {
+  loading: boolean;
+}
+
 const BtnMakeCourse = styled.button`
   color: #fff;
   font-weight: 800;
@@ -32,6 +38,8 @@ const BtnMakeCourse = styled.button`
   margin-top: 48px;
   width: 126px;
   height: 48px;
+  pointer-events: ${(props: IBtnProps) => (props.loading ? 'none' : 'auto')};
+  opacity: ${(props: IBtnProps) => (props.loading ? 0.7 : 1)};
 `;
 
 const CreateCourseWrapper = styled.div`
@@ -49,28 +57,55 @@ const SectionTitle = styled.h3`
   margin-bottom: 13px;
 `;
 
+const Message = styled.div`
+  color: var(--color-red);
+  padding: 10px;
+  font-weight: 600;
+`;
+
 const CreateCourse = () => {
+  const [isTitle, setIsTitle] = useState(false);
+  const [message, setMessage] = useState('');
   const router = useRouter();
   const inputTitle = useRef<HTMLInputElement>(null);
-  const getLectureId = async (title: string) => {
-    console.log('title', title);
-    const param = {
-      title,
-    };
-    const result = await axios.post('http://localhost:4000/create_course', param);
-    return result;
-  };
+  const dispatch = useDispatch();
+  const { createLectureLoading, createLectureData, createLectureDone } = useSelector(
+    (state: RootState) => state.lecture
+  );
 
+  useEffect(() => {
+    console.log('create_course useEffect');
+    if (createLectureDone) {
+      const { id } = createLectureData;
+      router.push(`/course/${id}/edit/course_info`);
+    }
+  }, [createLectureDone]);
   const onClickBtnCreate = async () => {
     const title = inputTitle?.current?.value;
     if (!title) {
-      alert('제목을 입력해 주세요');
+      setMessage('제목을 입력해 주세요');
+      setIsTitle(true);
       return;
     }
-    const result = await getLectureId(title);
-    const { id } = result?.data;
-    console.log('onClickBtnCreate result', result);
-    router.push(`/course/${id}/edit/course_info`);
+    dispatch({
+      type: CREATE_LECTURE_REQUEST,
+    });
+
+    // const result = await getLectureId(title);
+    // const { id } = result?.data;
+    // console.log('onClickBtnCreate result', result);
+    // router.push(`/course/${id}/edit/course_info`);
+  };
+
+  const watchingInputText = () => {
+    const title = inputTitle?.current?.value;
+    if (!title) {
+      setMessage('제목을 입력해 주세요');
+      setIsTitle(true);
+      return;
+    }
+    setMessage('');
+    setIsTitle(false);
   };
   return (
     <AppLayout>
@@ -80,9 +115,10 @@ const CreateCourse = () => {
             제목을 입력해주세요! <br />
             너무 고민하지마세요. 제목은 언제든 수정 가능해요 :)
           </SectionTitle>
-          <InputTitle ref={inputTitle} type="text" placeholder="제목을 입력해주세요." />
+          <InputTitle onKeyUp={watchingInputText} ref={inputTitle} type="text" placeholder="제목을 입력해주세요." />
+          {isTitle && <Message>{message}</Message>}
         </div>
-        <BtnMakeCourse type="button" onClick={onClickBtnCreate}>
+        <BtnMakeCourse loading={createLectureLoading} type="button" onClick={onClickBtnCreate}>
           강의 만들기
         </BtnMakeCourse>
       </CreateCourseWrapper>
