@@ -13,7 +13,7 @@ export interface ILectureState {
   createLectureLoading: boolean;
   createLectureDone: boolean;
   createLectureError?: string;
-  createLectureData?: ICreateLectureData;
+  createLectureData: ICreateLectureData;
 }
 
 export const initialState: ILectureState = {
@@ -25,7 +25,7 @@ export const initialState: ILectureState = {
   loadSliderLoading: true,
   loadSliderError: '',
   createLectureLoading: false,
-  createLectureData: undefined,
+  createLectureData: { id: undefined, title: undefined },
   createLectureError: undefined,
   createLectureDone: false,
 };
@@ -75,11 +75,12 @@ const reducer = (state = initialState, action: IAction) => {
       case CREATE_LECTURE_REQUEST:
         draft.createLectureLoading = true;
         draft.createLectureDone = false;
+        draft.createLectureData.title = action.data;
         break;
       case CREATE_LECTURE_SUCCESS:
         draft.createLectureLoading = false;
         draft.createLectureDone = true;
-        draft.createLectureData = action.data;
+        draft.createLectureData.id = action.data;
         break;
       case CREATE_LECTURE_FAILURE:
         draft.createLectureLoading = false;

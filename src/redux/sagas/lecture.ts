@@ -70,7 +70,7 @@ function* createLecture(action: IAction): any {
     yield put({
       type: CREATE_LECTURE_SUCCESS,
       // data: result?.data?.lectureId,
-      data: { id: 1, title: 'A title from server' },
+      data: 1,
     });
   } catch (err) {
     yield put({

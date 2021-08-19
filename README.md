@@ -603,7 +603,8 @@ export default router;
 ### saga call type
 
 - `Generator<T, TReturn, TNext>`
-- [ ] generator function에서 type 지정하는 법 알아보기
+- [x] generator function에서 type 지정하는 법 알아보기
+  - https://github.com/microsoft/TypeScript/issues/26959
 
 ### test.css 파일 생성
 
@@ -619,5 +620,12 @@ export default router;
 - [css prevent mouse click](https://stackoverflow.com/questions/44719980/how-to-prevent-the-click-event-using-css)
 - [css pointer-events](https://developer.mozilla.org/en-US/docs/Web/CSS/pointer-events)
 - [typescript styled components with props](https://stackoverflow.com/questions/47077210/using-styled-components-with-props-and-typescript)
+
+</details>
+
+<details>
+<summary>2021.08.20(Tony)</summary>
+
+- [ ] edit course info 앱 레이아웃 수정 할 예정
 
 </details>

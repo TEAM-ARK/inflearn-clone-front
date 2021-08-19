@@ -82,6 +82,7 @@ const CreateCourse = () => {
   }, [createLectureDone]);
   const onClickBtnCreate = async () => {
     const title = inputTitle?.current?.value;
+    console.log('title', title);
     if (!title) {
       setMessage('제목을 입력해 주세요');
       setIsTitle(true);
@@ -89,12 +90,8 @@ const CreateCourse = () => {
     }
     dispatch({
       type: CREATE_LECTURE_REQUEST,
+      data: title,
     });
-
-    // const result = await getLectureId(title);
-    // const { id } = result?.data;
-    // console.log('onClickBtnCreate result', result);
-    // router.push(`/course/${id}/edit/course_info`);
   };
 
   const watchingInputText = () => {

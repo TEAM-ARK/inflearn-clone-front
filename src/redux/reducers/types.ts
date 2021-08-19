@@ -54,6 +54,6 @@ export interface IAction {
 
 // CreateLectureData
 export interface ICreateLectureData {
-  id: number;
-  title: string;
+  id?: number;
+  title?: string;
 }
