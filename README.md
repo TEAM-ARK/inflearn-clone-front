@@ -626,6 +626,9 @@ export default router;
 <details>
 <summary>2021.08.20(Tony)</summary>
 
-- [ ] edit course info 앱 레이아웃 수정 할 예정
+### Things to do
+
+- [ ] create-course에서 store에 저장한 title 가져오기
+- [ ] edit course info 앱 레이아웃 수정
 
 </details>
