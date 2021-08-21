@@ -64,6 +64,54 @@ export default function SignUp() {
     setPolicy(event.target.checked);
   };
 
+  const termsOfService = () => {
+    return (
+      <Grid container direction="column" alignItems="center">
+        <Grid item>
+          <Typography className={policySize}>
+            가입 시, 인프런의{' '}
+            <Link
+              href="/signup"
+              color="secondary"
+              underline="none"
+              onClick={(e) => {
+                e.preventDefault();
+                // eslint-disable-next-line no-alert
+                alert('이용약관 페이지 이동!');
+              }}
+            >
+              이용약관
+            </Link>
+            {', '}
+            <Link
+              href="/signup"
+              color="secondary"
+              underline="none"
+              onClick={(e) => {
+                e.preventDefault();
+                // eslint-disable-next-line no-alert
+                alert('개인정보취급방침 페이지 이동!');
+              }}
+            >
+              개인정보취급방침
+            </Link>{' '}
+            에 동의합니다.
+          </Typography>
+        </Grid>
+        <Grid item>
+          <FormControlLabel
+            control={<Checkbox size="small" checked={policy} onChange={onChangePolicy} />}
+            label={<Typography className={policySize}>인프런의 다양한 소식을 받아보시겠어요?</Typography>}
+          />
+        </Grid>
+      </Grid>
+    );
+  };
+
+  const snsLogin = () => {
+    return <DividerWithText>간편 회원가입</DividerWithText>;
+  };
+
   return (
     <AppLayout>
       <Head>
@@ -82,46 +130,8 @@ export default function SignUp() {
               </Button>
             </form>
           </FormProvider>
-          <Grid container direction="column" alignItems="center">
-            <Grid item>
-              <Typography className={policySize}>
-                가입 시, 인프런의{' '}
-                <Link
-                  href="/signup"
-                  color="secondary"
-                  underline="none"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    // eslint-disable-next-line no-alert
-                    alert('이용약관 페이지 이동!');
-                  }}
-                >
-                  이용약관
-                </Link>
-                {', '}
-                <Link
-                  href="/signup"
-                  color="secondary"
-                  underline="none"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    // eslint-disable-next-line no-alert
-                    alert('개인정보취급방침 페이지 이동!');
-                  }}
-                >
-                  개인정보취급방침
-                </Link>{' '}
-                에 동의합니다.
-              </Typography>
-            </Grid>
-            <Grid item>
-              <FormControlLabel
-                control={<Checkbox size="small" checked={policy} onChange={onChangePolicy} />}
-                label={<Typography className={policySize}>인프런의 다양한 소식을 받아보시겠어요?</Typography>}
-              />
-            </Grid>
-          </Grid>
-          <DividerWithText>간편 회원가입</DividerWithText>
+          {termsOfService()}
+          {snsLogin()}
         </Container>
       </main>
     </AppLayout>
