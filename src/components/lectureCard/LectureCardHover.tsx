@@ -80,7 +80,7 @@ const LectureCardHover = ({ lecture }: Props) => {
   const [isHoverHeart, setIsHoverHeart] = useState(false);
   const [isHoverPlus, setIsHoverPlus] = useState(false);
   const { title, description, hashTags, categories, level, id } = lecture;
-  console.log('LectureCardHover lecture:', lecture);
+  // console.log('LectureCardHover lecture:', lecture);
   return (
     <Link href={`/course/${id}`}>
       <SLectureCardHover>

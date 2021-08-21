@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 const Header: FC = () => {
   return (
-    <AppBar color="default">
+    <AppBar position="static" color="default">
       <Link href="/">
         <a>Home</a>
       </Link>
