@@ -6,7 +6,7 @@ interface IProps {
   children: React.ReactNode;
 }
 
-const AppLayout = ({ children }: IProps) => {
+export default function AppLayout({ children }: IProps) {
   return (
     <>
       <Header />
@@ -14,6 +14,4 @@ const AppLayout = ({ children }: IProps) => {
       <Footer />
     </>
   );
-};
-
-export default AppLayout;
+}

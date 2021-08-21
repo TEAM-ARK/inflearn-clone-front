@@ -26,7 +26,7 @@ export default function SignUpForm() {
     formState: { errors },
   } = useFormContext();
 
-  const classes = useStyles();
+  const { password, passwordError } = useStyles();
 
   const [showPassword, setShowPassword] = useState(true);
   const [showConfirmPassword, setShowConfirmPassword] = useState(true);
@@ -118,10 +118,10 @@ export default function SignUpForm() {
       />
       {focusPassword && (
         <>
-          <Typography className={errors.password?.message === '조합' ? classes.passwordError : classes.password}>
+          <Typography className={errors.password?.message === '조합' ? passwordError : password}>
             영문 대소문자/숫자/특수 문자 3가지 필수조합
           </Typography>
-          <Typography className={errors.password?.message === '길이' ? classes.passwordError : classes.password}>
+          <Typography className={errors.password?.message === '길이' ? passwordError : password}>
             12자 이상 32자 이하 입력 (공백 제외)
           </Typography>
           {/* <Typography className={errors.password?.message === '연속' ? classes.passwordError : classes.password}>
