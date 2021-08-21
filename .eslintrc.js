@@ -32,6 +32,7 @@ module.exports = {
         endOfLine: 'auto',
       },
     ],
+    'jsx-a11y/anchor-is-valid': 'off',
     'no-use-before-define': 'off',
     'no-console': 'off',
     'react/jsx-props-no-spreading': 'off',

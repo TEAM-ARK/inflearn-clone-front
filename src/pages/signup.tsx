@@ -1,12 +1,33 @@
 import React, { useState } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Container, Typography, FormControlLabel, Checkbox, Grid, Link } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import Head from 'next/head';
 import { useForm, SubmitHandler, FormProvider } from 'react-hook-form';
 import * as yup from 'yup';
 import DividerWithText from '@components/DividerWithText';
 import SignUpForm from '@components/SignUpForm';
-import useStyles from '@styles/styles';
+import AppLayout from '@layouts/AppLayout';
+
+const useStyles = makeStyles({
+  signUpContainer: {
+    marginTop: '120px',
+    width: '380px',
+  },
+  bold: {
+    fontWeight: 'bold',
+  },
+  submit: {
+    height: '50px',
+    marginTop: '15px',
+    marginBottom: '15px',
+    color: '#FFFFFF',
+    fontWeight: 'bold',
+  },
+  policy: {
+    fontSize: '0.75rem',
+  },
+});
 
 interface IFormInputs {
   email: string;
@@ -44,7 +65,7 @@ export default function SignUp() {
   };
 
   return (
-    <>
+    <AppLayout>
       <Head>
         <title>회원가입 - 인프런 | 온라인 강의 플랫폼</title>
       </Head>
@@ -110,7 +131,7 @@ export default function SignUp() {
           <DividerWithText>간편 회원가입</DividerWithText>
         </Container>
       </main>
-    </>
+    </AppLayout>
   );
 }
 

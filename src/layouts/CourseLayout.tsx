@@ -1,5 +1,6 @@
+import React from 'react';
 import styled from 'styled-components';
-import Header from '../components/Header';
+import Header from '@components/HeaderLayout';
 
 const CourseLayoutContainer = styled.section`
   background-color: #f5f5f5;
@@ -24,7 +25,11 @@ const CourseAside = styled.aside`
   padding: 0.75rem;
 `;
 
-const CourseLayout = ({ children }) => {
+interface IProps {
+  children: React.ReactNode;
+}
+
+const CourseLayout = ({ children }: IProps) => {
   return (
     <CourseLayoutContainer>
       <Header />
