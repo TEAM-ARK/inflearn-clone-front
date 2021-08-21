@@ -629,3 +629,13 @@ export default router;
 - [ ] edit course info 앱 레이아웃 수정 할 예정
 
 </details>
+<details>
+<summary>2021.08.20(Tony)</summary>
+
+### 수정사항
+
+- children에 type 적용
+- header, footer 이름을 HeaderLayout, FooterLayout으로 변경( Next에 존재하는 이름이기 때문에 겹침)
+- 컴포넌트의 재사용성을 위해서 기존 styles를 지우고 컴포넌트로 이동
+
+</details>
