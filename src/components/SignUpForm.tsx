@@ -1,9 +1,24 @@
 import React, { useState } from 'react';
 import { TextField, IconButton, Typography } from '@material-ui/core';
+import grey from '@material-ui/core/colors/grey';
+import red from '@material-ui/core/colors/red';
+import { makeStyles } from '@material-ui/core/styles';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import { Controller, useFormContext } from 'react-hook-form';
-import useStyles from '@styles/styles';
+
+const useStyles = makeStyles({
+  password: {
+    color: grey[500],
+    fontSize: '0.7rem',
+    fontWeight: 'bold',
+  },
+  passwordError: {
+    color: red[500],
+    fontSize: '0.7rem',
+    fontWeight: 'bold',
+  },
+});
 
 export default function SignUpForm() {
   const {

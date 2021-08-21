@@ -1,6 +1,11 @@
-import Header from '../components/Header';
+import React from 'react';
+import Header from '@components/HeaderLayout';
 
-const CourseLayout = ({ children }) => {
+interface IProps {
+  children: React.ReactNode;
+}
+
+const CourseLayout = ({ children }: IProps) => {
   return (
     <>
       <Header />
