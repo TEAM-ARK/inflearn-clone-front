@@ -675,3 +675,48 @@ const SeeTheLecture = styled.button`
   - course_info 페이지 -> 강의 정보 글자 색 진하게
 
 </details>
+<details>
+<summary>2021.08.22(NOAH)</summary>
+
+### Things to do
+
+- [ ] 버튼에 스타일 적용
+- [ ] responsive 화면 구성
+
+### 수정사항
+
+- 회원가입 페이지 및 컴포넌트 리팩토링
+- useStyles 구조분해
+
+```typescript
+const { classname } = useStyles();
+```
+
+### 적용사항
+
+- Header 구현
+  - AppBar : 네비게이션 컨테이너
+  - ToolBar : 안에 컨텐츠를 넣으면 Flex와 같이 자동정렬
+- 적용해야 할 버튼을 headerData로 하여 추가
+  - 추 후 변경이 있을때 쉽게 적용하기 위함
+
+### 문제사항
+
+- nextjs에서 html,body 태그가 전체화면이 되지 않아 \_app.tsx에 아래 스타일을 적용하였으나 메인페이지에서 적용되지 않는 현상
+  - html이 전체 보이는 화면의 크기가 아니기 때문에 sticky가 중간에 짤림
+
+```typescript
+<style global jsx>
+  {`
+    html,
+    body,
+    body > div:first-child,
+    div#__next,
+    div#__next > div {
+      height: 100%;
+    }
+  `}
+</style>
+```
+
+</details>
