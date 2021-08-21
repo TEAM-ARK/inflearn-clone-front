@@ -626,16 +626,52 @@ export default router;
 <details>
 <summary>2021.08.20(Tony)</summary>
 
-- [ ] edit course info 앱 레이아웃 수정 할 예정
+### Things to do
+
+- [x] create-course에서 store에 저장한 title 가져오기
+- [ ] edit course info 앱 레이아웃 수정
 
 </details>
 <details>
-<summary>2021.08.20(Tony)</summary>
+<summary>2021.08.20, 21(Tony)</summary>
 
 ### 수정사항
 
 - children에 type 적용
 - header, footer 이름을 HeaderLayout, FooterLayout으로 변경( Next에 존재하는 이름이기 때문에 겹침)
 - 컴포넌트의 재사용성을 위해서 기존 styles를 지우고 컴포넌트로 이동
+
+### styled(Link) 안됨
+
+```typescript
+const SeeTheLecture = styled.button`
+  font-weight: 800;
+  width: 160px;
+  height: 48px;
+  font-size: 18px;
+  border-radius: 3px;
+  border: 0;
+  background-color: #fff;
+  border-color: #dbdbdb;
+  border-width: 1px;
+  color: #363636;
+  cursor: pointer;
+  justify-content: center;
+  padding: calc(0.375em - 1px) 0.75em;
+  text-align: center;
+  white-space: nowrap;
+`;
+
+<Link href={`/course/${id}`}>
+  <SeeTheLecture>강의보기</SeeTheLecture>
+</Link>;
+```
+
+- Link안에 button태그 넣는 방식으로 스타일링 적용
+
+  - a태그로 하려 했으나 width가 적용이 안됨
+
+- [ ] 강의 제작 column에 해당 페이지 일 때 글자 색 변화
+  - course_info 페이지 -> 강의 정보 글자 색 진하게
 
 </details>

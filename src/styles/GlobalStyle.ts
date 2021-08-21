@@ -7,6 +7,7 @@ const Global = createGlobalStyle`
   --color-dark-grey: #363636;
   --color-grey: #616161;
   --color-light-grey: #838383;
+  --color-dark-white: #ebebeb;
   --color-orange: #feb546;
   --color-yellow: #fdcc11;
   --color-blue: #175cbe;
@@ -57,7 +58,7 @@ ul {
 }
 
 .container {
-  max-width: 1200px;
+  max-width: 1280px;
   padding: 0 10px;
   margin: auto;
 }
