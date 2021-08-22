@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useCallback } from 'react';
 import { useRouter } from 'next/dist/client/router';
 import Link from 'next/link';
 import styled from 'styled-components';
@@ -35,6 +35,7 @@ const CourseHeader = styled.header`
   height: 64px;
   position: sticky;
   top: 0;
+  z-index: 1200;
 `;
 
 const SeeTheLecture = styled.button`
@@ -84,6 +85,15 @@ const BtnsWrapper = styled.div`
   width: max-content;
 `;
 
+type StepContainerProp = {
+  headerHeight: number;
+};
+
+const StepContainer = styled.div`
+  position: sticky;
+  top: ${(props: StepContainerProp) => props.headerHeight + 36}px;
+`;
+
 interface IProps {
   children: React.ReactNode;
 }
@@ -91,11 +101,12 @@ interface IProps {
 const CourseLayout = ({ children }: IProps) => {
   const router = useRouter();
   const { id } = router.query;
+  const refCourseHeader = useRef<HTMLDivElement>(null);
   return (
     <CourseLayoutContainer>
       <Header />
       <CourseHeader>
-        <CourseHeaderContainer className="container">
+        <CourseHeaderContainer ref={refCourseHeader} className="container">
           <h1>내 강의 만들기</h1>
           <BtnsWrapper>
             <Link href={`/course/${id}`}>
@@ -114,14 +125,20 @@ const CourseLayout = ({ children }: IProps) => {
       </CourseHeader>
       <CourseLayoutGrid className="container">
         <CourseNav>
-          <h2>강의 제작</h2>
-          <div>강의 정보</div>
-          <div>상세 소개</div>
-          <div>커리 큘럼</div>
-          <div>커버 이미지</div>
+          <StepContainer headerHeight={refCourseHeader.current?.clientHeight}>
+            <h2>강의 제작</h2>
+            <div>강의 정보</div>
+            <div>상세 소개</div>
+            <div>커리 큘럼</div>
+            <div>커버 이미지</div>
+          </StepContainer>
         </CourseNav>
         <CourseMain>{children}</CourseMain>
-        <CourseAside>눈길을 끄는 제목 장성 꿀팁!</CourseAside>
+        <CourseAside>
+          <StepContainer headerHeight={refCourseHeader.current?.clientHeight}>
+            눈길을 끄는 제목 작성 꿀팁!
+          </StepContainer>
+        </CourseAside>
       </CourseLayoutGrid>
     </CourseLayoutContainer>
   );

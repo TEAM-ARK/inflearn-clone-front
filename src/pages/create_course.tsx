@@ -46,6 +46,7 @@ const CreateCourseWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 75px 0;
 `;
 
 const SectionTitle = styled.h3`
@@ -63,6 +64,10 @@ const Message = styled.div`
   font-weight: 600;
 `;
 
+const CreateCourseBtnWrapper = styled.div`
+  text-align: center;
+`;
+
 const CreateCourse = () => {
   const [isTitle, setIsTitle] = useState(false);
   const [message, setMessage] = useState('');
@@ -76,6 +81,7 @@ const CreateCourse = () => {
   useEffect(() => {
     console.log('create_course useEffect');
     if (createLectureDone) {
+      console.log('create_course useEffect createLectureDone');
       const { id } = createLectureData;
       router.push(`/course/${id}/edit/course_info`);
     }
@@ -115,10 +121,12 @@ const CreateCourse = () => {
           <InputTitle onKeyUp={watchingInputText} ref={inputTitle} type="text" placeholder="제목을 입력해주세요." />
           {isTitle && <Message>{message}</Message>}
         </div>
+      </CreateCourseWrapper>
+      <CreateCourseBtnWrapper>
         <BtnMakeCourse loading={createLectureLoading} type="button" onClick={onClickBtnCreate}>
           강의 만들기
         </BtnMakeCourse>
-      </CreateCourseWrapper>
+      </CreateCourseBtnWrapper>
     </AppLayout>
   );
 };

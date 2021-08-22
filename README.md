@@ -720,3 +720,17 @@ const { classname } = useStyles();
 ```
 
 </details>
+
+<details>
+<summary>2021.08.22(Tony)</summary>
+
+- [ ] edit course layout
+  - [x] column sticky
+  - [ ] 현재 페이지에 해당하는 부분 글자 진하게
+  - [ ] modal : 눈길을 끄는 제목 작성 꿀팁
+  - [ ] 페이지 로드 시 관련 데이터 가져와서 필수 조건 작성된 페이지는 초록색으로 v 표시
+- [ ] course_info 페이지 구성
+
+CourseHeaderContainer height + CourseLayoutGrid padding top(24px) + CourseNav padding top(0.75rem == 12px) 의 높이에 sticky
+
+</details>
