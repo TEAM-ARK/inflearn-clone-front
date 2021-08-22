@@ -23,6 +23,7 @@
     "baseUrl": ".",
     "paths": {
       //alias pathing for absolute paths
+      "@api/*": ["src/api/*"],
       "@pages/*": ["src/pages/*"],
       "@styles/*": ["src/styles/*"],
       "@components/*": ["src/components/*"],

@@ -24,7 +24,7 @@ const useStyles = makeStyles({
     color: '#FFFFFF',
     fontWeight: 'bold',
   },
-  policy: {
+  policySize: {
     fontSize: '0.75rem',
   },
 });
@@ -54,7 +54,7 @@ export default function SignUp() {
     resolver: yupResolver(schema),
   });
 
-  const classes = useStyles();
+  const { signUpContainer, bold, submit, policySize } = useStyles();
 
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
     console.log('form data', data);
@@ -64,71 +64,74 @@ export default function SignUp() {
     setPolicy(event.target.checked);
   };
 
+  const termsOfService = () => {
+    return (
+      <Grid container direction="column" alignItems="center">
+        <Grid item>
+          <Typography className={policySize}>
+            가입 시, 인프런의{' '}
+            <Link
+              href="/signup"
+              color="secondary"
+              underline="none"
+              onClick={(e) => {
+                e.preventDefault();
+                // eslint-disable-next-line no-alert
+                alert('이용약관 페이지 이동!');
+              }}
+            >
+              이용약관
+            </Link>
+            {', '}
+            <Link
+              href="/signup"
+              color="secondary"
+              underline="none"
+              onClick={(e) => {
+                e.preventDefault();
+                // eslint-disable-next-line no-alert
+                alert('개인정보취급방침 페이지 이동!');
+              }}
+            >
+              개인정보취급방침
+            </Link>{' '}
+            에 동의합니다.
+          </Typography>
+        </Grid>
+        <Grid item>
+          <FormControlLabel
+            control={<Checkbox size="small" checked={policy} onChange={onChangePolicy} />}
+            label={<Typography className={policySize}>인프런의 다양한 소식을 받아보시겠어요?</Typography>}
+          />
+        </Grid>
+      </Grid>
+    );
+  };
+
+  const snsLogin = () => {
+    return <DividerWithText>간편 회원가입</DividerWithText>;
+  };
+
   return (
     <AppLayout>
       <Head>
         <title>회원가입 - 인프런 | 온라인 강의 플랫폼</title>
       </Head>
       <main>
-        <Container className={classes.signUpContainer} component="section">
+        <Container className={signUpContainer} component="section">
           <FormProvider {...methods}>
             <form onSubmit={methods.handleSubmit(onSubmit)}>
-              <Typography className={classes.bold} component="h2" variant="h6">
+              <Typography className={bold} component="h2" variant="h6">
                 회원가입
               </Typography>
               <SignUpForm />
-              <Button
-                className={classes.submit}
-                color="primary"
-                size="large"
-                type="submit"
-                fullWidth
-                variant="contained"
-              >
+              <Button className={submit} color="primary" size="large" type="submit" fullWidth variant="contained">
                 가입하기
               </Button>
             </form>
           </FormProvider>
-          <Grid container direction="column" alignItems="center">
-            <Grid item>
-              <Typography className={classes.policy}>
-                가입 시, 인프런의{' '}
-                <Link
-                  href="/signup"
-                  color="secondary"
-                  underline="none"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    // eslint-disable-next-line no-alert
-                    alert('이용약관 페이지 이동!');
-                  }}
-                >
-                  이용약관
-                </Link>
-                {', '}
-                <Link
-                  href="/signup"
-                  color="secondary"
-                  underline="none"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    // eslint-disable-next-line no-alert
-                    alert('개인정보취급방침 페이지 이동!');
-                  }}
-                >
-                  개인정보취급방침
-                </Link>{' '}
-                에 동의합니다.
-              </Typography>
-            </Grid>
-            <Grid item>
-              <FormControlLabel
-                control={<Checkbox size="small" checked={policy} onChange={onChangePolicy} />}
-                label={<Typography className={classes.policy}>인프런의 다양한 소식을 받아보시겠어요?</Typography>}
-              />
-            </Grid>
-          </Grid>
-          <DividerWithText>간편 회원가입</DividerWithText>
+          {termsOfService()}
+          {snsLogin()}
         </Container>
       </main>
     </AppLayout>

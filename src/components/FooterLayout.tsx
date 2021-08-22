@@ -1,7 +1,3 @@
-import { FC } from 'react';
-
-const Footer: FC = () => {
+export default function FooterLayout() {
   return <footer>Team Ark</footer>;
-};
-
-export default Footer;
+}
