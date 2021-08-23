@@ -720,3 +720,26 @@ const { classname } = useStyles();
 ```
 
 </details>
+
+<details>
+<summary>2021.08.22, 23(Tony)</summary>
+
+- [ ] edit course layout
+  - [x] column sticky
+  - [x] 현재 페이지에 해당하는 부분 글자 진하게
+  - [ ] modal : 눈길을 끄는 제목 작성 꿀팁
+  - [ ] 페이지 로드 시 관련 데이터 가져와서 필수 조건 작성된 페이지는 초록색으로 v 표시
+- [ ] course_info 페이지 구성
+
+### CourseLayout.tsx
+
+CourseHeaderContainer height + CourseLayoutGrid padding top(24px) + CourseNav padding top(0.75rem == 12px) 의 높이에 sticky
+
+- StepContainer의 headerHeight prop에 바로 넣어 주면 CourseHeaderContainer height가 측정되지 않은 상태(undefined)로 계산이 되서 sticky의 top에 NaN이 들어감(sticky 적용 안됨)
+- 페이지 로드할 때 useState의 headerHeight에 값을 넣어서 나중에 계산된 height값이 반영 되도록 함
+
+### create_course.tsx
+
+- 강의 id를 전달 받고 saga에서 직접 redirect시키도록 함(뒤로가기 안되는 문제 해결)
+
+</details>

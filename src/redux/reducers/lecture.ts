@@ -43,6 +43,8 @@ export const CREATE_LECTURE_REQUEST = 'CREATE_LECTURE_REQUEST';
 export const CREATE_LECTURE_SUCCESS = 'CREATE_LECTURE_SUCCESS';
 export const CREATE_LECTURE_FAILURE = 'CREATE_LECTURE_FAILURE';
 
+export const LOAD_CREATE_LECTURE = 'LOAD_CREATE_LECTURE';
+
 // reducer
 const reducer = (state = initialState, action: IAction) => {
   return produce(state, (draft) => {
@@ -87,6 +89,9 @@ const reducer = (state = initialState, action: IAction) => {
         draft.createLectureDone = true;
         draft.createLectureError = action.error;
         break;
+      // case LOAD_CREATE_LECTURE:
+      //   draft.createLectureDone = false;
+      //   break;
 
       // 나머지 추후 추가 예정
       default:
