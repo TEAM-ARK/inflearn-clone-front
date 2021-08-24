@@ -92,7 +92,7 @@ const CreateCourse = () => {
   //     router.push(`/course/${id}/edit/course_info`);
   //   }
   // }, [createLectureDone]);
-  const onClickBtnCreate = async () => {
+  const handleSubmit = async () => {
     const title = inputTitle?.current?.value;
     console.log('title', title);
     if (!title) {
@@ -106,7 +106,11 @@ const CreateCourse = () => {
     });
   };
 
-  const watchingInputText = () => {
+  const watchingInputText = (event: KeyboardEvent) => {
+    if (event.keyCode === 13) {
+      console.log('keyCode');
+      handleSubmit();
+    }
     const title = inputTitle?.current?.value;
     if (!title) {
       setMessage('제목을 입력해 주세요');
@@ -129,7 +133,7 @@ const CreateCourse = () => {
         </div>
       </CreateCourseWrapper>
       <CreateCourseBtnWrapper>
-        <BtnMakeCourse loading={createLectureLoading} type="button" onClick={onClickBtnCreate}>
+        <BtnMakeCourse loading={createLectureLoading} type="button" onClick={handleSubmit}>
           강의 만들기
         </BtnMakeCourse>
       </CreateCourseBtnWrapper>

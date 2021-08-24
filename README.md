@@ -743,3 +743,16 @@ CourseHeaderContainer height + CourseLayoutGrid padding top(24px) + CourseNav pa
 - 강의 id를 전달 받고 saga에서 직접 redirect시키도록 함(뒤로가기 안되는 문제 해결)
 
 </details>
+
+<details>
+<summary>2021.08.24(Tony)</summary>
+
+### create_course
+
+- 강의 만들기 버튼을 누르지 않고 input text에서 제목 입력 후 엔터로도 강의 생성되도록 변경
+
+### CourseLayout
+
+- window.location.pathname에서 강의 생성후 수정페이지로 넘어갈 때 window객체를 인식하지 못해서 useRouter를 사용해서 현재 경로를 추적하도록 함
+
+</details>

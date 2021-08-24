@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import { useRouter } from 'next/dist/client/router';
+import { NextRouter, useRouter } from 'next/dist/client/router';
 import Link from 'next/link';
 import styled from 'styled-components';
 import Header from '@components/HeaderLayout';
@@ -123,19 +123,17 @@ interface IProps {
   children: React.ReactNode;
 }
 
-function getCurrentPath() {
-  const { pathname } = window.location;
-  // console.log(pathname);
-  const currentUrl = pathname.split('edit')[1];
-  // console.log(currentUrl);
-  return currentUrl;
-}
-
 const CourseLayout = ({ children }: IProps) => {
   const router = useRouter();
   const { id } = router.query;
   const refCourseHeader = useRef<HTMLDivElement>(null);
   const [headerHeight, setHeaderHeight] = useState<number>();
+
+  function getCurrentPath() {
+    const currentUrl = router.pathname.split('edit')[1];
+    // console.log(currentUrl);
+    return currentUrl;
+  }
 
   useEffect(() => {
     getCurrentPath();
