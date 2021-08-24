@@ -1,5 +1,7 @@
+import { useEffect, useState, useMemo } from 'react';
 import { Toolbar, AppBar, useMediaQuery, Button, OutlinedInput } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { throttle } from 'lodash';
 import Link from 'next/link';
 
 const useStyles = makeStyles({
@@ -46,6 +48,29 @@ export default function HeaderLayout() {
   const isMobile = useMediaQuery('(max-width: 1025px)');
 
   const { headerBtn, toolBar, logo, appBar } = useStyles();
+
+  const [isNavOn, setIsNavOn] = useState(false);
+  const throttledScroll = useMemo(
+    () =>
+      throttle(() => {
+        console.log(window.scrollY);
+        console.log(isNavOn);
+        if (window.scrollY > 64) {
+          setIsNavOn(true);
+          return;
+        }
+        setIsNavOn(false);
+      }, 300),
+    [isNavOn]
+  );
+
+  useEffect(() => {
+    window.addEventListener('scroll', throttledScroll);
+    return () => {
+      window.removeEventListener('scroll', throttledScroll);
+      throttledScroll.cancel();
+    };
+  }, []);
 
   const inflearnLogo = () => {
     return (
@@ -120,7 +145,7 @@ export default function HeaderLayout() {
   };
 
   return (
-    <AppBar position="sticky" color="default" className={appBar}>
+    <AppBar position={isNavOn ? 'sticky' : 'relative'} color="default" className={appBar}>
       {displayMenu()}
     </AppBar>
   );
