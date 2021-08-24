@@ -720,3 +720,47 @@ const { classname } = useStyles();
 ```
 
 </details>
+
+<details>
+<summary>2021.08.22, 23(Tony)</summary>
+
+- [ ] edit course layout
+  - [x] column sticky
+  - [x] 현재 페이지에 해당하는 부분 글자 진하게
+  - [ ] modal : 눈길을 끄는 제목 작성 꿀팁
+  - [ ] 페이지 로드 시 관련 데이터 가져와서 필수 조건 작성된 페이지는 초록색으로 v 표시
+- [ ] course_info 페이지 구성
+
+### CourseLayout.tsx
+
+CourseHeaderContainer height + CourseLayoutGrid padding top(24px) + CourseNav padding top(0.75rem == 12px) 의 높이에 sticky
+
+- StepContainer의 headerHeight prop에 바로 넣어 주면 CourseHeaderContainer height가 측정되지 않은 상태(undefined)로 계산이 되서 sticky의 top에 NaN이 들어감(sticky 적용 안됨)
+- 페이지 로드할 때 useState의 headerHeight에 값을 넣어서 나중에 계산된 height값이 반영 되도록 함
+
+### create_course.tsx
+
+- 강의 id를 전달 받고 saga에서 직접 redirect시키도록 함(뒤로가기 안되는 문제 해결)
+
+</details>
+
+<details>
+<summary>2021.08.24(Tony)</summary>
+
+### create_course
+
+- 강의 만들기 버튼을 누르지 않고 input text에서 제목 입력 후 엔터로도 강의 생성되도록 변경
+
+### CourseLayout
+
+- window.location.pathname에서 강의 생성후 수정페이지로 넘어갈 때 window객체를 인식하지 못해서 useRouter를 사용해서 현재 경로를 추적하도록 함
+
+### 데이터 로드해서 넣어야 함
+
+- [ ] 미리 저장했던 데이터 불러와서 데이터 로드해서 넣어야 함
+
+### 카테고리 버튼 중 다른 카테고리 선택하면 현재 선택된 카테고리 색상 원래대로 돌리기
+
+- [ ] 사용하는 곳에서 useState로 변수 하나 만들고 버튼 클릭한 것에 대한 정보(id)를 저장해서 그것과 일치하는지 여부에 따라 true/false를 전달해보자
+
+</details>

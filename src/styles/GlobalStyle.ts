@@ -5,6 +5,7 @@ const Global = createGlobalStyle`
   /* Color */
   --color-light-green : #1dc078;
   --color-dark-grey: #363636;
+  --color-smoky-white: #bdbdbd;
   --color-grey: #616161;
   --color-light-grey: #838383;
   --color-dark-white: #ebebeb;
@@ -12,6 +13,7 @@ const Global = createGlobalStyle`
   --color-yellow: #fdcc11;
   --color-blue: #175cbe;
   --color-light-blue: #3498db;
+  --color-midnight-blue: #333b3d;
   --color-light-pink: hsl(321, 63%, 90%);
   --color-red: #e74c3c;
 }
@@ -53,13 +55,14 @@ button {
   outline: none;
 }
 
-ul {
+ul, li {
   list-style: none;
 }
 
 .container {
   max-width: 1280px;
-  padding: 0 10px;
+  padding-left: 10px;
+  padding-right: 10px;
   margin: auto;
 }
 

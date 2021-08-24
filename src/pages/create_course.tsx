@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import AppLayout from 'src/layouts/AppLayout';
 import { RootState } from 'src/redux/reducers';
-import { CREATE_LECTURE_REQUEST } from 'src/redux/reducers/lecture';
+import { CREATE_LECTURE_REQUEST, LOAD_CREATE_LECTURE } from 'src/redux/reducers/lecture';
 
 const InputTitle = styled.input`
   padding: 0 10px;
@@ -46,6 +46,7 @@ const CreateCourseWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 75px 0;
 `;
 
 const SectionTitle = styled.h3`
@@ -63,6 +64,10 @@ const Message = styled.div`
   font-weight: 600;
 `;
 
+const CreateCourseBtnWrapper = styled.div`
+  text-align: center;
+`;
+
 const CreateCourse = () => {
   const [isTitle, setIsTitle] = useState(false);
   const [message, setMessage] = useState('');
@@ -73,14 +78,21 @@ const CreateCourse = () => {
     (state: RootState) => state.lecture
   );
 
-  useEffect(() => {
-    console.log('create_course useEffect');
-    if (createLectureDone) {
-      const { id } = createLectureData;
-      router.push(`/course/${id}/edit/course_info`);
-    }
-  }, [createLectureDone]);
-  const onClickBtnCreate = async () => {
+  // useEffect(() => { // 이렇게 해도 아래 useEffect가 실행이 돼서 뒤로가기를 두번 눌러야 만들기 페이지로 이동됨
+  //   dispatch({
+  //     type: LOAD_CREATE_LECTURE,
+  //   });
+  // }, []);
+
+  // useEffect(() => {
+  //   console.log('create_course useEffect');
+  //   if (createLectureDone) {
+  //     console.log('create_course useEffect createLectureDone');
+  //     const { id } = createLectureData;
+  //     router.push(`/course/${id}/edit/course_info`);
+  //   }
+  // }, [createLectureDone]);
+  const handleSubmit = async () => {
     const title = inputTitle?.current?.value;
     console.log('title', title);
     if (!title) {
@@ -94,7 +106,11 @@ const CreateCourse = () => {
     });
   };
 
-  const watchingInputText = () => {
+  const watchingInputText = (event: KeyboardEvent) => {
+    if (event.keyCode === 13) {
+      console.log('keyCode');
+      handleSubmit();
+    }
     const title = inputTitle?.current?.value;
     if (!title) {
       setMessage('제목을 입력해 주세요');
@@ -115,10 +131,12 @@ const CreateCourse = () => {
           <InputTitle onKeyUp={watchingInputText} ref={inputTitle} type="text" placeholder="제목을 입력해주세요." />
           {isTitle && <Message>{message}</Message>}
         </div>
-        <BtnMakeCourse loading={createLectureLoading} type="button" onClick={onClickBtnCreate}>
+      </CreateCourseWrapper>
+      <CreateCourseBtnWrapper>
+        <BtnMakeCourse loading={createLectureLoading} type="button" onClick={handleSubmit}>
           강의 만들기
         </BtnMakeCourse>
-      </CreateCourseWrapper>
+      </CreateCourseBtnWrapper>
     </AppLayout>
   );
 };
