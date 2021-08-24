@@ -1,12 +1,26 @@
 import { useEffect, useState, useMemo } from 'react';
-import { Toolbar, AppBar, useMediaQuery, Button, OutlinedInput, Box } from '@material-ui/core';
+import {
+  Toolbar,
+  AppBar,
+  useMediaQuery,
+  Button,
+  OutlinedInput,
+  Box,
+  IconButton,
+  Drawer,
+  MenuItem,
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import MenuIcon from '@material-ui/icons/Menu';
 import { throttle } from 'lodash';
 import Link from 'next/link';
 
 const useStyles = makeStyles({
   appBar: {
     alignItems: 'center',
+    '@media (max-width: 1025px)': {
+      height: '50px',
+    },
   },
   headerBtn: {
     fontSize: '1rem',
@@ -18,6 +32,11 @@ const useStyles = makeStyles({
     maxWidth: '1180px',
     width: '100%',
     padding: 0,
+    '@media (max-width: 1025px)': {
+      minHeight: '50px',
+      maxWidth: '1025px',
+      padding: '0 0 0 10px',
+    },
   },
   logo: {
     padding: '0 20px 0 0',
@@ -58,6 +77,7 @@ export default function HeaderLayout() {
   };
   const { headerBtn, toolBar, logo, right, appBar } = useStyles(styleProps);
 
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const [isNavOn, setIsNavOn] = useState(false);
   const throttledScroll = useMemo(
     () =>
@@ -117,10 +137,14 @@ export default function HeaderLayout() {
     });
   };
 
+  const getSearchInput = () => {
+    return <>{isMobile ? '' : <OutlinedInput />}</>;
+  };
+
   const getAccountButton = () => {
     return (
       <Box component="div" className={right}>
-        {isMobile ? '' : <OutlinedInput />}
+        {getSearchInput()}
         <Button>로그인</Button>
         <Button>
           <Link href="/signup">
@@ -131,11 +155,46 @@ export default function HeaderLayout() {
     );
   };
 
-  const displayMenu = () => {
+  const displayMobile = () => {
+    const handleDraswerOpen = () => {
+      setDrawerOpen(true);
+    };
+
+    const handleDraswerClose = () => {
+      setDrawerOpen(false);
+    };
+
+    const getDrawerChoices = () => {
+      return headersData.map(({ label, href }) => {
+        return (
+          <Link href={href}>
+            <a>
+              <MenuItem>{label}</MenuItem>
+            </a>
+          </Link>
+        );
+      });
+    };
+
+    return (
+      <Toolbar className={toolBar}>
+        <IconButton edge="start" aria-label="menu" aria-haspopup onClick={handleDraswerOpen}>
+          <MenuIcon />
+        </IconButton>
+        <Drawer anchor="left" open={drawerOpen} onClose={handleDraswerClose}>
+          <div>{getDrawerChoices()}</div>
+        </Drawer>
+        {inflearnLogo()}
+        {getAccountButton()}
+      </Toolbar>
+    );
+  };
+
+  const displayDesktop = () => {
     return (
       <Toolbar className={toolBar}>
         {inflearnLogo()}
-        {isMobile ? '' : getMenuButton()}
+        {getMenuButton()}
         {getAccountButton()}
       </Toolbar>
     );
@@ -143,7 +202,7 @@ export default function HeaderLayout() {
 
   return (
     <AppBar position={isNavOn ? 'sticky' : 'relative'} color="default" className={appBar}>
-      {displayMenu()}
+      {isMobile ? displayMobile() : displayDesktop()}
     </AppBar>
   );
 }
