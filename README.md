@@ -755,4 +755,12 @@ CourseHeaderContainer height + CourseLayoutGrid padding top(24px) + CourseNav pa
 
 - window.location.pathname에서 강의 생성후 수정페이지로 넘어갈 때 window객체를 인식하지 못해서 useRouter를 사용해서 현재 경로를 추적하도록 함
 
+### 데이터 로드해서 넣어야 함
+
+- [ ] 미리 저장했던 데이터 불러와서 데이터 로드해서 넣어야 함
+
+### 카테고리 버튼 중 다른 카테고리 선택하면 현재 선택된 카테고리 색상 원래대로 돌리기
+
+- [ ] 사용하는 곳에서 useState로 변수 하나 만들고 버튼 클릭한 것에 대한 정보(id)를 저장해서 그것과 일치하는지 여부에 따라 true/false를 전달해보자
+
 </details>
