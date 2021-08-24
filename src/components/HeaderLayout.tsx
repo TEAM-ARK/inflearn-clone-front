@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo } from 'react';
-import { Toolbar, AppBar, useMediaQuery, Button, OutlinedInput } from '@material-ui/core';
+import { Toolbar, AppBar, useMediaQuery, Button, OutlinedInput, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { throttle } from 'lodash';
 import Link from 'next/link';
@@ -7,17 +7,23 @@ import Link from 'next/link';
 const useStyles = makeStyles({
   appBar: {
     alignItems: 'center',
-    top: 0,
   },
   headerBtn: {
     fontSize: '1rem',
     padding: '.5rem 1.3rem',
   },
   toolBar: {
-    padding: '0 10px',
+    display: 'flex',
+    margin: 'auto',
+    maxWidth: '1180px',
+    width: '100%',
+    padding: 0,
   },
   logo: {
     padding: '0 20px 0 0',
+  },
+  right: {
+    marginLeft: 'auto',
   },
 });
 
@@ -47,21 +53,22 @@ const headersData = [
 export default function HeaderLayout() {
   const isMobile = useMediaQuery('(max-width: 1025px)');
 
-  const { headerBtn, toolBar, logo, appBar } = useStyles();
+  const styleProps = {
+    isMobileLogo: 'center',
+  };
+  const { headerBtn, toolBar, logo, right, appBar } = useStyles(styleProps);
 
   const [isNavOn, setIsNavOn] = useState(false);
   const throttledScroll = useMemo(
     () =>
       throttle(() => {
-        console.log(window.scrollY);
-        console.log(isNavOn);
         if (window.scrollY > 64) {
           setIsNavOn(true);
           return;
         }
         setIsNavOn(false);
       }, 300),
-    [isNavOn]
+    []
   );
 
   useEffect(() => {
@@ -70,7 +77,7 @@ export default function HeaderLayout() {
       window.removeEventListener('scroll', throttledScroll);
       throttledScroll.cancel();
     };
-  }, []);
+  }, [throttledScroll]);
 
   const inflearnLogo = () => {
     return (
@@ -101,13 +108,7 @@ export default function HeaderLayout() {
   const getMenuButton = () => {
     return headersData.map(({ label, href }) => {
       return (
-        <Button
-          {...{
-            key: label,
-            component: 'div',
-            className: headerBtn,
-          }}
-        >
+        <Button key={label} component="div" className={headerBtn}>
           <Link href={href}>
             <a>{label}</a>
           </Link>
@@ -116,20 +117,17 @@ export default function HeaderLayout() {
     });
   };
 
-  const getSearchInput = () => {
-    return <OutlinedInput />;
-  };
-
   const getAccountButton = () => {
     return (
-      <>
+      <Box component="div" className={right}>
+        {isMobile ? '' : <OutlinedInput />}
         <Button>로그인</Button>
         <Button>
           <Link href="/signup">
             <a>회원가입</a>
           </Link>
         </Button>
-      </>
+      </Box>
     );
   };
 
@@ -138,7 +136,6 @@ export default function HeaderLayout() {
       <Toolbar className={toolBar}>
         {inflearnLogo()}
         {isMobile ? '' : getMenuButton()}
-        {getSearchInput()}
         {getAccountButton()}
       </Toolbar>
     );
