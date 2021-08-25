@@ -759,8 +759,81 @@ CourseHeaderContainer height + CourseLayoutGrid padding top(24px) + CourseNav pa
 
 - [ ] 미리 저장했던 데이터 불러와서 데이터 로드해서 넣어야 함
 
+</details>
+
+<details>
+<summary>2021.08.25(Tony)</summary>
+
 ### 카테고리 버튼 중 다른 카테고리 선택하면 현재 선택된 카테고리 색상 원래대로 돌리기
 
-- [ ] 사용하는 곳에서 useState로 변수 하나 만들고 버튼 클릭한 것에 대한 정보(id)를 저장해서 그것과 일치하는지 여부에 따라 true/false를 전달해보자
+- 사용하는 곳에서 useState로 변수 하나 만들고 그것을 prop으로 전달
+
+```typescript
+// course_info.tsx
+const [selectedId, setSelectedId] = useState<string>('');
+
+<CourseCommonButton id="1" text="개발, 프로그래밍" selectedId={selectedId} setSelectedId={setSelectedId} />;
+```
+
+- 버튼 컴포넌트의 onClick에서 버튼 클릭한 것에 대한 정보(id)를 저장
+- 버튼 컴포넌트 안의 useEffect에서 그것과 일치하는지 여부에 따라 true/false를 styled component에 전달
+
+```typescript
+// CourseCommonButton.tsx
+const CourseCommonButton = ({ id, text, selectedId, setSelectedId }: Props) => {
+  const [isSelected, setIsSelected] = useState(false);
+
+  function onClickButton() {
+    setSelectedId(id);
+  }
+
+  useEffect(() => {
+    if (id === selectedId) {
+      setIsSelected(true);
+    } else {
+      setIsSelected(false);
+    }
+  }, [selectedId]);
+
+  return (
+    <CourseCommonButtonStyle onClick={onClickButton} key={id} isSelected={isSelected}>
+      {text}
+    </CourseCommonButtonStyle>
+  );
+};
+```
+
+### 추가 하기 버튼 누르면 add components dynamically
+
+- 리덕스에서 state(array)를 가져와서 추가해야 될 것 같다
+
+#### 예상 데이터 구성
+
+```typescript
+data : {
+  createLecture : {
+    courseInfo : {
+      title: string, // 강의 제목
+      whatYouCanLearn: string[], // 이런걸 배울 수 있어요
+      expectedStudents: string[], // 이런 분들에게 추천해요
+      requiredKnowledge: string[], // 선수지식
+      category: { // 카테고리
+        id: string,
+        name: string,
+      },
+      level: string // 강의 수준
+    }
+    // 상세소개, 커리큘럼, 커버이미지 정보는 나중에
+  },
+  setting : {
+    // 강의설정
+    // 지식공유자 설정
+  }
+}
+```
+
+### 참고 문헌
+
+- [dynamically-add-child-components-in-react](https://stackoverflow.com/questions/36651583/dynamically-add-child-components-in-react)
 
 </details>
