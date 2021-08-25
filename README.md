@@ -803,4 +803,37 @@ const CourseCommonButton = ({ id, text, selectedId, setSelectedId }: Props) => {
 };
 ```
 
+### 추가 하기 버튼 누르면 add components dynamically
+
+- 리덕스에서 state(array)를 가져와서 추가해야 될 것 같다
+
+#### 예상 데이터 구성
+
+```typescript
+data : {
+  createLecture : {
+    courseInfo : {
+      title: string, // 강의 제목
+      whatYouCanLearn: string[], // 이런걸 배울 수 있어요
+      expectedStudents: string[], // 이런 분들에게 추천해요
+      requiredKnowledge: string[], // 선수지식
+      category: { // 카테고리
+        id: string,
+        name: string,
+      },
+      level: string // 강의 수준
+    }
+    // 상세소개, 커리큘럼, 커버이미지 정보는 나중에
+  },
+  setting : {
+    // 강의설정
+    // 지식공유자 설정
+  }
+}
+```
+
+### 참고 문헌
+
+- [dynamically-add-child-components-in-react](https://stackoverflow.com/questions/36651583/dynamically-add-child-components-in-react)
+
 </details>
