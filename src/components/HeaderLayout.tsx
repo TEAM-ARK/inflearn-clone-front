@@ -12,6 +12,7 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
+import SearchIcon from '@material-ui/icons/Search';
 import { throttle } from 'lodash';
 import Link from 'next/link';
 
@@ -25,6 +26,10 @@ const useStyles = makeStyles({
   headerBtn: {
     fontSize: '1rem',
     padding: '.5rem 1.3rem',
+    '&:hover': {
+      background: 'none',
+      color: '#1dc078',
+    },
   },
   toolBar: {
     display: 'flex',
@@ -40,9 +45,28 @@ const useStyles = makeStyles({
   },
   logo: {
     padding: '0 20px 0 0',
+    '&:hover': {
+      background: 'none',
+    },
   },
   right: {
     marginLeft: 'auto',
+  },
+  signinBtn: {
+    border: '1px solid #dbdbdb',
+    padding: '8px',
+    margin: '0 16px 0 16px',
+    '&:hover': {
+      background: 'none',
+    },
+  },
+  signupBtn: {
+    background: '#ff7867',
+    color: 'white',
+    padding: '8px',
+    '&:hover': {
+      background: '#ff7867',
+    },
   },
 });
 
@@ -75,7 +99,7 @@ export default function HeaderLayout() {
   const styleProps = {
     isMobileLogo: 'center',
   };
-  const { headerBtn, toolBar, logo, right, appBar } = useStyles(styleProps);
+  const { headerBtn, toolBar, logo, right, appBar, signupBtn, signinBtn } = useStyles(styleProps);
 
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [isNavOn, setIsNavOn] = useState(false);
@@ -101,7 +125,7 @@ export default function HeaderLayout() {
 
   const inflearnLogo = () => {
     return (
-      <Button component="div" className={logo}>
+      <Button component="div" className={isMobile ? `${logo} ${right}` : logo}>
         <Link href="/">
           <a>
             <svg width="110" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 433 90">
@@ -138,15 +162,15 @@ export default function HeaderLayout() {
   };
 
   const getSearchInput = () => {
-    return <>{isMobile ? '' : <OutlinedInput />}</>;
+    return <>{isMobile ? '' : <OutlinedInput margin="dense" endAdornment={<SearchIcon />} />}</>;
   };
 
   const getAccountButton = () => {
     return (
       <Box component="div" className={right}>
         {getSearchInput()}
-        <Button>로그인</Button>
-        <Button>
+        <Button className={signinBtn}>로그인</Button>
+        <Button className={signupBtn}>
           <Link href="/signup">
             <a>회원가입</a>
           </Link>
@@ -182,7 +206,7 @@ export default function HeaderLayout() {
           <MenuIcon />
         </IconButton>
         <Drawer anchor="left" open={drawerOpen} onClose={handleDraswerClose}>
-          <div>{getDrawerChoices()}</div>
+          {getDrawerChoices()}
         </Drawer>
         {inflearnLogo()}
         {getAccountButton()}
