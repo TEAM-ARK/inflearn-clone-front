@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 type StyleProps = {
@@ -19,19 +19,29 @@ const CourseCommonButtonStyle = styled.button<StyleProps>`
 `;
 
 type Props = {
-  key: string;
+  id: string;
   text: string;
+  selectedId: string;
+  setSelectedId: React.Dispatch<React.SetStateAction<string>>;
 };
 
-const CourseCommonButton = ({ key, text }: Props) => {
+const CourseCommonButton = ({ id, text, selectedId, setSelectedId }: Props) => {
   const [isSelected, setIsSelected] = useState(false);
+
   function onClickButton() {
-    setIsSelected(true);
-    // 리덕스 연결 해서 현재 선택된 key(category id)를 저장
+    setSelectedId(id);
   }
 
+  useEffect(() => {
+    if (id === selectedId) {
+      setIsSelected(true);
+    } else {
+      setIsSelected(false);
+    }
+  }, [selectedId]);
+
   return (
-    <CourseCommonButtonStyle onClick={onClickButton} key={key} isSelected={isSelected}>
+    <CourseCommonButtonStyle onClick={onClickButton} key={id} isSelected={isSelected}>
       {text}
     </CourseCommonButtonStyle>
   );

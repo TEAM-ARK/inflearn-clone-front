@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import CourseCommonButton from '@components/courseEdit/CourseCommonButton';
@@ -71,6 +71,7 @@ const CourseInfo = () => {
   const {
     createLectureData: { title },
   } = useSelector((state: RootState) => state.lecture);
+  const [selectedId, setSelectedId] = useState<string>('');
 
   return (
     <CourseLayout>
@@ -102,9 +103,9 @@ const CourseInfo = () => {
       </FieldDiv>
       <FieldDiv>
         <Label>카테고리</Label>
-        <CourseCommonButton key="1" text="개발, 프로그래밍" />
-        <CourseCommonButton key="2" text="보안, 네트워크" />
-        <CourseCommonButton key="3" text="데이터 사이언스" />
+        <CourseCommonButton id="1" text="개발, 프로그래밍" selectedId={selectedId} setSelectedId={setSelectedId} />
+        <CourseCommonButton id="2" text="보안, 네트워크" selectedId={selectedId} setSelectedId={setSelectedId} />
+        <CourseCommonButton id="3" text="데이터 사이언스" selectedId={selectedId} setSelectedId={setSelectedId} />
       </FieldDiv>
     </CourseLayout>
   );
