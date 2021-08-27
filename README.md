@@ -4,7 +4,7 @@
 
 인프런 웹앱을 만들어보는 팀프로젝트
 
-[Inflearn-clone-back repository](https://github.com/TaehwanGo/inflearn-clone-back)
+[Inflearn-clone-back repository](https://github.com/Ark-inflearn/inflearn-clone-back)
 
 ---
 
