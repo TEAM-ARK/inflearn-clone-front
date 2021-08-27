@@ -837,3 +837,43 @@ data : {
 - [dynamically-add-child-components-in-react](https://stackoverflow.com/questions/36651583/dynamically-add-child-components-in-react)
 
 </details>
+<details>
+<summary>2021.08.27(NOAH)</summary>
+
+### HeaderLayout
+
+- 메뉴바 포지션 수정
+
+  - 메뉴바가 평소에는 relative였다가 메뉴바 크기만큼 내려올 경우 sticky로 바뀌도록 수정
+  - scroll 이벤트가 너무 자주 불리기 때문에 lodash 라이브러리의 throttle 기능을 사용하여 0.3초에 한 번만 불리도록 구현
+
+```typescript
+const throttledScroll = useMemo(
+  () =>
+    throttle(() => {
+      if (window.scrollY > 64) {
+        setIsNavOn(true);
+        return;
+      }
+      setIsNavOn(false);
+    }, 300),
+  []
+);
+```
+
+- 모바일용 메뉴바
+  - 인프런 페이지와 같이 모바일 화면( 1025px)이하로 내려갈 경우 Layout이 변경되도록 구현
+  - 메뉴를 팝업으로 띄워지도록 함
+
+### HeaderLayout 구현해야 할 것
+
+- 로그인 모달창
+- 검색창 기능
+- 메뉴 팝업 기능
+- 모바일 메뉴 팝업 스타일링
+
+### 추 후 확인
+
+- 일단 레이아웃이 되도록 CSS를 덕지덕지 붙여놨는데 효율적으로 할 수 있도록 검토해야 함
+
+</details>

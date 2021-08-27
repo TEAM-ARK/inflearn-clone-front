@@ -1,21 +1,72 @@
-import { Toolbar, AppBar, useMediaQuery, Button, OutlinedInput } from '@material-ui/core';
+import { useEffect, useState, useMemo } from 'react';
+import {
+  Toolbar,
+  AppBar,
+  useMediaQuery,
+  Button,
+  OutlinedInput,
+  Box,
+  IconButton,
+  Drawer,
+  MenuItem,
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import MenuIcon from '@material-ui/icons/Menu';
+import SearchIcon from '@material-ui/icons/Search';
+import { throttle } from 'lodash';
 import Link from 'next/link';
 
 const useStyles = makeStyles({
   appBar: {
     alignItems: 'center',
-    top: 0,
+    '@media (max-width: 1025px)': {
+      height: '50px',
+    },
   },
   headerBtn: {
     fontSize: '1rem',
     padding: '.5rem 1.3rem',
+    '&:hover': {
+      background: 'none',
+      color: '#1dc078',
+    },
   },
   toolBar: {
-    padding: '0 10px',
+    display: 'flex',
+    margin: 'auto',
+    maxWidth: '1180px',
+    width: '100%',
+    padding: 0,
+    '@media (max-width: 1025px)': {
+      minHeight: '50px',
+      maxWidth: '1025px',
+      padding: '0 0 0 10px',
+    },
   },
   logo: {
     padding: '0 20px 0 0',
+    '&:hover': {
+      background: 'none',
+    },
+  },
+  right: {
+    marginLeft: 'auto',
+  },
+  signinBtn: {
+    border: '1px solid #dbdbdb',
+    padding: '8px',
+    margin: '0 16px 0 16px',
+    '&:hover': {
+      background: 'none',
+    },
+  },
+  signupBtn: {
+    background: '#ff7867',
+    color: 'white',
+    padding: '8px',
+    '&:hover': {
+      background: '#ff7867',
+    },
   },
 });
 
@@ -45,11 +96,36 @@ const headersData = [
 export default function HeaderLayout() {
   const isMobile = useMediaQuery('(max-width: 1025px)');
 
-  const { headerBtn, toolBar, logo, appBar } = useStyles();
+  const styleProps = {
+    isMobileLogo: 'center',
+  };
+  const { headerBtn, toolBar, logo, right, appBar, signupBtn, signinBtn } = useStyles(styleProps);
+
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [isNavOn, setIsNavOn] = useState(false);
+  const throttledScroll = useMemo(
+    () =>
+      throttle(() => {
+        if (window.scrollY > 64) {
+          setIsNavOn(true);
+          return;
+        }
+        setIsNavOn(false);
+      }, 300),
+    []
+  );
+
+  useEffect(() => {
+    window.addEventListener('scroll', throttledScroll);
+    return () => {
+      window.removeEventListener('scroll', throttledScroll);
+      throttledScroll.cancel();
+    };
+  }, [throttledScroll]);
 
   const inflearnLogo = () => {
     return (
-      <Button component="div" className={logo}>
+      <Button component="div" className={isMobile ? `${logo} ${right}` : logo}>
         <Link href="/">
           <a>
             <svg width="110" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 433 90">
@@ -76,13 +152,7 @@ export default function HeaderLayout() {
   const getMenuButton = () => {
     return headersData.map(({ label, href }) => {
       return (
-        <Button
-          {...{
-            key: label,
-            component: 'div',
-            className: headerBtn,
-          }}
-        >
+        <Button key={label} component="div" className={headerBtn}>
           <Link href={href}>
             <a>{label}</a>
           </Link>
@@ -92,36 +162,71 @@ export default function HeaderLayout() {
   };
 
   const getSearchInput = () => {
-    return <OutlinedInput />;
+    return <>{isMobile ? '' : <OutlinedInput margin="dense" endAdornment={<SearchIcon />} />}</>;
   };
 
   const getAccountButton = () => {
     return (
-      <>
-        <Button>로그인</Button>
-        <Button>
+      <Box component="div" className={right}>
+        {getSearchInput()}
+        <Button className={signinBtn}>로그인</Button>
+        <Button className={signupBtn}>
           <Link href="/signup">
             <a>회원가입</a>
           </Link>
         </Button>
-      </>
+      </Box>
     );
   };
 
-  const displayMenu = () => {
+  const displayMobile = () => {
+    const handleDraswerOpen = () => {
+      setDrawerOpen(true);
+    };
+
+    const handleDraswerClose = () => {
+      setDrawerOpen(false);
+    };
+
+    const getDrawerChoices = () => {
+      return headersData.map(({ label, href }) => {
+        return (
+          <Link href={href}>
+            <a>
+              <MenuItem>{label}</MenuItem>
+            </a>
+          </Link>
+        );
+      });
+    };
+
+    return (
+      <Toolbar className={toolBar}>
+        <IconButton edge="start" aria-label="menu" aria-haspopup onClick={handleDraswerOpen}>
+          <MenuIcon />
+        </IconButton>
+        <Drawer anchor="left" open={drawerOpen} onClose={handleDraswerClose}>
+          {getDrawerChoices()}
+        </Drawer>
+        {inflearnLogo()}
+        {getAccountButton()}
+      </Toolbar>
+    );
+  };
+
+  const displayDesktop = () => {
     return (
       <Toolbar className={toolBar}>
         {inflearnLogo()}
-        {isMobile ? '' : getMenuButton()}
-        {getSearchInput()}
+        {getMenuButton()}
         {getAccountButton()}
       </Toolbar>
     );
   };
 
   return (
-    <AppBar position="sticky" color="default" className={appBar}>
-      {displayMenu()}
+    <AppBar position={isNavOn ? 'sticky' : 'relative'} color="default" className={appBar}>
+      {isMobile ? displayMobile() : displayDesktop()}
     </AppBar>
   );
 }
