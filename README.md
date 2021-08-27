@@ -837,6 +837,7 @@ data : {
 - [dynamically-add-child-components-in-react](https://stackoverflow.com/questions/36651583/dynamically-add-child-components-in-react)
 
 </details>
+
 <details>
 <summary>2021.08.27(NOAH)</summary>
 
@@ -875,5 +876,22 @@ const throttledScroll = useMemo(
 ### 추 후 확인
 
 - 일단 레이아웃이 되도록 CSS를 덕지덕지 붙여놨는데 효율적으로 할 수 있도록 검토해야 함
+
+</details>
+
+<details>
+<summary>2021.08.27(Tony)</summary>
+
+### 강의생성 후 window api로 페이지 이동시 데이터 날라가는 문제
+
+- window.location.href 를 사용하면 페이지가 새로고침되면서 자바스크립트(리덕스 스토어)에 있는 모든 데이터가 날라감
+
+- react나 next에서 제공하는 router를 saga에서 사용해야 되는데
+  useRouter나 useHistory는 hook이기 때문에 component가 아닌 saga에선 사용이 불가능 함(hooks rule)
+
+- 문제 해결
+  - saga에서 페이지 이동을 시키려 했으나 위와 같은 문제로 잘 되지 않음
+  - 'history', 'react-router-redux' 라이브러리 둘다 써봤는데 typescript문제인지 next문제인지 뭔지 잘 되지 않음
+  - 기존 방식 대로 컴포넌트에서 페이지를 이동 시키는 대신 flag로 사용중인 done변수를 false로 만드는 dispatch를 실행문 마지막에 추가해서 성공
 
 </details>

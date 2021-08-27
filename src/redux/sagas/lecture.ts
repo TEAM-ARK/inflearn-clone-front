@@ -1,6 +1,5 @@
 import { all, call, delay, fork, put, takeLatest, throttle } from '@redux-saga/core/effects';
 import axios from 'axios';
-import { useRouter } from 'next/dist/client/router';
 import { generateDummyLectureList, mainSliderData } from 'src/api/dummyData';
 import {
   CREATE_LECTURE_FAILURE,
@@ -73,7 +72,6 @@ function* createLecture(action: IAction): any {
       // data: result?.data?.lectureId,
       data: 1,
     });
-    yield (window.location.href = `/course/${1}/edit/course_info`);
   } catch (err) {
     yield put({
       type: CREATE_LECTURE_FAILURE,
