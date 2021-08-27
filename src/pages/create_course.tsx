@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import AppLayout from 'src/layouts/AppLayout';
 import { RootState } from 'src/redux/reducers';
-import { CREATE_LECTURE_REQUEST, LOAD_CREATE_LECTURE } from 'src/redux/reducers/lecture';
+import { CREATE_LECTURE_REQUEST, DONE_CREATE_LECTURE } from 'src/redux/reducers/lecture';
 
 const InputTitle = styled.input`
   padding: 0 10px;
@@ -78,20 +78,16 @@ const CreateCourse = () => {
     (state: RootState) => state.lecture
   );
 
-  // useEffect(() => { // 이렇게 해도 아래 useEffect가 실행이 돼서 뒤로가기를 두번 눌러야 만들기 페이지로 이동됨
-  //   dispatch({
-  //     type: LOAD_CREATE_LECTURE,
-  //   });
-  // }, []);
+  useEffect(() => {
+    if (createLectureDone) {
+      const { id } = createLectureData;
+      dispatch({
+        type: DONE_CREATE_LECTURE,
+      });
+      router.push(`/course/${id}/edit/course_info`);
+    }
+  }, [createLectureDone]);
 
-  // useEffect(() => {
-  //   console.log('create_course useEffect');
-  //   if (createLectureDone) {
-  //     console.log('create_course useEffect createLectureDone');
-  //     const { id } = createLectureData;
-  //     router.push(`/course/${id}/edit/course_info`);
-  //   }
-  // }, [createLectureDone]);
   const handleSubmit = async () => {
     const title = inputTitle?.current?.value;
     console.log('title', title);
