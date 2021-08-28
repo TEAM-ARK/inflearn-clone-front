@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import { NextRouter, useRouter } from 'next/dist/client/router';
+import { useRouter } from 'next/dist/client/router';
 import Link from 'next/link';
 import styled from 'styled-components';
 import Header from '@components/HeaderLayout';
@@ -127,7 +127,7 @@ const CourseLayout = ({ children }: IProps) => {
   const router = useRouter();
   const { id } = router.query;
   const refCourseHeader = useRef<HTMLDivElement>(null);
-  const [headerHeight, setHeaderHeight] = useState<number>();
+  const [headerHeight, setHeaderHeight] = useState<number>(64);
 
   function getCurrentPath() {
     const currentUrl = router.pathname.split('edit')[1];
@@ -137,7 +137,9 @@ const CourseLayout = ({ children }: IProps) => {
 
   useEffect(() => {
     getCurrentPath();
-    setHeaderHeight(refCourseHeader.current?.clientHeight);
+    if (refCourseHeader.current) {
+      setHeaderHeight(refCourseHeader.current.clientHeight);
+    }
   }, [headerHeight]);
   return (
     <CourseLayoutContainer>
