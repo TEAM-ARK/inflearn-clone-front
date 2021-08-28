@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import CourseCommonButton from '@components/courseEdit/CourseCommonButton';
@@ -6,6 +6,7 @@ import CourseTitle from '@components/courseEdit/CourseTitle';
 import CourseTitleLabel from '@components/courseEdit/CourseTitleLabel';
 import CourseLayout from 'src/layouts/CourseLayout';
 import { RootState } from 'src/redux/reducers';
+import { ILectureInfo } from 'src/redux/reducers/types';
 
 const BoxInput = styled.input`
   border: 0;
@@ -67,11 +68,17 @@ const OptionalText = styled.span`
   font-weight: 400;
 `;
 
-const CourseInfo = () => {
-  const {
-    createLectureData: { title },
-  } = useSelector((state: RootState) => state.lecture);
+type Props = {
+  courseInfo: ILectureInfo;
+};
+
+const CourseInfo = ({ courseInfo }: Props) => {
+  const { createLectureData } = useSelector((state: RootState) => state.lecture);
+  const title = createLectureData?.title;
   const [selectedId, setSelectedId] = useState<string>('');
+  useEffect(() => {
+    console.log('courseInfo', courseInfo);
+  }, []);
 
   return (
     <CourseLayout>

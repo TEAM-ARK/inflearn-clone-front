@@ -1,5 +1,5 @@
 import produce from 'immer';
-import { IAction, ICreateLectureData, ILecture, IMainSliderData } from './types';
+import { IAction, ILectureInfo, ILecture, IMainSliderData, LectureData } from './types';
 
 // redux lecture state
 export interface ILectureState {
@@ -13,7 +13,10 @@ export interface ILectureState {
   createLectureLoading: boolean;
   createLectureDone: boolean;
   createLectureError?: string;
-  createLectureData: ICreateLectureData;
+  createLectureData: ILectureInfo;
+  editLectureLoading: boolean;
+  editLectureError?: string;
+  lectureData?: LectureData; // edit page layout에서 불러오는 data
 }
 
 export const initialState: ILectureState = {
@@ -25,9 +28,18 @@ export const initialState: ILectureState = {
   loadSliderLoading: true,
   loadSliderError: '',
   createLectureLoading: false,
-  createLectureData: { id: undefined, title: undefined },
+  createLectureData: {
+    id: undefined,
+    title: undefined,
+    whatYouCanLearn: [],
+    expectedStudents: [],
+    requiredKnowledge: [],
+    category: [],
+    level: '',
+  },
   createLectureError: undefined,
   createLectureDone: false,
+  editLectureLoading: false,
 };
 
 // action types
@@ -44,6 +56,11 @@ export const CREATE_LECTURE_SUCCESS = 'CREATE_LECTURE_SUCCESS';
 export const CREATE_LECTURE_FAILURE = 'CREATE_LECTURE_FAILURE';
 
 export const DONE_CREATE_LECTURE = 'DONE_CREATE_LECTURE';
+
+// edit course page action
+export const LOAD_EDIT_LECTURE_REQUEST = 'LOAD_EDIT_LECTURE_REQUEST';
+export const LOAD_EDIT_LECTURE_SUCCESS = 'LOAD_EDIT_LECTURE_SUCCESS';
+export const LOAD_EDIT_LECTURE_FAILURE = 'LOAD_EDIT_LECTURE_FAILURE';
 
 // reducer
 const reducer = (state = initialState, action: IAction) => {
@@ -91,6 +108,18 @@ const reducer = (state = initialState, action: IAction) => {
         break;
       case DONE_CREATE_LECTURE:
         draft.createLectureDone = false;
+        break;
+
+      case LOAD_EDIT_LECTURE_REQUEST:
+        draft.editLectureLoading = true;
+        break;
+      case LOAD_EDIT_LECTURE_SUCCESS:
+        draft.editLectureLoading = false;
+        draft.lectureData = action.data;
+        break;
+      case LOAD_EDIT_LECTURE_FAILURE:
+        draft.editLectureLoading = false;
+        draft.editLectureError = action.error;
         break;
 
       // 나머지 추후 추가 예정
