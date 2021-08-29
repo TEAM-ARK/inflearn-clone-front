@@ -905,6 +905,20 @@ const throttledScroll = useMemo(
 
 ### children component에 props 전달하기
 
+```typescript
+<CourseMain>
+  {console.log('React.isValidElement(children)', React.isValidElement(children))}
+  {React.isValidElement(children) && React.cloneElement(children, { lectureData })}
+  {/* {React.Children.map<React.ReactNode, React.ReactNode>(children, (child) => {
+            if (React.isValidElement(child)) {
+              return React.cloneElement(child, { lectureData });
+            }
+          })} */}
+  {/* {children} */}
+</CourseMain>
+// 결론 안됨 => each child에서 store에서 데이터 가져오기
+```
+
 - each child에서 store에서 데이터 가져오기
 
 ### typescript에서 initial data 를 하나하나 다 넣어줘야되는건지 알아보기

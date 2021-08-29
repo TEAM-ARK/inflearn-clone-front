@@ -7,7 +7,6 @@ import styled from 'styled-components';
 import Header from '@components/HeaderLayout';
 import { RootState } from 'src/redux/reducers';
 import { LOAD_EDIT_LECTURE_REQUEST } from 'src/redux/reducers/lecture';
-import { IAction } from 'src/redux/reducers/types';
 
 const CourseLayoutContainer = styled.section`
   background-color: #f5f5f5;
@@ -208,16 +207,7 @@ const CourseLayout = ({ children }: IProps) => {
             </StepItem>
           </StepContainer>
         </CourseNav>
-        <CourseMain>
-          {console.log('React.isValidElement(children)', React.isValidElement(children))}
-          {React.isValidElement(children) && React.cloneElement(children, { lectureData })}
-          {/* {React.Children.map<React.ReactNode, React.ReactNode>(children, (child) => {
-            if (React.isValidElement(child)) {
-              return React.cloneElement(child, { lectureData });
-            }
-          })} */}
-          {/* {children} */}
-        </CourseMain>
+        <CourseMain>{children}</CourseMain>
         <CourseAside>
           <StepContainer headerHeight={headerHeight}>눈길을 끄는 제목 작성 꿀팁!</StepContainer>
         </CourseAside>

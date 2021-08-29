@@ -68,17 +68,13 @@ const OptionalText = styled.span`
   font-weight: 400;
 `;
 
-type Props = {
-  lectureData: LectureData;
-};
-
-function CourseInfo({ lectureData }: Props) {
-  const { createLectureData } = useSelector((state: RootState) => state.lecture);
+function CourseInfo() {
+  const { createLectureData, lectureData } = useSelector((state: RootState) => state.lecture);
   const title = createLectureData?.title;
   const [selectedId, setSelectedId] = useState<string>('');
   useEffect(() => {
     console.log('CourseInfo lectureData', lectureData);
-  }, []);
+  }, [lectureData]);
 
   return (
     <CourseLayout>
