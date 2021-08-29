@@ -895,3 +895,46 @@ const throttledScroll = useMemo(
   - 기존 방식 대로 컴포넌트에서 페이지를 이동 시키는 대신 flag로 사용중인 done변수를 false로 만드는 dispatch를 실행문 마지막에 추가해서 성공
 
 </details>
+
+<details>
+<summary>2021.08.28(Tony)</summary>
+
+### 강의 수정 페이지 로드 시 데이터 받아오기(redux saga)
+
+- 확인
+
+### children component에 props 전달하기
+
+```typescript
+<CourseMain>
+  {console.log('React.isValidElement(children)', React.isValidElement(children))}
+  {React.isValidElement(children) && React.cloneElement(children, { lectureData })}
+  {/* {React.Children.map<React.ReactNode, React.ReactNode>(children, (child) => {
+            if (React.isValidElement(child)) {
+              return React.cloneElement(child, { lectureData });
+            }
+          })} */}
+  {/* {children} */}
+</CourseMain>
+// 결론 안됨 => each child에서 store에서 데이터 가져오기
+```
+
+- each child에서 store에서 데이터 가져오기
+
+### typescript에서 initial data 를 하나하나 다 넣어줘야되는건지 알아보기
+
+- 초기값을 다 넣어줘야 될 것 같음
+
+### 참고문헌
+
+- [children component에 props 전달하기](https://eomtttttt-develop.tistory.com/203)
+  - `This JSX tag's 'children' prop expects a single child of type 'ReactElement<any, string | JSXElementConstructor<any>>', but multiple children were provided.` => 안됨
+  - https://stackoverflow.com/questions/42261783/how-to-assign-the-correct-typing-to-react-cloneelement-when-giving-properties-to
+    - 안됨 : React.isValidElement(children) 통과가 안됨
+  - https://www.geeksforgeeks.org/how-to-use-react-cloneelement-function/
+  - [리액트 요소 검증하기](https://webisfree.com/2020-08-26/[react]-%EB%A6%AC%EC%95%A1%ED%8A%B8-%EC%9A%94%EC%86%8C-%EA%B2%80%EC%A6%9D%ED%95%98%EA%B8%B0-isvalidelement)
+    - 하나 짜리만 됨(`<div>하나<div>` 같은)
+      - 하나 짜리도 props 전달이 잘 안됨
+- [react-children with typescript](https://www.carlrippon.com/react-children-with-typescript/)
+
+</details>

@@ -1,6 +1,6 @@
 import faker from 'faker';
 import shortId from 'shortid';
-import { ILecture, IMainSliderData, IUser } from 'src/redux/reducers/types';
+import { ILecture, IMainSliderData, IUser, LectureData } from 'src/redux/reducers/types';
 
 export const dummyUser: IUser = {
   id: 1,
@@ -135,3 +135,24 @@ export const mainSliderData: IMainSliderData[] = [
     btnTitle: '인프런은 🌱',
   },
 ];
+
+export const dummyLectureEditData: LectureData = {
+  courseInfo: {
+    id: 1,
+    title: 'title from server',
+    whatYouCanLearn: ['당신은', '이것을', '배울 수 있습니다.'],
+    expectedStudents: ['예상', '되는', '수강생들'],
+    requiredKnowledge: ['자신만의', '철학', '열정'],
+    category: [
+      {
+        id: '1',
+        name: 'category1',
+      },
+      {
+        id: '2',
+        name: 'category2',
+      },
+    ],
+    level: 'basic',
+  },
+};

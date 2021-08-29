@@ -53,7 +53,20 @@ export interface IAction {
 }
 
 // CreateLectureData
-export interface ICreateLectureData {
+export interface ILectureInfo {
   id?: number;
   title?: string;
+  whatYouCanLearn: string[];
+  expectedStudents: string[];
+  requiredKnowledge: string[];
+  category: {
+    id: string;
+    name: string;
+  }[];
+  level: string;
 }
+
+// Lecture data on load edit page
+export type LectureData = {
+  courseInfo: ILectureInfo;
+};

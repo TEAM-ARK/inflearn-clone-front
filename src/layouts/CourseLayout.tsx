@@ -1,9 +1,12 @@
 import React, { useRef, useEffect, useState } from 'react';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import { NextRouter, useRouter } from 'next/dist/client/router';
+import { useRouter } from 'next/dist/client/router';
 import Link from 'next/link';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Header from '@components/HeaderLayout';
+import { RootState } from 'src/redux/reducers';
+import { LOAD_EDIT_LECTURE_REQUEST } from 'src/redux/reducers/lecture';
 
 const CourseLayoutContainer = styled.section`
   background-color: #f5f5f5;
@@ -127,7 +130,9 @@ const CourseLayout = ({ children }: IProps) => {
   const router = useRouter();
   const { id } = router.query;
   const refCourseHeader = useRef<HTMLDivElement>(null);
-  const [headerHeight, setHeaderHeight] = useState<number>();
+  const [headerHeight, setHeaderHeight] = useState<number>(64);
+  const dispatch = useDispatch();
+  const { lectureData } = useSelector((state: RootState) => state.lecture);
 
   function getCurrentPath() {
     const currentUrl = router.pathname.split('edit')[1];
@@ -136,8 +141,20 @@ const CourseLayout = ({ children }: IProps) => {
   }
 
   useEffect(() => {
+    dispatch({
+      type: LOAD_EDIT_LECTURE_REQUEST,
+    });
+  }, []);
+
+  useEffect(() => {
+    console.log('lectureData', lectureData);
+  }, [lectureData]);
+
+  useEffect(() => {
     getCurrentPath();
-    setHeaderHeight(refCourseHeader.current?.clientHeight);
+    if (refCourseHeader.current) {
+      setHeaderHeight(refCourseHeader.current.clientHeight);
+    }
   }, [headerHeight]);
   return (
     <CourseLayoutContainer>
