@@ -208,7 +208,16 @@ const CourseLayout = ({ children }: IProps) => {
             </StepItem>
           </StepContainer>
         </CourseNav>
-        <CourseMain>{children}</CourseMain>
+        <CourseMain>
+          {console.log('React.isValidElement(children)', React.isValidElement(children))}
+          {React.isValidElement(children) && React.cloneElement(children, { lectureData })}
+          {/* {React.Children.map<React.ReactNode, React.ReactNode>(children, (child) => {
+            if (React.isValidElement(child)) {
+              return React.cloneElement(child, { lectureData });
+            }
+          })} */}
+          {/* {children} */}
+        </CourseMain>
         <CourseAside>
           <StepContainer headerHeight={headerHeight}>눈길을 끄는 제목 작성 꿀팁!</StepContainer>
         </CourseAside>

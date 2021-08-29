@@ -915,6 +915,12 @@ const throttledScroll = useMemo(
 
 - [children component에 props 전달하기](https://eomtttttt-develop.tistory.com/203)
   - `This JSX tag's 'children' prop expects a single child of type 'ReactElement<any, string | JSXElementConstructor<any>>', but multiple children were provided.` => 안됨
+  - https://stackoverflow.com/questions/42261783/how-to-assign-the-correct-typing-to-react-cloneelement-when-giving-properties-to
+    - 안됨 : React.isValidElement(children) 통과가 안됨
+  - https://www.geeksforgeeks.org/how-to-use-react-cloneelement-function/
+  - [리액트 요소 검증하기](https://webisfree.com/2020-08-26/[react]-%EB%A6%AC%EC%95%A1%ED%8A%B8-%EC%9A%94%EC%86%8C-%EA%B2%80%EC%A6%9D%ED%95%98%EA%B8%B0-isvalidelement)
+    - 하나 짜리만 됨(`<div>하나<div>` 같은)
+      - 하나 짜리도 props 전달이 잘 안됨
 - [react-children with typescript](https://www.carlrippon.com/react-children-with-typescript/)
 
 </details>

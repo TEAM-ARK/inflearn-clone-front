@@ -6,7 +6,7 @@ import CourseTitle from '@components/courseEdit/CourseTitle';
 import CourseTitleLabel from '@components/courseEdit/CourseTitleLabel';
 import CourseLayout from 'src/layouts/CourseLayout';
 import { RootState } from 'src/redux/reducers';
-import { ILectureInfo } from 'src/redux/reducers/types';
+import { ILectureInfo, LectureData } from 'src/redux/reducers/types';
 
 const BoxInput = styled.input`
   border: 0;
@@ -69,15 +69,15 @@ const OptionalText = styled.span`
 `;
 
 type Props = {
-  courseInfo: ILectureInfo;
+  lectureData: LectureData;
 };
 
-const CourseInfo = ({ courseInfo }: Props) => {
+function CourseInfo({ lectureData }: Props) {
   const { createLectureData } = useSelector((state: RootState) => state.lecture);
   const title = createLectureData?.title;
   const [selectedId, setSelectedId] = useState<string>('');
   useEffect(() => {
-    console.log('courseInfo', courseInfo);
+    console.log('CourseInfo lectureData', lectureData);
   }, []);
 
   return (
@@ -116,6 +116,6 @@ const CourseInfo = ({ courseInfo }: Props) => {
       </FieldDiv>
     </CourseLayout>
   );
-};
+}
 
 export default CourseInfo;
