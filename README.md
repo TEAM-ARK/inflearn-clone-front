@@ -938,3 +938,12 @@ const throttledScroll = useMemo(
 - [react-children with typescript](https://www.carlrippon.com/react-children-with-typescript/)
 
 </details>
+
+<details>
+<summary>2021.08.31(Tony)</summary>
+
+### eslint => react/require-default-props
+
+- https://stackoverflow.com/questions/63696724/eslint-problem-with-default-props-in-functional-component-typescript-react
+
+</details>
