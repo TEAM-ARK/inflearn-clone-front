@@ -1,6 +1,6 @@
 import { all, call, delay, fork, put, takeLatest, throttle } from '@redux-saga/core/effects';
 import axios from 'axios';
-import { generateDummyLectureList, mainSliderData } from 'src/api/dummyData';
+import { dummyLectureEditData, generateDummyLectureList, mainSliderData } from 'src/api/dummyData';
 import {
   CREATE_LECTURE_FAILURE,
   CREATE_LECTURE_REQUEST,
@@ -11,6 +11,9 @@ import {
   LOAD_SLIDER_FAILURE,
   LOAD_SLIDER_REQUEST,
   LOAD_SLIDER_SUCCESS,
+  LOAD_EDIT_LECTURE_REQUEST,
+  LOAD_EDIT_LECTURE_SUCCESS,
+  LOAD_EDIT_LECTURE_FAILURE,
 } from '../reducers/lecture';
 import { IAction } from '../reducers/types';
 
@@ -80,6 +83,23 @@ function* createLecture(action: IAction): any {
   }
 }
 
+function* loadEditPage() {
+  try {
+    yield delay(1000);
+    yield put({
+      type: LOAD_EDIT_LECTURE_SUCCESS,
+      data: dummyLectureEditData,
+    });
+  } catch (err) {
+    yield put({
+      type: LOAD_EDIT_LECTURE_FAILURE,
+      error: err,
+    });
+  }
+}
+
+// watch function*
+
 function* watchLoadMainPage() {
   yield throttle(3000, LOAD_ALL_LECTURES_REQUEST, loadMainPage);
 }
@@ -92,6 +112,10 @@ function* watchCreateLecture() {
   yield throttle(1000, CREATE_LECTURE_REQUEST, createLecture);
 }
 
+function* watchLoadEditPage() {
+  yield takeLatest(LOAD_EDIT_LECTURE_REQUEST, loadEditPage);
+}
+
 export default function* lectureSaga() {
-  yield all([fork(watchLoadMainPage), fork(watchLoadSlider), fork(watchCreateLecture)]);
+  yield all([fork(watchLoadMainPage), fork(watchLoadSlider), fork(watchCreateLecture), fork(watchLoadEditPage)]);
 }
