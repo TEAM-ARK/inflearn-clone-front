@@ -18,36 +18,34 @@ const DraggableButton = styled.button`
   cursor: move;
 `;
 
-type Prop = {
-  list?: string[];
-  setTextArray: React.Dispatch<React.SetStateAction<string[] | undefined>>;
+// type Prop = {
+//   list?: string[];
+//   setTextArray: React.Dispatch<React.SetStateAction<string[] | undefined>>;
+// };
+type Props = {
+  item: string;
+  onClick: any;
 };
 
-const TextListBox = ({ list = [], setTextArray }: Prop) => {
-  const onClickDelete = (textList: string[], index: number) => {
-    textList.splice(index, 1);
-    setTextArray([...textList]);
-    console.log('after remove', textList);
-  };
-
+// const TextListBox = ({ list = [], setTextArray }: Prop) => {
+//   const onClickDelete = (textList: string[], index: number) => {
+//     textList.splice(index, 1);
+//     setTextArray([...textList]);
+//     console.log('after remove', textList);
+//   };
+const TextListBox = ({ item, onClick }: Props) => {
   return (
-    <ul>
-      {list.map((item, index) => {
-        return (
-          <DynamicBox key={index}>
-            <div>{item}</div>
-            <div>
-              <button onClick={() => onClickDelete(list, index)} type="button">
-                <DeleteIcon />
-              </button>
-              <DraggableButton>
-                <DragHandleIcon />
-              </DraggableButton>
-            </div>
-          </DynamicBox>
-        );
-      })}
-    </ul>
+    <DynamicBox>
+      <div>{item}</div>
+      <div>
+        <button onClick={onClick} type="button">
+          <DeleteIcon />
+        </button>
+        <DraggableButton>
+          <DragHandleIcon />
+        </DraggableButton>
+      </div>
+    </DynamicBox>
   );
 };
 

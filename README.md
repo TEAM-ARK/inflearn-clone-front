@@ -1032,3 +1032,20 @@ const TextListBox = ({ list = [], setTextArray }: Prop) => {
 - [ ] drag and drop으로 array 순서 변화
 
 </details>
+
+<details>
+<summary>2021.09.01(Tony)</summary>
+
+### 불변성 보장 하면서 array에서 요소 삭제 하기
+
+```javascript
+const arr = ['a', 'b', 'c', 'd', 'e'];
+
+const indexToRemove = 2; // the 'c'
+
+const result = [...arr.slice(0, indexToRemove), ...arr.slice(indexToRemove + 1)];
+
+console.log(result);
+```
+
+</details>

@@ -72,12 +72,16 @@ function CourseInfo() {
   const { createLectureData, lectureData } = useSelector((state: RootState) => state.lecture);
   const title = createLectureData?.title;
   const [selectedId, setSelectedId] = useState<string>('');
-  const [textArray, setTextArray] = useState<string[]>();
+  // const [textArray, setTextArray] = useState<string[]>();
   useEffect(() => {
     console.log('CourseInfo lectureData', lectureData);
-    setTextArray(lectureData?.courseInfo.whatYouCanLearn);
+    // setTextArray(lectureData?.courseInfo.whatYouCanLearn);
   }, [lectureData]);
-
+  const onClickTextBoxDelete = (textList: string[], index: number) => {
+    // textList.splice(index, 1); // slice를 사용해서 기존의 read-only를 해치지 않게 해야 함
+    // dispatch() 각각 다르게 만들어서 사용
+    console.log('after remove', textList);
+  };
   return (
     <CourseLayout>
       <CourseTitleLabel title="강의제작" />
@@ -92,7 +96,16 @@ function CourseInfo() {
         <AddButton>추가하기</AddButton>
         <WarnMessage>두 개 이상 넣어주세요</WarnMessage>
         {/* <TextListBox list={lectureData?.courseInfo.whatYouCanLearn} /> */}
-        <TextListBox list={textArray} setTextArray={setTextArray} />
+        {/* <TextListBox list={textArray} setTextArray={setTextArray} /> */}
+        <ul>
+          {lectureData?.courseInfo.whatYouCanLearn.map((item, index) => (
+            <TextListBox
+              key={index}
+              item={item}
+              onClick={() => onClickTextBoxDelete(lectureData?.courseInfo.whatYouCanLearn, index)}
+            />
+          ))}
+        </ul>
       </FieldDiv>
       <FieldDiv>
         <Label>이런 분들에게 추천해요</Label>
