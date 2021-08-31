@@ -42,6 +42,7 @@ module.exports = {
     'import/no-unresolved': 'error',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     'react/require-default-props': 'off',
+    'react/no-array-index-key': 'off',
     'import/order': [
       'error',
       {

@@ -1,3 +1,4 @@
+import { setAutoFreeze } from 'immer';
 import { Context, createWrapper } from 'next-redux-wrapper';
 import { applyMiddleware, compose, createStore, Store } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
@@ -10,6 +11,7 @@ interface SagaStore extends Store {
 }
 
 const configureStore = (context: Context) => {
+  setAutoFreeze(false);
   // 1: Create the middleware
   const sagaMiddleware = createSagaMiddleware();
   const middlewares = [sagaMiddleware];

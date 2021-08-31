@@ -7,7 +7,6 @@ import CourseTitleLabel from '@components/courseEdit/CourseTitleLabel';
 import TextListBox from '@components/courseEdit/TextListBox';
 import CourseLayout from 'src/layouts/CourseLayout';
 import { RootState } from 'src/redux/reducers';
-import { ILectureInfo, LectureData } from 'src/redux/reducers/types';
 
 const BoxInput = styled.input`
   border: 0;
@@ -69,22 +68,14 @@ const OptionalText = styled.span`
   font-weight: 400;
 `;
 
-const DynamicBox = styled.li`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 0.5rem;
-  padding: 10px 10px 10px 20px;
-  border: 1px solid #cfcfcf;
-  border-radius: 1px;
-`;
-
 function CourseInfo() {
   const { createLectureData, lectureData } = useSelector((state: RootState) => state.lecture);
   const title = createLectureData?.title;
   const [selectedId, setSelectedId] = useState<string>('');
+  const [textArray, setTextArray] = useState<string[]>();
   useEffect(() => {
     console.log('CourseInfo lectureData', lectureData);
+    setTextArray(lectureData?.courseInfo.whatYouCanLearn);
   }, [lectureData]);
 
   return (
@@ -100,7 +91,8 @@ function CourseInfo() {
         <BoxInput type="text" placeholder="e.g., 리액트 네이티브 개발" />
         <AddButton>추가하기</AddButton>
         <WarnMessage>두 개 이상 넣어주세요</WarnMessage>
-        <TextListBox list={lectureData?.courseInfo.whatYouCanLearn} />
+        {/* <TextListBox list={lectureData?.courseInfo.whatYouCanLearn} /> */}
+        <TextListBox list={textArray} setTextArray={setTextArray} />
       </FieldDiv>
       <FieldDiv>
         <Label>이런 분들에게 추천해요</Label>

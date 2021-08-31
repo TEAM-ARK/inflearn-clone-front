@@ -62,6 +62,8 @@ export const LOAD_EDIT_LECTURE_REQUEST = 'LOAD_EDIT_LECTURE_REQUEST';
 export const LOAD_EDIT_LECTURE_SUCCESS = 'LOAD_EDIT_LECTURE_SUCCESS';
 export const LOAD_EDIT_LECTURE_FAILURE = 'LOAD_EDIT_LECTURE_FAILURE';
 
+// export const DELETE_ITEM_IN_TEXT_BOX = 'DELETE_ITEM_IN_TEXT_BOX';
+
 // reducer
 const reducer = (state = initialState, action: IAction) => {
   return produce(state, (draft) => {
@@ -121,6 +123,10 @@ const reducer = (state = initialState, action: IAction) => {
         draft.editLectureLoading = false;
         draft.editLectureError = action.error;
         break;
+      // case DELETE_ITEM_IN_TEXT_BOX:
+      //   action.data.textList.splice(action.data.index, 1);
+      //   console.log(DELETE_ITEM_IN_TEXT_BOX, action.data.textList);
+      //   break;
 
       // 나머지 추후 추가 예정
       default:

@@ -942,8 +942,92 @@ const throttledScroll = useMemo(
 <details>
 <summary>2021.08.31(Tony)</summary>
 
-### eslint => react/require-default-props
+### eslint => react/require-default-props : off
 
 - https://stackoverflow.com/questions/63696724/eslint-problem-with-default-props-in-functional-component-typescript-react
+
+### onClickDelete
+
+#### 1차 시도 : store state is read-only
+
+```typescript
+const onClickDelete = (_list: string[], index: number) => {
+  _list.splice(index, 1);
+};
+<button onClick={() => onClickDelete(list, index)} type="button">
+  <DeleteIcon />
+</button>;
+```
+
+- redux에 있는 데이터는 read-only 임
+- dispatch를 이용해서 reducer에서 작업을 하려고 했었는데 component에 들어오는 string[]이 store에 각각 다르게 저장되어 있기 때문에 기존의 draft.initialState.data 같은 방식으로 수정할 수 없음
+
+#### 2차 시도 : read-only 제거 - setAutoFreeze(false);
+
+```typescript
+// store에서 read-only 속성 제거
+import { setAutoFreeze } from 'immer';
+setAutoFreeze(false);
+
+// TextListBox.tsx
+const onClickDelete = (_list: string[], index: number) => {
+  _list.splice(index, 1);
+};
+<button onClick={() => onClickDelete(list, index)} type="button">
+  <DeleteIcon />
+</button>;
+```
+
+- store에 있는 값을 직접 변경 가능하지만 re-render가 안됨
+  - 원래 reducer로 store의 값을 변경하면 re-render가 되는데 이런식으로 바로 바꿔버리니까 안되는 듯
+
+#### 3차 시도 : useState에 store의 state를 넣고 setState를 컴포넌트에 전달
+
+```typescript
+// course_info.tsx
+const [textArray, setTextArray] = useState<string[]>();
+<TextListBox list={textArray} setTextArray={setTextArray} />;
+
+// TextListBox.tsx
+type Prop = {
+  list?: string[];
+  setTextArray: React.Dispatch<React.SetStateAction<string[] | undefined>>;
+};
+
+const TextListBox = ({ list = [], setTextArray }: Prop) => {
+  const onClickDelete = (textList: string[], index: number) => {
+    textList.splice(index, 1);
+    setTextArray([...textList]);
+    console.log('after remove', textList);
+  };
+
+  return (
+    <button onClick={() => onClickDelete(list, index)} type="button">
+      <DeleteIcon />
+    </button>
+  );
+};
+```
+
+- setState를 전달을 해도 setTextArray(textList) state를 직접 변화하고 그것을 그대로 전달하면 렌더링이 되지 않음
+- setTextArray([...textList]); 같이 배열을 새로 할당해서 전달해야 렌더링이 다시 됨
+- TextListBox를 사용하는 개수만큼 useState를 만들어서 각각 전달할 예정
+
+#### 'react/no-array-index-key': 'off'
+
+- index를 key로 사용할 때 나오는 eslint 경고
+- 나중에 eslint때문에 문제될 것 같아서 미리 제거
+
+### 참고문헌
+
+- [javascript removing element of array cleanest way](https://stackoverflow.com/questions/47023975/what-is-the-cleanest-way-to-remove-an-element-from-an-immutable-array-in-js)
+
+### 과연 이 방법이 최선인가?
+
+- 컴포넌트 재사용을 위해 리덕스의 read-only속성을 없애고 useState를 각각 만들면서 사용해야되는 건지, 다른 더 좋은 방법은 없는지 찾아봐야 함
+
+### 다음 진행 예정
+
+- [ ] drag and drop으로 array 순서 변화
 
 </details>
