@@ -1021,6 +1021,7 @@ const TextListBox = ({ list = [], setTextArray }: Prop) => {
 ### 참고문헌
 
 - [javascript removing element of array cleanest way](https://stackoverflow.com/questions/47023975/what-is-the-cleanest-way-to-remove-an-element-from-an-immutable-array-in-js)
+- [Cannot test reducer: Cannot assign to read only property](https://github.com/reduxjs/redux-toolkit/issues/424)
 
 ### 과연 이 방법이 최선인가?
 
