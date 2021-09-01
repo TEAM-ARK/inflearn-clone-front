@@ -1061,6 +1061,10 @@ textArray.splice(index, 1);
 fn: (a: string) => void
 ```
 
+### redux를 typescript에서 사용하면 initialState는 전부 초기값이 있어야 된다.
+
+- reducer에서 action.data를 받아서 넣을 때 optional chaining을 사용할 수 없다고 나옴
+
 ### 참고 문헌
 
 - [typescript function type](https://www.typescriptlang.org/docs/handbook/2/functions.html)

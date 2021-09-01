@@ -18,21 +18,10 @@ const DraggableButton = styled.button`
   cursor: move;
 `;
 
-// type Prop = {
-//   list?: string[];
-//   setTextArray: React.Dispatch<React.SetStateAction<string[] | undefined>>;
-// };
 type Props = {
   item: string;
   onClick: () => void;
 };
-
-// const TextListBox = ({ list = [], setTextArray }: Prop) => {
-//   const onClickDelete = (textList: string[], index: number) => {
-//     textList.splice(index, 1);
-//     setTextArray([...textList]);
-//     console.log('after remove', textList);
-//   };
 const TextListBox = ({ item, onClick }: Props) => {
   return (
     <DynamicBox>
@@ -48,9 +37,5 @@ const TextListBox = ({ item, onClick }: Props) => {
     </DynamicBox>
   );
 };
-
-// TextListBox.defaultProps = { // eslint -> react/require-default-props : off
-//   list: [],
-// };
 
 export default TextListBox;
