@@ -1,12 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import CourseCommonButton from '@components/courseEdit/CourseCommonButton';
 import CourseTitle from '@components/courseEdit/CourseTitle';
 import CourseTitleLabel from '@components/courseEdit/CourseTitleLabel';
+import TextListBox from '@components/courseEdit/TextListBox';
 import CourseLayout from 'src/layouts/CourseLayout';
 import { RootState } from 'src/redux/reducers';
-import { ILectureInfo, LectureData } from 'src/redux/reducers/types';
+import {
+  DELETE_ITEM_EXPECTEDSTUDENTS,
+  DELETE_ITEM_REQUIREDKNOWLEDGE,
+  DELETE_ITEM_WHATYOUCANLEARN,
+} from 'src/redux/reducers/lecture';
 
 const BoxInput = styled.input`
   border: 0;
@@ -72,10 +77,35 @@ function CourseInfo() {
   const { createLectureData, lectureData } = useSelector((state: RootState) => state.lecture);
   const title = createLectureData?.title;
   const [selectedId, setSelectedId] = useState<string>('');
-  useEffect(() => {
-    console.log('CourseInfo lectureData', lectureData);
-  }, [lectureData]);
-
+  const dispatch = useDispatch();
+  const onClickTextBoxDelete =
+    (textList: string[], index: number, boxType: 'whatYouCanLearn' | 'expectedStudents' | 'requiredKnowledge') =>
+    () => {
+      const textArray = [...textList];
+      textArray.splice(index, 1);
+      switch (boxType) {
+        case 'whatYouCanLearn':
+          dispatch({
+            type: DELETE_ITEM_WHATYOUCANLEARN,
+            data: textArray,
+          });
+          break;
+        case 'expectedStudents':
+          dispatch({
+            type: DELETE_ITEM_EXPECTEDSTUDENTS,
+            data: textArray,
+          });
+          break;
+        case 'requiredKnowledge':
+          dispatch({
+            type: DELETE_ITEM_REQUIREDKNOWLEDGE,
+            data: textArray,
+          });
+          break;
+        default:
+          console.error('boxType is wrong');
+      }
+    };
   return (
     <CourseLayout>
       <CourseTitleLabel title="강의제작" />
@@ -86,23 +116,52 @@ function CourseInfo() {
       </FirstFieldDiv>
       <FieldDiv>
         <Label>이런 걸 배울 수 있어요</Label>
-        <BoxInput type="text" placeholder="ex) 리액트 네이티브 개발" />
+        <BoxInput type="text" placeholder="e.g., 리액트 네이티브 개발" />
         <AddButton>추가하기</AddButton>
         <WarnMessage>두 개 이상 넣어주세요</WarnMessage>
+        {/* <TextListBox list={lectureData?.courseInfo.whatYouCanLearn} /> */}
+        {/* <TextListBox list={textArray} setTextArray={setTextArray} /> */}
+        <ul>
+          {lectureData?.courseInfo.whatYouCanLearn.map((item, index) => (
+            <TextListBox
+              key={index}
+              item={item}
+              onClick={onClickTextBoxDelete(lectureData?.courseInfo.whatYouCanLearn, index, 'whatYouCanLearn')}
+            />
+          ))}
+        </ul>
       </FieldDiv>
       <FieldDiv>
         <Label>이런 분들에게 추천해요</Label>
-        <BoxInput type="text" placeholder="ex) 코딩을 처음 접하는 사람" />
+        <BoxInput type="text" placeholder="e.g., 코딩을 처음 접하는 사람" />
         <AddButton>추가하기</AddButton>
         <WarnMessage>두 개 이상 넣어주세요</WarnMessage>
+        <ul>
+          {lectureData?.courseInfo.expectedStudents.map((item, index) => (
+            <TextListBox
+              key={index}
+              item={item}
+              onClick={onClickTextBoxDelete(lectureData?.courseInfo.expectedStudents, index, 'expectedStudents')}
+            />
+          ))}
+        </ul>
       </FieldDiv>
       <FieldDiv>
         <Label>
           선수지식이 필요하다면 무엇인가요?<OptionalText>(선택)</OptionalText>
         </Label>
-        <BoxInput type="text" placeholder="ex) 코딩을 처음 접하는 사람" />
+        <BoxInput type="text" placeholder="e.g., 코딩을 처음 접하는 사람" />
         <AddButton>추가하기</AddButton>
         <WarnMessage>두 개 이상 넣어주세요</WarnMessage>
+        <ul>
+          {lectureData?.courseInfo.requiredKnowledge.map((item, index) => (
+            <TextListBox
+              key={index}
+              item={item}
+              onClick={onClickTextBoxDelete(lectureData?.courseInfo.requiredKnowledge, index, 'requiredKnowledge')}
+            />
+          ))}
+        </ul>
       </FieldDiv>
       <FieldDiv>
         <Label>카테고리</Label>
