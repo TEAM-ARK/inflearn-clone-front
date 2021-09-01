@@ -1046,6 +1046,23 @@ const indexToRemove = 2; // the 'c'
 const result = [...arr.slice(0, indexToRemove), ...arr.slice(indexToRemove + 1)];
 
 console.log(result);
+
+// slice는 ...arr를 두번이나 하는 번거로움이 있으므로
+const textArray = [...textList];
+textArray.splice(index, 1);
+// 배열 복사 후 splice를 사용
 ```
+
+### typescript function type
+
+- parameter 타입, return 타입을 정의해주면 된다.
+
+```typescript
+fn: (a: string) => void
+```
+
+### 참고 문헌
+
+- [typescript function type](https://www.typescriptlang.org/docs/handbook/2/functions.html)
 
 </details>

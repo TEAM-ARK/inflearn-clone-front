@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import CourseCommonButton from '@components/courseEdit/CourseCommonButton';
 import CourseTitle from '@components/courseEdit/CourseTitle';
@@ -7,6 +7,7 @@ import CourseTitleLabel from '@components/courseEdit/CourseTitleLabel';
 import TextListBox from '@components/courseEdit/TextListBox';
 import CourseLayout from 'src/layouts/CourseLayout';
 import { RootState } from 'src/redux/reducers';
+import { DELETE_ITEM_WHATYOUCANLEARN } from 'src/redux/reducers/lecture';
 
 const BoxInput = styled.input`
   border: 0;
@@ -72,14 +73,36 @@ function CourseInfo() {
   const { createLectureData, lectureData } = useSelector((state: RootState) => state.lecture);
   const title = createLectureData?.title;
   const [selectedId, setSelectedId] = useState<string>('');
+  const dispatch = useDispatch();
   // const [textArray, setTextArray] = useState<string[]>();
   useEffect(() => {
     console.log('CourseInfo lectureData', lectureData);
     // setTextArray(lectureData?.courseInfo.whatYouCanLearn);
   }, [lectureData]);
-  const onClickTextBoxDelete = (textList: string[], index: number) => {
+  const onClickTextBoxDelete = (
+    textList: string[],
+    index: number,
+    boxType: 'whatYouCanLearn' | 'expectedStudents' | 'requiredKnowledge'
+  ) => {
     // textList.splice(index, 1); // slice를 사용해서 기존의 read-only를 해치지 않게 해야 함
+    const textArray = [...textList];
+    textArray.splice(index, 1);
     // dispatch() 각각 다르게 만들어서 사용
+    switch (boxType) {
+      case 'whatYouCanLearn':
+        dispatch({
+          type: DELETE_ITEM_WHATYOUCANLEARN,
+          data: textArray,
+        });
+        break;
+      case 'expectedStudents':
+        break;
+      case 'requiredKnowledge':
+        break;
+      default:
+        console.error('boxType is wrong');
+    }
+
     console.log('after remove', textList);
   };
   return (
@@ -102,7 +125,7 @@ function CourseInfo() {
             <TextListBox
               key={index}
               item={item}
-              onClick={() => onClickTextBoxDelete(lectureData?.courseInfo.whatYouCanLearn, index)}
+              onClick={() => onClickTextBoxDelete(lectureData?.courseInfo.whatYouCanLearn, index, 'whatYouCanLearn')}
             />
           ))}
         </ul>

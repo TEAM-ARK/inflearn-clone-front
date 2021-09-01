@@ -24,7 +24,7 @@ const DraggableButton = styled.button`
 // };
 type Props = {
   item: string;
-  onClick: any;
+  onClick: () => void;
 };
 
 // const TextListBox = ({ list = [], setTextArray }: Prop) => {

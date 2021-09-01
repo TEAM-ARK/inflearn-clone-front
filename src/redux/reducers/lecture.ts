@@ -16,7 +16,7 @@ export interface ILectureState {
   createLectureData: ILectureInfo;
   editLectureLoading: boolean;
   editLectureError?: string;
-  lectureData?: LectureData; // edit page layout에서 불러오는 data
+  lectureData: LectureData; // edit page layout에서 불러오는 data
 }
 
 export const initialState: ILectureState = {
@@ -40,6 +40,17 @@ export const initialState: ILectureState = {
   createLectureError: undefined,
   createLectureDone: false,
   editLectureLoading: false,
+  lectureData: {
+    courseInfo: {
+      id: undefined,
+      title: undefined,
+      whatYouCanLearn: [],
+      expectedStudents: [],
+      requiredKnowledge: [],
+      category: [],
+      level: '',
+    },
+  },
 };
 
 // action types
@@ -63,6 +74,9 @@ export const LOAD_EDIT_LECTURE_SUCCESS = 'LOAD_EDIT_LECTURE_SUCCESS';
 export const LOAD_EDIT_LECTURE_FAILURE = 'LOAD_EDIT_LECTURE_FAILURE';
 
 // export const DELETE_ITEM_IN_TEXT_BOX = 'DELETE_ITEM_IN_TEXT_BOX';
+export const DELETE_ITEM_WHATYOUCANLEARN = 'DELETE_ITEM_WHATYOUCANLEARN';
+export const DELETE_ITEM_EXPECTEDSTUDENTS = 'DELETE_ITEM_EXPECTEDSTUDENTS';
+export const DELETE_ITEM_REQUIREDKNOWLEDGE = 'DELETE_ITEM_REQUIREDKNOWLEDGE';
 
 // reducer
 const reducer = (state = initialState, action: IAction) => {
@@ -127,6 +141,9 @@ const reducer = (state = initialState, action: IAction) => {
       //   action.data.textList.splice(action.data.index, 1);
       //   console.log(DELETE_ITEM_IN_TEXT_BOX, action.data.textList);
       //   break;
+      case DELETE_ITEM_WHATYOUCANLEARN:
+        draft.lectureData.courseInfo.whatYouCanLearn = action.data;
+        break;
 
       // 나머지 추후 추가 예정
       default:
