@@ -1070,3 +1070,19 @@ fn: (a: string) => void
 - [typescript function type](https://www.typescriptlang.org/docs/handbook/2/functions.html)
 
 </details>
+
+<details>
+<summary>2021.09.02(Tony)</summary>
+
+## TextListBox delete button
+
+### High order function 적용
+
+- HOC로 바꿔도 컴포넌트의 함수타입은 그대로 적용해도 적용됨
+- [ ] HOC의 예시를 더 찾아보고 장점을 알아보기
+
+### 버그 수정
+
+- `이런 분들에게 추천해요` 에서 TextListBox를 사용할 때 list array를 expectedStudents가 아닌 whatYouCanLearn으로 오타가 있는 부분을 수정함
+
+</details>

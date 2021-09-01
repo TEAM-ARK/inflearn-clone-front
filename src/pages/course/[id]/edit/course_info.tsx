@@ -78,36 +78,34 @@ function CourseInfo() {
   const title = createLectureData?.title;
   const [selectedId, setSelectedId] = useState<string>('');
   const dispatch = useDispatch();
-  const onClickTextBoxDelete = (
-    textList: string[],
-    index: number,
-    boxType: 'whatYouCanLearn' | 'expectedStudents' | 'requiredKnowledge'
-  ) => {
-    const textArray = [...textList];
-    textArray.splice(index, 1);
-    switch (boxType) {
-      case 'whatYouCanLearn':
-        dispatch({
-          type: DELETE_ITEM_WHATYOUCANLEARN,
-          data: textArray,
-        });
-        break;
-      case 'expectedStudents':
-        dispatch({
-          type: DELETE_ITEM_EXPECTEDSTUDENTS,
-          data: textArray,
-        });
-        break;
-      case 'requiredKnowledge':
-        dispatch({
-          type: DELETE_ITEM_REQUIREDKNOWLEDGE,
-          data: textArray,
-        });
-        break;
-      default:
-        console.error('boxType is wrong');
-    }
-  };
+  const onClickTextBoxDelete =
+    (textList: string[], index: number, boxType: 'whatYouCanLearn' | 'expectedStudents' | 'requiredKnowledge') =>
+    () => {
+      const textArray = [...textList];
+      textArray.splice(index, 1);
+      switch (boxType) {
+        case 'whatYouCanLearn':
+          dispatch({
+            type: DELETE_ITEM_WHATYOUCANLEARN,
+            data: textArray,
+          });
+          break;
+        case 'expectedStudents':
+          dispatch({
+            type: DELETE_ITEM_EXPECTEDSTUDENTS,
+            data: textArray,
+          });
+          break;
+        case 'requiredKnowledge':
+          dispatch({
+            type: DELETE_ITEM_REQUIREDKNOWLEDGE,
+            data: textArray,
+          });
+          break;
+        default:
+          console.error('boxType is wrong');
+      }
+    };
   return (
     <CourseLayout>
       <CourseTitleLabel title="강의제작" />
@@ -128,7 +126,7 @@ function CourseInfo() {
             <TextListBox
               key={index}
               item={item}
-              onClick={() => onClickTextBoxDelete(lectureData?.courseInfo.whatYouCanLearn, index, 'whatYouCanLearn')}
+              onClick={onClickTextBoxDelete(lectureData?.courseInfo.whatYouCanLearn, index, 'whatYouCanLearn')}
             />
           ))}
         </ul>
@@ -143,7 +141,7 @@ function CourseInfo() {
             <TextListBox
               key={index}
               item={item}
-              onClick={() => onClickTextBoxDelete(lectureData?.courseInfo.whatYouCanLearn, index, 'expectedStudents')}
+              onClick={onClickTextBoxDelete(lectureData?.courseInfo.expectedStudents, index, 'expectedStudents')}
             />
           ))}
         </ul>
@@ -160,9 +158,7 @@ function CourseInfo() {
             <TextListBox
               key={index}
               item={item}
-              onClick={() =>
-                onClickTextBoxDelete(lectureData?.courseInfo.requiredKnowledge, index, 'requiredKnowledge')
-              }
+              onClick={onClickTextBoxDelete(lectureData?.courseInfo.requiredKnowledge, index, 'requiredKnowledge')}
             />
           ))}
         </ul>
