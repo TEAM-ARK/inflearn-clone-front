@@ -938,3 +938,151 @@ const throttledScroll = useMemo(
 - [react-children with typescript](https://www.carlrippon.com/react-children-with-typescript/)
 
 </details>
+
+<details>
+<summary>2021.08.31(Tony)</summary>
+
+### eslint => react/require-default-props : off
+
+- https://stackoverflow.com/questions/63696724/eslint-problem-with-default-props-in-functional-component-typescript-react
+
+### onClickDelete
+
+#### 1차 시도 : store state is read-only
+
+```typescript
+const onClickDelete = (_list: string[], index: number) => {
+  _list.splice(index, 1);
+};
+<button onClick={() => onClickDelete(list, index)} type="button">
+  <DeleteIcon />
+</button>;
+```
+
+- redux에 있는 데이터는 read-only 임
+- dispatch를 이용해서 reducer에서 작업을 하려고 했었는데 component에 들어오는 string[]이 store에 각각 다르게 저장되어 있기 때문에 기존의 draft.initialState.data 같은 방식으로 수정할 수 없음
+
+#### 2차 시도 : read-only 제거 - setAutoFreeze(false);
+
+```typescript
+// store에서 read-only 속성 제거
+import { setAutoFreeze } from 'immer';
+setAutoFreeze(false);
+
+// TextListBox.tsx
+const onClickDelete = (_list: string[], index: number) => {
+  _list.splice(index, 1);
+};
+<button onClick={() => onClickDelete(list, index)} type="button">
+  <DeleteIcon />
+</button>;
+```
+
+- store에 있는 값을 직접 변경 가능하지만 re-render가 안됨
+  - 원래 reducer로 store의 값을 변경하면 re-render가 되는데 이런식으로 바로 바꿔버리니까 안되는 듯
+
+#### 3차 시도 : useState에 store의 state를 넣고 setState를 컴포넌트에 전달
+
+```typescript
+// course_info.tsx
+const [textArray, setTextArray] = useState<string[]>();
+<TextListBox list={textArray} setTextArray={setTextArray} />;
+
+// TextListBox.tsx
+type Prop = {
+  list?: string[];
+  setTextArray: React.Dispatch<React.SetStateAction<string[] | undefined>>;
+};
+
+const TextListBox = ({ list = [], setTextArray }: Prop) => {
+  const onClickDelete = (textList: string[], index: number) => {
+    textList.splice(index, 1);
+    setTextArray([...textList]);
+    console.log('after remove', textList);
+  };
+
+  return (
+    <button onClick={() => onClickDelete(list, index)} type="button">
+      <DeleteIcon />
+    </button>
+  );
+};
+```
+
+- setState를 전달을 해도 setTextArray(textList) state를 직접 변화하고 그것을 그대로 전달하면 렌더링이 되지 않음
+- setTextArray([...textList]); 같이 배열을 새로 할당해서 전달해야 렌더링이 다시 됨
+- TextListBox를 사용하는 개수만큼 useState를 만들어서 각각 전달할 예정
+
+#### 'react/no-array-index-key': 'off'
+
+- index를 key로 사용할 때 나오는 eslint 경고
+- 나중에 eslint때문에 문제될 것 같아서 미리 제거
+
+### 참고문헌
+
+- [javascript removing element of array cleanest way](https://stackoverflow.com/questions/47023975/what-is-the-cleanest-way-to-remove-an-element-from-an-immutable-array-in-js)
+- [Cannot test reducer: Cannot assign to read only property](https://github.com/reduxjs/redux-toolkit/issues/424)
+
+### 과연 이 방법이 최선인가?
+
+- 컴포넌트 재사용을 위해 리덕스의 read-only속성을 없애고 useState를 각각 만들면서 사용해야되는 건지, 다른 더 좋은 방법은 없는지 찾아봐야 함
+
+### 다음 진행 예정
+
+- [ ] drag and drop으로 array 순서 변화
+
+</details>
+
+<details>
+<summary>2021.09.01(Tony)</summary>
+
+### 불변성 보장 하면서 array에서 요소 삭제 하기
+
+```javascript
+const arr = ['a', 'b', 'c', 'd', 'e'];
+
+const indexToRemove = 2; // the 'c'
+
+const result = [...arr.slice(0, indexToRemove), ...arr.slice(indexToRemove + 1)];
+
+console.log(result);
+
+// slice는 ...arr를 두번이나 하는 번거로움이 있으므로
+const textArray = [...textList];
+textArray.splice(index, 1);
+// 배열 복사 후 splice를 사용
+```
+
+### typescript function type
+
+- parameter 타입, return 타입을 정의해주면 된다.
+
+```typescript
+fn: (a: string) => void
+```
+
+### redux를 typescript에서 사용하면 initialState는 전부 초기값이 있어야 된다.
+
+- reducer에서 action.data를 받아서 넣을 때 optional chaining을 사용할 수 없다고 나옴
+
+### 참고 문헌
+
+- [typescript function type](https://www.typescriptlang.org/docs/handbook/2/functions.html)
+
+</details>
+
+<details>
+<summary>2021.09.02(Tony)</summary>
+
+## TextListBox delete button
+
+### High order function 적용
+
+- HOF로 바꿔도 컴포넌트의 함수타입은 그대로 적용해도 적용됨
+- [ ] HOF의 예시를 더 찾아보고 장점을 알아보기
+
+### 버그 수정
+
+- `이런 분들에게 추천해요` 에서 TextListBox를 사용할 때 list array를 expectedStudents가 아닌 whatYouCanLearn으로 오타가 있는 부분을 수정함
+
+</details>
