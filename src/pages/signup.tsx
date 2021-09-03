@@ -58,6 +58,7 @@ export default function SignUp() {
 
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
     console.log('form data', data);
+    console.log('policy', policy);
   };
 
   const onChangePolicy = (event: React.ChangeEvent<HTMLInputElement>) => {
