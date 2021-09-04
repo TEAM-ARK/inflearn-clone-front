@@ -31,7 +31,9 @@ const useStyles = makeStyles({
 
 interface IFormInputs {
   email: string;
+  emailConfirm: string;
   password: string;
+  passwordConfirm: string;
 }
 
 const schema = yup.object().shape({
@@ -56,9 +58,8 @@ export default function SignUp() {
 
   const { signUpContainer, bold, submit, policySize } = useStyles();
 
-  const onSubmit: SubmitHandler<IFormInputs> = (data) => {
-    console.log('form data', data);
-    console.log('policy', policy);
+  const onSubmit: SubmitHandler<IFormInputs> = ({ email, emailConfirm, password, passwordConfirm }) => {
+    console.log({ email, emailConfirm, password, passwordConfirm, policy });
   };
 
   const onChangePolicy = (event: React.ChangeEvent<HTMLInputElement>) => {
