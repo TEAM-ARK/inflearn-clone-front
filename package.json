@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "cross-env NODE_OPTIONS='--inspect' next dev",
+    "lint": "next lint",
     "build": "next build",
     "start": "next start",
     "test": "jest",
@@ -30,6 +31,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-hook-form": "^7.10.1",
+    "react-query": "^3.21.0",
     "react-redux": "^7.2.4",
     "react-slick": "^0.28.1",
     "redux": "^4.1.0",
