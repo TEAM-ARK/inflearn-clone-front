@@ -3,11 +3,15 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Container, Typography, FormControlLabel, Checkbox, Grid, Link } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Head from 'next/head';
-import { useForm, SubmitHandler, FormProvider } from 'react-hook-form';
+import Router from 'next/router';
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { useMutation } from 'react-query';
 import * as yup from 'yup';
 import DividerWithText from '@components/DividerWithText';
 import SignUpForm from '@components/SignUpForm';
 import AppLayout from '@layouts/AppLayout';
+import { createSignup } from '@utils/fetcher';
+import { ISignup } from 'src/redux/reducers/types';
 
 const useStyles = makeStyles({
   signUpContainer: {
@@ -29,13 +33,6 @@ const useStyles = makeStyles({
   },
 });
 
-interface IFormInputs {
-  email: string;
-  emailConfirm: string;
-  password: string;
-  passwordConfirm: string;
-}
-
 const schema = yup.object().shape({
   // Error handling with yup library
   email: yup.string().email('이메일 형식이 올바르지 않습니다.').required('필수 정보입니다.'),
@@ -52,14 +49,21 @@ const schema = yup.object().shape({
 export default function SignUp() {
   const [policy, setPolicy] = useState(false);
 
-  const methods = useForm<IFormInputs>({
+  const methods = useForm<ISignup>({
     resolver: yupResolver(schema),
   });
 
   const { signUpContainer, bold, submit, policySize } = useStyles();
 
-  const onSubmit: SubmitHandler<IFormInputs> = ({ email, emailConfirm, password, passwordConfirm }) => {
-    console.log({ email, emailConfirm, password, passwordConfirm, policy });
+  const mutation = useMutation(({ email, password }: ISignup) => createSignup(email, password), {
+    onSuccess: (res) => {
+      console.log(res);
+      Router.replace('/');
+    },
+  });
+
+  const onSubmit: SubmitHandler<ISignup> = async ({ email, password }) => {
+    mutation.mutate({ email, password });
   };
 
   const onChangePolicy = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -138,10 +142,4 @@ export default function SignUp() {
       </main>
     </AppLayout>
   );
-}
-
-export async function getServerSideProps() {
-  // Check if the user signed in or not to enter this page
-  // Pass data to the page via props
-  return { props: {} };
 }
