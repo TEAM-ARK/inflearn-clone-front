@@ -1086,3 +1086,12 @@ fn: (a: string) => void
 - `이런 분들에게 추천해요` 에서 TextListBox를 사용할 때 list array를 expectedStudents가 아닌 whatYouCanLearn으로 오타가 있는 부분을 수정함
 
 </details>
+
+<details>
+<summary>2021.09.05(NOAH)</summary>
+
+## 회원가입 error 메시지
+
+- err.response.data에 서버에서 받아온 에러 메시지가 있음
+
+</details>

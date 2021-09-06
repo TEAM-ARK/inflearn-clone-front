@@ -117,7 +117,7 @@ export default function SignUp() {
     );
   };
 
-  const snsLogin = () => {
+  const snsSignup = () => {
     return <DividerWithText>간편 회원가입</DividerWithText>;
   };
 
@@ -140,7 +140,7 @@ export default function SignUp() {
             </form>
           </FormProvider>
           {termsOfService()}
-          {snsLogin()}
+          {snsSignup()}
         </Container>
       </main>
     </AppLayout>

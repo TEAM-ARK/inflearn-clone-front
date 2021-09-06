@@ -9,12 +9,14 @@ import {
   IconButton,
   Drawer,
   MenuItem,
+  Modal,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import { throttle } from 'lodash';
 import Link from 'next/link';
+import LoginForm from '@components/LoginForm';
 
 const useStyles = makeStyles({
   appBar: {
@@ -103,6 +105,8 @@ export default function HeaderLayout() {
 
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [isNavOn, setIsNavOn] = useState(false);
+  const [openLogin, setOpenLogin] = useState(false);
+
   const throttledScroll = useMemo(
     () =>
       throttle(() => {
@@ -165,11 +169,29 @@ export default function HeaderLayout() {
     return <>{isMobile ? '' : <OutlinedInput margin="dense" endAdornment={<SearchIcon />} />}</>;
   };
 
+  const handleOpenLogin = () => {
+    setOpenLogin(true);
+  };
+
+  const handleCloseLogin = () => {
+    setOpenLogin(false);
+  };
+
   const getAccountButton = () => {
     return (
       <Box component="div" className={right}>
         {getSearchInput()}
-        <Button className={signinBtn}>로그인</Button>
+        <Button onClick={handleOpenLogin} className={signinBtn}>
+          로그인
+        </Button>
+        <Modal
+          open={openLogin}
+          onClose={handleCloseLogin}
+          aria-labelledby="simple-modal-title"
+          aria-describedby="simple-modal-description"
+        >
+          <LoginForm />
+        </Modal>
         <Button className={signupBtn}>
           <Link href="/signup">
             <a>회원가입</a>
