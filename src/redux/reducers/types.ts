@@ -70,9 +70,3 @@ export interface ILectureInfo {
 export type LectureData = {
   courseInfo: ILectureInfo;
 };
-
-// Signup data
-export interface ISignup {
-  email: string;
-  password: string;
-}

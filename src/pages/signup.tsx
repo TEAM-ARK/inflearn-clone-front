@@ -11,7 +11,7 @@ import DividerWithText from '@components/DividerWithText';
 import SignUpForm from '@components/SignUpForm';
 import AppLayout from '@layouts/AppLayout';
 import { createSignup } from '@utils/fetcher';
-import { ISignup } from 'src/redux/reducers/types';
+import { ISignup } from '../types';
 
 const useStyles = makeStyles({
   signUpContainer: {
@@ -59,6 +59,9 @@ export default function SignUp() {
     onSuccess: (res) => {
       console.log(res);
       Router.replace('/');
+    },
+    onError: (err) => {
+      console.error(err.response.data);
     },
   });
 
