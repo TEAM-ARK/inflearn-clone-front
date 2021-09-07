@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Container, Typography, FormControlLabel, Checkbox, Grid, Link } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { AxiosError } from 'axios';
 import Head from 'next/head';
 import Router from 'next/router';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
@@ -60,12 +61,12 @@ export default function SignUp() {
       console.log(res);
       Router.replace('/');
     },
-    onError: (err) => {
-      console.error(err.response.data);
+    onError: (err: AxiosError) => {
+      console.error(err.response?.data);
     },
   });
 
-  const onSubmit: SubmitHandler<ISignup> = async ({ email, password }) => {
+  const onSubmit: SubmitHandler<ISignup> = ({ email, password }) => {
     mutation.mutate({ email, password });
   };
 

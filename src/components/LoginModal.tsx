@@ -3,7 +3,14 @@ import { TextField, IconButton, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
+import { AxiosError } from 'axios';
+import Link from 'next/link';
+import Router from 'next/router';
+import { useMutation } from 'react-query';
 import DividerWithText from '@components/DividerWithText';
+import { requestLogin } from '@utils/fetcher';
+import useInput from '@utils/useInput';
+import { ILogin } from '../types';
 
 const useStyles = makeStyles({
   loginModal: {
@@ -70,6 +77,19 @@ export default function LoginModal({ onClose }: IProps) {
   const { loginModal, logo, closeBtn, submitBtn, nav, navContent, navSignup } = useStyles();
 
   const [showPassword, setShowPassword] = useState(true);
+  const [email, handleChangeEmail] = useInput('');
+  const [password, handleChangePassword] = useInput('');
+
+  // eslint-disable-next-line no-shadow
+  const mutation = useMutation(({ email, password }: ILogin) => requestLogin(email, password), {
+    onSuccess: (res) => {
+      console.log(res);
+      Router.replace('/');
+    },
+    onError: (err: AxiosError) => {
+      console.error(err.response?.data);
+    },
+  });
 
   const closeIcon = () => {
     return (
@@ -120,6 +140,7 @@ export default function LoginModal({ onClose }: IProps) {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    mutation.mutate({ email, password });
   };
 
   const loginInputs = () => {
@@ -134,6 +155,7 @@ export default function LoginModal({ onClose }: IProps) {
           label="이메일"
           variant="outlined"
           placeholder="이메일 또는 아이디 입력"
+          onChange={handleChangeEmail}
         />
         <TextField
           margin="normal"
@@ -143,6 +165,7 @@ export default function LoginModal({ onClose }: IProps) {
           label="비밀번호"
           variant="outlined"
           placeholder="비밀번호"
+          onChange={handleChangePassword}
           InputProps={{
             endAdornment: (
               <IconButton aria-label="toggle password visibility" onClick={onShowPassword} edge="end">
@@ -162,7 +185,11 @@ export default function LoginModal({ onClose }: IProps) {
     return (
       <p className={nav}>
         <span className={navContent}>비밀번호 찾기</span>
-        <span className={`${navContent} ${navSignup}`}>회원가입</span>
+        <span className={`${navContent} ${navSignup}`}>
+          <Link href="/signup">
+            <a>회원가입</a>
+          </Link>
+        </span>
       </p>
     );
   };

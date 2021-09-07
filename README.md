@@ -1093,5 +1093,38 @@ fn: (a: string) => void
 ## 회원가입 error 메시지
 
 - err.response.data에 서버에서 받아온 에러 메시지가 있음
+- AxiosError typescript 처리
+
+```typescript
+onError: (err: AxiosError) => {
+  console.error(err.response?.data);
+};
+```
+
+- useInput 커스텀 훅 nodebird 강의에서 가져옴
+
+```typescript
+import { ChangeEvent, Dispatch, SetStateAction, useCallback, useState } from 'react';
+
+type ReturnType<T = any> = [T, (e: ChangeEvent<HTMLInputElement>) => void, Dispatch<SetStateAction<T>>];
+
+const useInput = <T>(initialData: T): ReturnType<T> => {
+  const [value, setValue] = useState(initialData);
+
+  const handler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value as unknown as T);
+  }, []);
+
+  return [value, handler, setValue];
+};
+
+export default useInput;
+```
+
+## 구현 할 것
+
+- 비밀번호 찾기 모달
+- 간편 회원가입
+- 간편 로그인
 
 </details>
