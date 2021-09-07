@@ -191,7 +191,7 @@ export default function HeaderLayout() {
     const getDrawerChoices = () => {
       return headersData.map(({ label, href }) => {
         return (
-          <Link href={href}>
+          <Link key={label} href={href}>
             <a>
               <MenuItem>{label}</MenuItem>
             </a>
