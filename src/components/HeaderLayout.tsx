@@ -16,7 +16,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import { throttle } from 'lodash';
 import Link from 'next/link';
-import LoginForm from '@components/LoginForm';
+import LoginModal from '@components/LoginModal';
 
 const useStyles = makeStyles({
   appBar: {
@@ -187,10 +187,12 @@ export default function HeaderLayout() {
         <Modal
           open={openLogin}
           onClose={handleCloseLogin}
-          aria-labelledby="simple-modal-title"
-          aria-describedby="simple-modal-description"
+          aria-labelledby="login-modal-title"
+          aria-describedby="login-modal-description"
         >
-          <LoginForm />
+          <div>
+            <LoginModal onClose={handleCloseLogin} />
+          </div>
         </Modal>
         <Button className={signupBtn}>
           <Link href="/signup">
