@@ -189,6 +189,11 @@ export default function HeaderLayout() {
           onClose={handleCloseLogin}
           aria-labelledby="login-modal-title"
           aria-describedby="login-modal-description"
+          BackdropProps={{
+            style: {
+              backdropFilter: 'blur(3px)',
+            },
+          }}
         >
           <div>
             <LoginModal onClose={handleCloseLogin} />
