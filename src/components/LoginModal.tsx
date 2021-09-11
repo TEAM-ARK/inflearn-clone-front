@@ -70,10 +70,11 @@ const useStyles = makeStyles({
 });
 
 interface IProps {
+  handleFindPasswordModal: () => void;
   onClose: () => void;
 }
 
-export default function LoginModal({ onClose }: IProps) {
+export default function LoginModal({ handleFindPasswordModal, onClose }: IProps) {
   const { loginModal, logo, closeBtn, submitBtn, nav, navContent, navSignup } = useStyles();
 
   const [showPassword, setShowPassword] = useState(true);
@@ -184,7 +185,9 @@ export default function LoginModal({ onClose }: IProps) {
   const navBar = () => {
     return (
       <p className={nav}>
-        <span className={navContent}>비밀번호 찾기</span>
+        <span className={navContent} onClick={handleFindPasswordModal}>
+          비밀번호 찾기
+        </span>
         <span className={`${navContent} ${navSignup}`}>
           <Link href="/signup">
             <a>회원가입</a>

@@ -17,6 +17,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import { throttle } from 'lodash';
 import Link from 'next/link';
 import LoginModal from '@components/LoginModal';
+import FindPasswordModal from './FindPasswordModal';
 
 const useStyles = makeStyles({
   appBar: {
@@ -106,6 +107,7 @@ export default function HeaderLayout() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [isNavOn, setIsNavOn] = useState(false);
   const [openLogin, setOpenLogin] = useState(false);
+  const [showFindPasswordModal, setShowFindPasswordModal] = useState(false);
 
   const throttledScroll = useMemo(
     () =>
@@ -177,6 +179,14 @@ export default function HeaderLayout() {
     setOpenLogin(false);
   };
 
+  const handleCloseFindPasswordModal = () => {
+    setShowFindPasswordModal(false);
+  };
+
+  const handleOpenFindPasswordModal = () => {
+    setShowFindPasswordModal(true);
+  };
+
   const getAccountButton = () => {
     return (
       <Box component="div" className={right}>
@@ -196,9 +206,10 @@ export default function HeaderLayout() {
           }}
         >
           <div>
-            <LoginModal onClose={handleCloseLogin} />
+            <LoginModal handleFindPasswordModal={handleOpenFindPasswordModal} onClose={handleCloseLogin} />
           </div>
         </Modal>
+        <FindPasswordModal show={showFindPasswordModal} handleCloseModal={handleCloseFindPasswordModal} />
         <Button className={signupBtn}>
           <Link href="/signup">
             <a>회원가입</a>
