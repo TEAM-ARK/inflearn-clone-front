@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Container, Typography, FormControlLabel, Checkbox, Grid, Link } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { AxiosError } from 'axios';
 import Head from 'next/head';
 import Router from 'next/router';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
@@ -11,7 +12,7 @@ import DividerWithText from '@components/DividerWithText';
 import SignUpForm from '@components/SignUpForm';
 import AppLayout from '@layouts/AppLayout';
 import { createSignup } from '@utils/fetcher';
-import { ISignup } from 'src/redux/reducers/types';
+import { ISignup } from '../types';
 
 const useStyles = makeStyles({
   signUpContainer: {
@@ -60,9 +61,12 @@ export default function SignUp() {
       console.log(res);
       Router.replace('/');
     },
+    onError: (err: AxiosError) => {
+      console.error(err.response?.data);
+    },
   });
 
-  const onSubmit: SubmitHandler<ISignup> = async ({ email, password }) => {
+  const onSubmit: SubmitHandler<ISignup> = ({ email, password }) => {
     mutation.mutate({ email, password });
   };
 
@@ -114,7 +118,7 @@ export default function SignUp() {
     );
   };
 
-  const snsLogin = () => {
+  const snsSignup = () => {
     return <DividerWithText>간편 회원가입</DividerWithText>;
   };
 
@@ -137,7 +141,7 @@ export default function SignUp() {
             </form>
           </FormProvider>
           {termsOfService()}
-          {snsLogin()}
+          {snsSignup()}
         </Container>
       </main>
     </AppLayout>
