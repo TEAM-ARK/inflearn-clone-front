@@ -1128,3 +1128,61 @@ export default useInput;
 - 간편 로그인
 
 </details>
+
+<details>
+<summary>2021.09.02.(Tony)</summary>
+
+## 강의 생성 부 drag and drop
+
+![](https://images.velog.io/images/gth1123/post/f3f4e477-405e-428d-a5c9-2d931999fa2d/dragAndDrop.gif)
+
+javascript로 직접 구현하려 했으나 애니메이션발동 도중 DOM을 변경하거나
+(DOM 위치가 바뀌면 애니메이션이 바뀐 위치를 기준으로 동작하기 때문에 계산이 어렵다)
+애니메이션이 끝나기 전에 애니메이션의 도착지점을 변경하는 것이 어려워서 라이브러리를 사용하기로 했다
+
+### sortablejs vs react-sortable-hoc vs react dnd
+
+#### sortablejs
+
+- Weekly Downloads : 약 80만
+- 자바스크립트에서 사용하기 위해서 만들어진 라이브러리
+- [sortablejs 예제](http://sortablejs.github.io/Sortable/#simple-list)
+- react-sortablejs를 사용하면 리액트에서도 편하게 사용가능
+  - Weekly Downloads : 약 8만
+
+#### react-sortable-hoc
+
+- Weekly Downloads : 약 46만
+- 예제가 잘 되어있다
+- [react-sortable-hoc 예제](http://clauderic.github.io/react-sortable-hoc/#/basic-configuration/basic-usage?_k=mpdxwt)
+
+#### react dnd
+
+- Weekly Downloads : 약 81만
+- drag and drop react 라이브러리 중 가장 많이 사용된다
+
+#### 선정 기준
+
+- inflearn 애니메이션과 가장 유사한 것
+- sortablejs가 거의 똑같고 나머진 mouseup 과 mousedown에서 애니메이션이 이동되는 방식이었다(drag api를 사용하지 않는 것으로 보임)
+
+### react-sortablejs
+
+```
+npm install --save react-sortablejs sortablejs
+npm install --save-dev @types/sortablejs
+```
+
+- force flag를 사용해서 설치를 했다.
+
+- [npm cli flag: ` force` and ` legacy peer deps`](https://github.com/Ark-inflearn/inflearn-clone-front/wiki/npm-cli-flag:-%60--force%60-and-%60--legacy-peer-deps%60)
+
+#### key !== index
+
+DO NOT use the index as a key for your list items. Sorting will not work.
+
+In all the examples above, I used an object with an ID. You should do the same!
+
+I may even enforce this into the design to eliminate errors.
+
+</details>

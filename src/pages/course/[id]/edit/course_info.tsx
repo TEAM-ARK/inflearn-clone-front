@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { ReactSortable } from 'react-sortablejs';
 import styled from 'styled-components';
 import CourseCommonButton from '@components/courseEdit/CourseCommonButton';
 import CourseTitle from '@components/courseEdit/CourseTitle';
@@ -106,6 +107,15 @@ function CourseInfo() {
           console.error('boxType is wrong');
       }
     };
+  const [whatYouCanLearn, setWhatYouCanLearn] = useState<string[]>([...lectureData?.courseInfo.whatYouCanLearn]);
+  const [expectedStudents, setExpectedStudents] = useState<string[]>([...lectureData?.courseInfo.expectedStudents]);
+  const [requiredKnowledge, setRequiredKnowledge] = useState<string[]>([...lectureData?.courseInfo.requiredKnowledge]);
+  useEffect(() => {
+    setWhatYouCanLearn([...lectureData?.courseInfo.whatYouCanLearn]);
+    setExpectedStudents([...lectureData?.courseInfo.expectedStudents]);
+    setRequiredKnowledge([...lectureData?.courseInfo.requiredKnowledge]);
+    console.log('whatYouCanLearn', whatYouCanLearn); // 처음에 undefined인데 가져오면서 데이터 다시 넣고 렌더링
+  }, [lectureData]);
   return (
     <CourseLayout>
       <CourseTitleLabel title="강의제작" />
@@ -121,30 +131,30 @@ function CourseInfo() {
         <WarnMessage>두 개 이상 넣어주세요</WarnMessage>
         {/* <TextListBox list={lectureData?.courseInfo.whatYouCanLearn} /> */}
         {/* <TextListBox list={textArray} setTextArray={setTextArray} /> */}
-        <ul>
-          {lectureData?.courseInfo.whatYouCanLearn.map((item, index) => (
+        <ReactSortable list={whatYouCanLearn} setList={setWhatYouCanLearn} animation={200} handle=".handle">
+          {whatYouCanLearn.map((item, index) => (
             <TextListBox
-              key={index}
+              key={`k${index}`}
               item={item}
-              onClick={onClickTextBoxDelete(lectureData?.courseInfo.whatYouCanLearn, index, 'whatYouCanLearn')}
+              onClickDelete={onClickTextBoxDelete(lectureData?.courseInfo.whatYouCanLearn, index, 'whatYouCanLearn')}
             />
           ))}
-        </ul>
+        </ReactSortable>
       </FieldDiv>
       <FieldDiv>
         <Label>이런 분들에게 추천해요</Label>
         <BoxInput type="text" placeholder="e.g., 코딩을 처음 접하는 사람" />
         <AddButton>추가하기</AddButton>
         <WarnMessage>두 개 이상 넣어주세요</WarnMessage>
-        <ul>
-          {lectureData?.courseInfo.expectedStudents.map((item, index) => (
+        <ReactSortable list={expectedStudents} setList={setExpectedStudents} animation={200} handle=".handle">
+          {expectedStudents.map((item, index) => (
             <TextListBox
-              key={index}
+              key={`k${index}`}
               item={item}
-              onClick={onClickTextBoxDelete(lectureData?.courseInfo.expectedStudents, index, 'expectedStudents')}
+              onClickDelete={onClickTextBoxDelete(lectureData?.courseInfo.expectedStudents, index, 'expectedStudents')}
             />
           ))}
-        </ul>
+        </ReactSortable>
       </FieldDiv>
       <FieldDiv>
         <Label>
@@ -153,15 +163,19 @@ function CourseInfo() {
         <BoxInput type="text" placeholder="e.g., 코딩을 처음 접하는 사람" />
         <AddButton>추가하기</AddButton>
         <WarnMessage>두 개 이상 넣어주세요</WarnMessage>
-        <ul>
-          {lectureData?.courseInfo.requiredKnowledge.map((item, index) => (
+        <ReactSortable list={requiredKnowledge} setList={setRequiredKnowledge} animation={200} handle=".handle">
+          {requiredKnowledge.map((item, index) => (
             <TextListBox
-              key={index}
+              key={`k${index}`}
               item={item}
-              onClick={onClickTextBoxDelete(lectureData?.courseInfo.requiredKnowledge, index, 'requiredKnowledge')}
+              onClickDelete={onClickTextBoxDelete(
+                lectureData?.courseInfo.requiredKnowledge,
+                index,
+                'requiredKnowledge'
+              )}
             />
           ))}
-        </ul>
+        </ReactSortable>
       </FieldDiv>
       <FieldDiv>
         <Label>카테고리</Label>

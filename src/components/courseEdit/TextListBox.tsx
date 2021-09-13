@@ -20,17 +20,17 @@ const DraggableButton = styled.button`
 
 type Props = {
   item: string;
-  onClick: () => void;
+  onClickDelete: () => void;
 };
-const TextListBox = ({ item, onClick }: Props) => {
+const TextListBox = ({ item, onClickDelete }: Props) => {
   return (
     <DynamicBox>
       <div>{item}</div>
       <div>
-        <button onClick={onClick} type="button">
+        <button onClick={onClickDelete} type="button">
           <DeleteIcon />
         </button>
-        <DraggableButton>
+        <DraggableButton className="handle">
           <DragHandleIcon />
         </DraggableButton>
       </div>
