@@ -40,7 +40,7 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }: AppProps) => {
       <Global />
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
-          <ReactQueryDevtools initialIsOpen={false} />
+          {/* <ReactQueryDevtools initialIsOpen={false} /> */}
           <ThemeProvider theme={theme}>
             <CssBaseline />
             <Component {...pageProps} />
