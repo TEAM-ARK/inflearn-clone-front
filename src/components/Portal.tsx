@@ -9,8 +9,6 @@ interface IProps {
 export default function Portal({ children, selector }: IProps) {
   const [mounted, setMounted] = useState(false);
 
-  console.log('Portal Render!');
-
   useEffect(() => {
     setMounted(true);
     return () => setMounted(false);

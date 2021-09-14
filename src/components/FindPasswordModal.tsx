@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import useInput from '@utils/useInput';
 
@@ -7,8 +7,8 @@ interface IProps {
 }
 
 export default function FindPasswordModal({ handleCloseModal }: IProps) {
-  const [email, setEmail] = useState('');
-  console.log('FindPassword Render!');
+  const [email, handleChangeEmail] = useInput('');
+
   const inflearnLogo = () => {
     return (
       <svg width="150" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 433 90">
@@ -34,11 +34,6 @@ export default function FindPasswordModal({ handleCloseModal }: IProps) {
     console.log({ email });
   };
 
-  const handleChangeEmail = (e) => {
-    setEmail(e.target.value);
-    console.log(e.target.value);
-  };
-
   return (
     <FindPassword>
       <CloseModalButton onClick={handleCloseModal}>&times;</CloseModalButton>
@@ -51,14 +46,14 @@ export default function FindPasswordModal({ handleCloseModal }: IProps) {
           <br />
           이메일을 통해 비밀번호 수정 링크가 전송됩니다.
         </Description>
-        <InputField>
-          <input
-            value={email}
-            type="text"
-            onChange={handleChangeEmail}
-            placeholder="가입된 이메일을 정확히 입력해 주세요."
-          />
-        </InputField>
+        <EmailInput
+          value={email}
+          type="email"
+          onChange={handleChangeEmail}
+          placeholder="가입된 이메일을 정확히 입력해 주세요."
+          autoFocus
+          required
+        />
         <SubmitButton type="submit">비밀번호 찾기</SubmitButton>
       </FindPasswordForm>
     </FindPassword>
@@ -103,12 +98,8 @@ const Description = styled.p`
   margin-bottom: 16px;
 `;
 
-const InputField = styled.div`
-  margin-bottom: 1rem;
-  text-align: center;
-`;
-
 const EmailInput = styled.input`
+  margin-bottom: 1rem;
   border-radius: 3px;
   box-shadow: none;
   background: #f6f6f6;
@@ -116,9 +107,9 @@ const EmailInput = styled.input`
   font-size: 1rem;
   width: 100%;
   padding: calc(0.375em - 1px) calc(0.625em - 1px);
-  border: 1px solid #ff7867;
   &:focus {
-    color: red;
+    border: 2px solid #1dc078;
+    outline: none;
   }
 `;
 

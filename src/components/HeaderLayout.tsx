@@ -100,8 +100,6 @@ const headersData = [
 export default function HeaderLayout() {
   const isMobile = useMediaQuery('(max-width: 1025px)');
 
-  console.log('HeaderLayout Render!');
-
   const styleProps = {
     isMobileLogo: 'center',
   };
@@ -208,9 +206,9 @@ export default function HeaderLayout() {
             },
           }}
         >
-          <div>
+          <>
             <LoginModal handleFindPasswordModal={handleOpenFindPasswordModal} onClose={handleCloseLogin} />
-          </div>
+          </>
         </Modal>
 
         {showFindPasswordModal && (
