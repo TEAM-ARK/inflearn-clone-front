@@ -185,9 +185,9 @@ export default function LoginModal({ handleFindPasswordModal, onClose }: IProps)
   const navBar = () => {
     return (
       <p className={nav}>
-        <a href="#" className={navContent} onClick={handleFindPasswordModal}>
+        <span className={navContent} onClick={handleFindPasswordModal}>
           비밀번호 찾기
-        </a>
+        </span>
         <span className={`${navContent} ${navSignup}`}>
           <Link href="/signup">
             <a>회원가입</a>

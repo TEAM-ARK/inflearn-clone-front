@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
+import useInput from '@utils/useInput';
 
 interface IProps {
   show: boolean;
@@ -9,6 +10,7 @@ interface IProps {
 
 export default function FindPasswordModal({ show, handleCloseModal }: IProps) {
   const [isBrowser, setIsBrowser] = useState(false);
+  const [email, setEmail] = useState('');
 
   useEffect(() => {
     setIsBrowser(true);
@@ -34,10 +36,38 @@ export default function FindPasswordModal({ show, handleCloseModal }: IProps) {
     );
   };
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log({ email });
+  };
+
+  // const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setEmail(e.target.value);
+  //   console.log(e.target.value);
+  // };
+
   const modalContent = show ? (
     <FindPassword>
       <CloseModalButton onClick={handleCloseModal}>&times;</CloseModalButton>
-      <FindPasswordForm>{inflearnLogo()}</FindPasswordForm>
+      <FindPasswordForm onSubmit={handleSubmit}>
+        {inflearnLogo()}
+        <Description>
+          비밀번호를 잃어버리셨나요?
+          <br />
+          인프런에 가입한 이메일을 정확하게 입력해 주세요.
+          <br />
+          이메일을 통해 비밀번호 수정 링크가 전송됩니다.
+        </Description>
+        <InputField>
+          <input
+            value={email}
+            type="text"
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="가입된 이메일을 정확히 입력해 주세요."
+          />
+        </InputField>
+        <SubmitButton type="submit">비밀번호 찾기</SubmitButton>
+      </FindPasswordForm>
     </FindPassword>
   ) : null;
 
@@ -50,7 +80,7 @@ export default function FindPasswordModal({ show, handleCloseModal }: IProps) {
 }
 
 const FindPassword = styled.section`
-  position: fixed;
+  position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
@@ -61,9 +91,7 @@ const FindPassword = styled.section`
 
 const CloseModalButton = styled.button`
   position: absolute;
-  right: 0px;
-  top: 5px;
-  padding: 0;
+  right: 20px;
   background: transparent;
   border: none;
   font-size: 80px;
@@ -71,8 +99,50 @@ const CloseModalButton = styled.button`
 `;
 
 const FindPasswordForm = styled.form`
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   width: 360px;
   height: 400px;
   margin: auto;
   text-align: center;
+`;
+
+const Description = styled.p`
+  font-size: 15px;
+  line-height: 1.6;
+  font-weight: 800;
+  margin-bottom: 16px;
+`;
+
+const InputField = styled.div`
+  margin-bottom: 1rem;
+  text-align: center;
+`;
+
+const EmailInput = styled.input`
+  border-radius: 3px;
+  box-shadow: none;
+  background: #f6f6f6;
+  color: #5f5f5f;
+  font-size: 1rem;
+  width: 100%;
+  padding: calc(0.375em - 1px) calc(0.625em - 1px);
+  border: 1px solid #ff7867;
+  &:focus {
+    color: red;
+  }
+`;
+
+const SubmitButton = styled.button`
+  width: 100%;
+  font-size: 1.25rem;
+  background-color: #1dc078;
+  color: #fff;
+  text-align: center;
+  padding: calc(0.375em - 1px) 0.75em;
+  height: 2.25em;
+  border-radius: 4px;
 `;
