@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ReactSortable } from 'react-sortablejs';
+import { ItemInterface, ReactSortable } from 'react-sortablejs';
 import styled from 'styled-components';
 import CourseCommonButton from '@components/courseEdit/CourseCommonButton';
 import CourseTitle from '@components/courseEdit/CourseTitle';
@@ -74,6 +74,10 @@ const OptionalText = styled.span`
   font-weight: 400;
 `;
 
+interface dndProps extends ItemInterface {
+  id:
+}
+
 function CourseInfo() {
   const { createLectureData, lectureData } = useSelector((state: RootState) => state.lecture);
   const title = createLectureData?.title;
@@ -107,6 +111,7 @@ function CourseInfo() {
           console.error('boxType is wrong');
       }
     };
+
   const [whatYouCanLearn, setWhatYouCanLearn] = useState<string[]>([...lectureData?.courseInfo.whatYouCanLearn]);
   const [expectedStudents, setExpectedStudents] = useState<string[]>([...lectureData?.courseInfo.expectedStudents]);
   const [requiredKnowledge, setRequiredKnowledge] = useState<string[]>([...lectureData?.courseInfo.requiredKnowledge]);
