@@ -1,21 +1,14 @@
-import React, { useEffect, useState, useRef } from 'react';
-import ReactDOM from 'react-dom';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import useInput from '@utils/useInput';
 
 interface IProps {
-  show: boolean;
   handleCloseModal: () => void;
 }
 
-export default function FindPasswordModal({ show, handleCloseModal }: IProps) {
-  const [isBrowser, setIsBrowser] = useState(false);
+export default function FindPasswordModal({ handleCloseModal }: IProps) {
   const [email, setEmail] = useState('');
-
-  useEffect(() => {
-    setIsBrowser(true);
-  }, []);
-
+  console.log('FindPassword Render!');
   const inflearnLogo = () => {
     return (
       <svg width="150" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 433 90">
@@ -41,12 +34,12 @@ export default function FindPasswordModal({ show, handleCloseModal }: IProps) {
     console.log({ email });
   };
 
-  // const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setEmail(e.target.value);
-  //   console.log(e.target.value);
-  // };
+  const handleChangeEmail = (e) => {
+    setEmail(e.target.value);
+    console.log(e.target.value);
+  };
 
-  const modalContent = show ? (
+  return (
     <FindPassword>
       <CloseModalButton onClick={handleCloseModal}>&times;</CloseModalButton>
       <FindPasswordForm onSubmit={handleSubmit}>
@@ -62,21 +55,14 @@ export default function FindPasswordModal({ show, handleCloseModal }: IProps) {
           <input
             value={email}
             type="text"
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={handleChangeEmail}
             placeholder="가입된 이메일을 정확히 입력해 주세요."
           />
         </InputField>
         <SubmitButton type="submit">비밀번호 찾기</SubmitButton>
       </FindPasswordForm>
     </FindPassword>
-  ) : null;
-
-  if (isBrowser) {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    return ReactDOM.createPortal(modalContent, document.getElementById('find-password-modal')!);
-  }
-
-  return null;
+  );
 }
 
 const FindPassword = styled.section`

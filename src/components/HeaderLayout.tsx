@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo, useCallback } from 'react';
 import {
   Toolbar,
   AppBar,
@@ -17,6 +17,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import { throttle } from 'lodash';
 import Link from 'next/link';
 import LoginModal from '@components/LoginModal';
+import Portal from '@components/Portal';
 import FindPasswordModal from './FindPasswordModal';
 
 const useStyles = makeStyles({
@@ -99,6 +100,8 @@ const headersData = [
 export default function HeaderLayout() {
   const isMobile = useMediaQuery('(max-width: 1025px)');
 
+  console.log('HeaderLayout Render!');
+
   const styleProps = {
     isMobileLogo: 'center',
   };
@@ -179,13 +182,13 @@ export default function HeaderLayout() {
     setOpenLogin(false);
   };
 
-  const handleCloseFindPasswordModal = () => {
+  const handleCloseFindPasswordModal = useCallback(() => {
     setShowFindPasswordModal(false);
-  };
+  }, []);
 
-  const handleOpenFindPasswordModal = () => {
+  const handleOpenFindPasswordModal = useCallback(() => {
     setShowFindPasswordModal(true);
-  };
+  }, []);
 
   const getAccountButton = () => {
     return (
@@ -209,7 +212,13 @@ export default function HeaderLayout() {
             <LoginModal handleFindPasswordModal={handleOpenFindPasswordModal} onClose={handleCloseLogin} />
           </div>
         </Modal>
-        <FindPasswordModal show={showFindPasswordModal} handleCloseModal={handleCloseFindPasswordModal} />
+
+        {showFindPasswordModal && (
+          <Portal selector="#find-password-modal">
+            <FindPasswordModal handleCloseModal={handleCloseFindPasswordModal} />
+          </Portal>
+        )}
+
         <Button className={signupBtn}>
           <Link href="/signup">
             <a>회원가입</a>
