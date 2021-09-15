@@ -56,9 +56,9 @@ export interface IAction {
 export interface ILectureInfo {
   id?: number;
   title?: string;
-  whatYouCanLearn: string[];
-  expectedStudents: string[];
-  requiredKnowledge: string[];
+  whatYouCanLearn: LectureInfoChild[];
+  expectedStudents: LectureInfoChild[];
+  requiredKnowledge: LectureInfoChild[];
   category: {
     id: string;
     name: string;
@@ -69,4 +69,9 @@ export interface ILectureInfo {
 // Lecture data on load edit page
 export type LectureData = {
   courseInfo: ILectureInfo;
+};
+
+export type LectureInfoChild = {
+  name: string;
+  order: number;
 };

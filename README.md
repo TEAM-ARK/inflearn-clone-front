@@ -1130,7 +1130,7 @@ export default useInput;
 </details>
 
 <details>
-<summary>2021.09.02.(Tony)</summary>
+<summary>2021.09.13~15.(Tony)</summary>
 
 ## 강의 생성 부 drag and drop
 
@@ -1184,5 +1184,11 @@ DO NOT use the index as a key for your list items. Sorting will not work.
 In all the examples above, I used an object with an ID. You should do the same!
 
 I may even enforce this into the design to eliminate errors.
+
+### type 변경 및 설정
+
+- [x] lectureData?.courseInfo에 속한 배열 whatYouCanLearn, expectedStudents, requiredKnowledge 타입변경
+  - string[] -> {name: string, order: number}[]
+- [x] ReactSortable(sortablejs 라이브러리 컴포넌트)에 props type 맞게 설정
 
 </details>

@@ -13,6 +13,7 @@ import {
   DELETE_ITEM_REQUIREDKNOWLEDGE,
   DELETE_ITEM_WHATYOUCANLEARN,
 } from 'src/redux/reducers/lecture';
+import { LectureInfoChild } from 'src/redux/reducers/types';
 
 const BoxInput = styled.input`
   border: 0;
@@ -74,20 +75,20 @@ const OptionalText = styled.span`
   font-weight: 400;
 `;
 
-interface dndProps extends ItemInterface {
-  id:
-}
-
 function CourseInfo() {
   const { createLectureData, lectureData } = useSelector((state: RootState) => state.lecture);
   const title = createLectureData?.title;
   const [selectedId, setSelectedId] = useState<string>('');
   const dispatch = useDispatch();
   const onClickTextBoxDelete =
-    (textList: string[], index: number, boxType: 'whatYouCanLearn' | 'expectedStudents' | 'requiredKnowledge') =>
+    (
+      textList: LectureInfoChild[],
+      id: number | string,
+      boxType: 'whatYouCanLearn' | 'expectedStudents' | 'requiredKnowledge'
+    ) =>
     () => {
       const textArray = [...textList];
-      textArray.splice(index, 1);
+      textArray.splice(+id, 1);
       switch (boxType) {
         case 'whatYouCanLearn':
           dispatch({
@@ -112,13 +113,43 @@ function CourseInfo() {
       }
     };
 
-  const [whatYouCanLearn, setWhatYouCanLearn] = useState<string[]>([...lectureData?.courseInfo.whatYouCanLearn]);
-  const [expectedStudents, setExpectedStudents] = useState<string[]>([...lectureData?.courseInfo.expectedStudents]);
-  const [requiredKnowledge, setRequiredKnowledge] = useState<string[]>([...lectureData?.courseInfo.requiredKnowledge]);
+  const [whatYouCanLearn, setWhatYouCanLearn] = useState<ItemInterface[]>(
+    lectureData?.courseInfo.whatYouCanLearn.map((item) => ({
+      id: item.order,
+      name: item.name,
+    }))
+  );
+  const [expectedStudents, setExpectedStudents] = useState<ItemInterface[]>(
+    lectureData?.courseInfo.expectedStudents.map((item) => ({
+      id: item.order,
+      name: item.name,
+    }))
+  );
+  const [requiredKnowledge, setRequiredKnowledge] = useState<ItemInterface[]>(
+    lectureData?.courseInfo.requiredKnowledge.map((item) => ({
+      id: item.order,
+      name: item.name,
+    }))
+  );
   useEffect(() => {
-    setWhatYouCanLearn([...lectureData?.courseInfo.whatYouCanLearn]);
-    setExpectedStudents([...lectureData?.courseInfo.expectedStudents]);
-    setRequiredKnowledge([...lectureData?.courseInfo.requiredKnowledge]);
+    setWhatYouCanLearn(
+      lectureData?.courseInfo.whatYouCanLearn.map((item) => ({
+        id: item.order,
+        name: item.name,
+      }))
+    );
+    setExpectedStudents(
+      lectureData?.courseInfo.expectedStudents.map((item) => ({
+        id: item.order,
+        name: item.name,
+      }))
+    );
+    setRequiredKnowledge(
+      lectureData?.courseInfo.requiredKnowledge.map((item) => ({
+        id: item.order,
+        name: item.name,
+      }))
+    );
     console.log('whatYouCanLearn', whatYouCanLearn); // 처음에 undefined인데 가져오면서 데이터 다시 넣고 렌더링
   }, [lectureData]);
   return (
@@ -137,11 +168,11 @@ function CourseInfo() {
         {/* <TextListBox list={lectureData?.courseInfo.whatYouCanLearn} /> */}
         {/* <TextListBox list={textArray} setTextArray={setTextArray} /> */}
         <ReactSortable list={whatYouCanLearn} setList={setWhatYouCanLearn} animation={200} handle=".handle">
-          {whatYouCanLearn.map((item, index) => (
+          {whatYouCanLearn.map((item) => (
             <TextListBox
-              key={`k${index}`}
+              key={item.id}
               item={item}
-              onClickDelete={onClickTextBoxDelete(lectureData?.courseInfo.whatYouCanLearn, index, 'whatYouCanLearn')}
+              onClickDelete={onClickTextBoxDelete(lectureData?.courseInfo.whatYouCanLearn, item.id, 'whatYouCanLearn')}
             />
           ))}
         </ReactSortable>
@@ -152,11 +183,15 @@ function CourseInfo() {
         <AddButton>추가하기</AddButton>
         <WarnMessage>두 개 이상 넣어주세요</WarnMessage>
         <ReactSortable list={expectedStudents} setList={setExpectedStudents} animation={200} handle=".handle">
-          {expectedStudents.map((item, index) => (
+          {expectedStudents.map((item) => (
             <TextListBox
-              key={`k${index}`}
+              key={item.id}
               item={item}
-              onClickDelete={onClickTextBoxDelete(lectureData?.courseInfo.expectedStudents, index, 'expectedStudents')}
+              onClickDelete={onClickTextBoxDelete(
+                lectureData?.courseInfo.expectedStudents,
+                item.id,
+                'expectedStudents'
+              )}
             />
           ))}
         </ReactSortable>
@@ -169,13 +204,13 @@ function CourseInfo() {
         <AddButton>추가하기</AddButton>
         <WarnMessage>두 개 이상 넣어주세요</WarnMessage>
         <ReactSortable list={requiredKnowledge} setList={setRequiredKnowledge} animation={200} handle=".handle">
-          {requiredKnowledge.map((item, index) => (
+          {requiredKnowledge.map((item) => (
             <TextListBox
-              key={`k${index}`}
+              key={item.id}
               item={item}
               onClickDelete={onClickTextBoxDelete(
                 lectureData?.courseInfo.requiredKnowledge,
-                index,
+                item.id,
                 'requiredKnowledge'
               )}
             />

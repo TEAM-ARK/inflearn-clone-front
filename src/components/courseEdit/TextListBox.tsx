@@ -1,7 +1,9 @@
 import React from 'react';
 import DeleteIcon from '@material-ui/icons/Delete';
 import DragHandleIcon from '@material-ui/icons/DragHandle';
+import { ItemInterface } from 'react-sortablejs';
 import styled from 'styled-components';
+// import { LectureInfoChild } from 'src/redux/reducers/types';
 
 const DynamicBox = styled.li`
   display: flex;
@@ -19,13 +21,13 @@ const DraggableButton = styled.button`
 `;
 
 type Props = {
-  item: string;
+  item: ItemInterface;
   onClickDelete: () => void;
 };
 const TextListBox = ({ item, onClickDelete }: Props) => {
   return (
     <DynamicBox>
-      <div>{item}</div>
+      <div>{item.name}</div>
       <div>
         <button onClick={onClickDelete} type="button">
           <DeleteIcon />
