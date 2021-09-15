@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo, useCallback } from 'react';
 import {
   Toolbar,
   AppBar,
@@ -17,6 +17,8 @@ import SearchIcon from '@material-ui/icons/Search';
 import { throttle } from 'lodash';
 import Link from 'next/link';
 import LoginModal from '@components/LoginModal';
+import Portal from '@components/Portal';
+import FindPasswordModal from './FindPasswordModal';
 
 const useStyles = makeStyles({
   appBar: {
@@ -106,6 +108,7 @@ export default function HeaderLayout() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [isNavOn, setIsNavOn] = useState(false);
   const [openLogin, setOpenLogin] = useState(false);
+  const [showFindPasswordModal, setShowFindPasswordModal] = useState(false);
 
   const throttledScroll = useMemo(
     () =>
@@ -177,6 +180,14 @@ export default function HeaderLayout() {
     setOpenLogin(false);
   };
 
+  const handleCloseFindPasswordModal = useCallback(() => {
+    setShowFindPasswordModal(false);
+  }, []);
+
+  const handleOpenFindPasswordModal = useCallback(() => {
+    setShowFindPasswordModal(true);
+  }, []);
+
   const getAccountButton = () => {
     return (
       <Box component="div" className={right}>
@@ -189,11 +200,23 @@ export default function HeaderLayout() {
           onClose={handleCloseLogin}
           aria-labelledby="login-modal-title"
           aria-describedby="login-modal-description"
+          BackdropProps={{
+            style: {
+              backdropFilter: 'blur(3px)',
+            },
+          }}
         >
-          <div>
-            <LoginModal onClose={handleCloseLogin} />
-          </div>
+          <>
+            <LoginModal handleFindPasswordModal={handleOpenFindPasswordModal} onClose={handleCloseLogin} />
+          </>
         </Modal>
+
+        {showFindPasswordModal && (
+          <Portal selector="#find-password-modal">
+            <FindPasswordModal handleCloseModal={handleCloseFindPasswordModal} />
+          </Portal>
+        )}
+
         <Button className={signupBtn}>
           <Link href="/signup">
             <a>회원가입</a>

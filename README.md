@@ -1128,3 +1128,57 @@ export default useInput;
 - 간편 로그인
 
 </details>
+<summary>2021.09.14(NOAH)</summary>
+
+## 비밀번호 찾기 Modal 구현 (Portal 사용)
+
+- \_document.js 페이지에 Modal을 넣을 div tag 추가
+
+```html
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+  </head>
+  <body>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default%2Ces2015%2Ces2016%2Ces2017%2Ces2018%2Ces2019" />
+    <main />
+    <NextScript />
+    <div id="find-password-modal" />
+  </body>
+</html>
+```
+
+- Portal wrapper 추가
+
+```typescript
+export default function Portal({ children, selector }: IProps) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    return () => setMounted(false);
+  }, []);
+
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  return mounted ? createPortal(children, document.querySelector(selector)!) : null;
+}
+```
+
+- Content가 되는 component 추가
+- 비밀번호 찾기 버튼에 따라 showFindPasswordModal useState 변수의 boolean값을 변경하여 제어
+
+```typescript
+{
+  showFindPasswordModal && (
+    <Portal selector="#find-password-modal">
+      <FindPasswordModal handleCloseModal={handleCloseFindPasswordModal} />
+    </Portal>
+  );
+}
+```
+
+## 구현 할 것
+
+- 백엔드쪽에 Router가 구현된 후 API 연결 테스트를 해야 함
+
+</details>
