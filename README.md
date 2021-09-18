@@ -1128,6 +1128,7 @@ export default useInput;
 - 간편 로그인
 
 </details>
+<details>
 <summary>2021.09.14(NOAH)</summary>
 
 ## 비밀번호 찾기 Modal 구현 (Portal 사용)
