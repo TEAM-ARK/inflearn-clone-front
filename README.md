@@ -1191,4 +1191,9 @@ I may even enforce this into the design to eliminate errors.
   - string[] -> {name: string, order: number}[]
 - [x] ReactSortable(sortablejs 라이브러리 컴포넌트)에 props type 맞게 설정
 
+### redux 관련 세팅
+
+- [ ] 드래그 앤 드랍 후 저장 버튼 누르면 변경된 순서로
+- [ ] 중간 저장하면서 saga에서 order를 내가 변경해서 보내주는게 맞는건지 생각해보기
+
 </details>
