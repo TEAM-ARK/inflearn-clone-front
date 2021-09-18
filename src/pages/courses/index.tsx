@@ -23,7 +23,51 @@ const CoursesWrapper = styled.div`
   }
 `;
 
+const CoursesHeader = styled.header`
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #dedede;
+`;
+
+const LectureSearchForm = styled.form`
+  display: flex;
+  justify-content: flex-end;
+
+  @media screen and (max-width: 768px) {
+    justify-content: center;
+  }
+`;
+
+const LectureSearchInput = styled.input`
+  flex: 1 1 300px;
+  max-width: 300px;
+  height: 36px;
+  padding: 5px 9px;
+  border: 1px solid #dedede;
+
+  &:focus {
+    outline: 0.05cm auto #1dc078;
+  }
+
+  &&::placeholder {
+    color: #b8b8b8db;
+  }
+`;
+
+const LectrueSearchBtn = styled.button`
+  width: 53px;
+  height: 36px;
+  background: #1dc078;
+  color: white;
+  font-size: 1rem;
+  font-weight: 800;
+  margin-left: -1rem;
+`;
+
 const Courses = () => {
+  const handleSubmit = () => {
+    console.log('success!');
+  };
+
   return (
     <AppLayout>
       <CoursesSection>
@@ -34,7 +78,12 @@ const Courses = () => {
               <LectureFilter />
             </Grid>
             <Grid item xs={10} style={{ padding: '0 0.75rem' }}>
-              <div>검색하기</div>
+              <CoursesHeader>
+                <LectureSearchForm name="lectureSearch" onSubmit={handleSubmit}>
+                  <LectureSearchInput type="text" placeholder="강의 검색하기" />
+                  <LectrueSearchBtn type="submit">검색</LectrueSearchBtn>
+                </LectureSearchForm>
+              </CoursesHeader>
               <nav>카테고리 경로</nav>
               <span>Grid와 list 선택</span>
               <span>카드 정렬 선택</span>
