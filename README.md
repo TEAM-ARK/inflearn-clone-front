@@ -1186,6 +1186,23 @@ export default function Portal({ children, selector }: IProps) {
 </details>
 
 <details>
+<summary>2021.09.19(나현)</summary>
+
+## 구현한 것
+
+- 강의 페이지 레이아웃을 대략적으로 구현
+- 강의 카테고리와 필터(난이도, 유·무료 선택, 온라인/오프라인)를 각각 CategoryMenu 컴포넌트와 LectureFilter 컴포넌트로 분리
+- 강의 검색하기 부분 디자인 구현
+  - 인프런 CSS 참고함.
+
+## 앞으로 진행할 작업
+
+- 더미데이터로 강의 리스트 나타내기
+- 카드 정렬 스타일을 선택하는 Grid와 List 버튼 구현하기
+
+</details>
+
+<details>
 <summary>2021.09.13~19.(Tony)</summary>
 
 ## 강의 생성 부 drag and drop
@@ -1265,5 +1282,4 @@ I may even enforce this into the design to eliminate errors.
 
 - [ ] 카테고리, 강의 수준 만들기
 - [x] 중간 저장버튼과 redux, saga 연결하기
-
 </details>
