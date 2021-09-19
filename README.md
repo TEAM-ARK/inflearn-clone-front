@@ -1186,7 +1186,7 @@ export default function Portal({ children, selector }: IProps) {
 </details>
 
 <details>
-<summary>2021.09.13~15.(Tony)</summary>
+<summary>2021.09.13~19.(Tony)</summary>
 
 ## 강의 생성 부 drag and drop
 
@@ -1249,8 +1249,10 @@ I may even enforce this into the design to eliminate errors.
 
 ### redux 관련 세팅
 
-- [ ] 드래그 앤 드랍 후 저장 버튼 누르면 변경된 순서로
-- [ ] 중간 저장하면서 saga에서 order를 내가 변경해서 보내주는게 맞는건지 생각해보기
+- [x] 드래그 앤 드랍 후 저장 버튼 누르면 변경된 순서로 보내기(saga)
+- [x] 중간 저장하면서 saga에서 order를 내가 변경해서 보내주는게 맞는건지 생각해보기
+
+  - 그냥 프론트에서 변경된 order로 보내주자 - 나중에 백엔드랑 같이 고민해봐야 함
 
 - delete 아이콘 클릭하면 삭제하던 방식 변경
   - 기존 : reducer에서 store에 있는 것을 바로 삭제
@@ -1262,6 +1264,6 @@ I may even enforce this into the design to eliminate errors.
 ## Things to do on this page
 
 - [ ] 카테고리, 강의 수준 만들기
-- [ ] 중간 저장버튼과 redux, saga 연결하기
+- [x] 중간 저장버튼과 redux, saga 연결하기
 
 </details>

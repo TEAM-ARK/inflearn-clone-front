@@ -73,5 +73,5 @@ export type LectureData = {
 
 export type LectureInfoChild = {
   name: string;
-  order: number;
+  order: number | string;
 };

@@ -14,6 +14,9 @@ import {
   LOAD_EDIT_LECTURE_REQUEST,
   LOAD_EDIT_LECTURE_SUCCESS,
   LOAD_EDIT_LECTURE_FAILURE,
+  SAVE_COURSE_INFO_REQUEST,
+  SAVE_COURSE_INFO_FAILURE,
+  SAVE_COURSE_INFO_SUCCESS,
 } from '../reducers/lecture';
 import { IAction } from '../reducers/types';
 
@@ -30,6 +33,12 @@ async function postCreateLecture(title: string) {
   };
   const result = await axios.post('http://localhost:4000/create_course', param);
   return result;
+}
+
+// save course info (중간 저장 : 저장 후 다음이동)
+async function postSaveCourseInfo(data) {
+  const result = await axios.post('http://3.34.236.174/api/v1/save/course_info', data);
+  return result; // Redundant use of `await` on a return value.eslintno-return-await
 }
 
 function* loadMainPage(action) {
@@ -98,6 +107,24 @@ function* loadEditPage() {
   }
 }
 
+function* saveCourseInfo(action: IAction) {
+  try {
+    // const result = yield call(() => postSaveCourseInfo(action.data), action.data);
+    yield delay(1000);
+    yield put({
+      type: SAVE_COURSE_INFO_SUCCESS,
+      // data: result?.data
+      data: 'course info 저장 성공',
+    });
+  } catch (error) {
+    console.error(error);
+    yield put({
+      type: SAVE_COURSE_INFO_FAILURE,
+      error,
+    });
+  }
+}
+
 // watch function*
 
 function* watchLoadMainPage() {
@@ -116,6 +143,16 @@ function* watchLoadEditPage() {
   yield takeLatest(LOAD_EDIT_LECTURE_REQUEST, loadEditPage);
 }
 
+function* watchSaveCourseInfo() {
+  yield takeLatest(SAVE_COURSE_INFO_REQUEST, saveCourseInfo);
+}
+
 export default function* lectureSaga() {
-  yield all([fork(watchLoadMainPage), fork(watchLoadSlider), fork(watchCreateLecture), fork(watchLoadEditPage)]);
+  yield all([
+    fork(watchLoadMainPage),
+    fork(watchLoadSlider),
+    fork(watchCreateLecture),
+    fork(watchLoadEditPage),
+    fork(watchSaveCourseInfo),
+  ]);
 }
