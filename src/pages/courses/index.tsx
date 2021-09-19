@@ -53,7 +53,7 @@ const LectureSearchInput = styled.input`
   }
 `;
 
-const LectrueSearchBtn = styled.button`
+const LectureSearchBtn = styled.button`
   width: 53px;
   height: 36px;
   background: #1dc078;
@@ -81,7 +81,7 @@ const Courses = () => {
               <CoursesHeader>
                 <LectureSearchForm name="lectureSearch" onSubmit={handleSubmit}>
                   <LectureSearchInput type="text" placeholder="강의 검색하기" />
-                  <LectrueSearchBtn type="submit">검색</LectrueSearchBtn>
+                  <LectureSearchBtn type="submit">검색</LectureSearchBtn>
                 </LectureSearchForm>
               </CoursesHeader>
               <nav>카테고리 경로</nav>
