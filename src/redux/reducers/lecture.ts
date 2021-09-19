@@ -74,9 +74,9 @@ export const LOAD_EDIT_LECTURE_SUCCESS = 'LOAD_EDIT_LECTURE_SUCCESS';
 export const LOAD_EDIT_LECTURE_FAILURE = 'LOAD_EDIT_LECTURE_FAILURE';
 
 // TextListBox delete button
-export const DELETE_ITEM_WHATYOUCANLEARN = 'DELETE_ITEM_WHATYOUCANLEARN';
-export const DELETE_ITEM_EXPECTEDSTUDENTS = 'DELETE_ITEM_EXPECTEDSTUDENTS';
-export const DELETE_ITEM_REQUIREDKNOWLEDGE = 'DELETE_ITEM_REQUIREDKNOWLEDGE';
+// export const DELETE_ITEM_WHATYOUCANLEARN = 'DELETE_ITEM_WHATYOUCANLEARN';
+// export const DELETE_ITEM_EXPECTEDSTUDENTS = 'DELETE_ITEM_EXPECTEDSTUDENTS';
+// export const DELETE_ITEM_REQUIREDKNOWLEDGE = 'DELETE_ITEM_REQUIREDKNOWLEDGE';
 
 // reducer
 const reducer = (state = initialState, action: IAction) => {
@@ -137,15 +137,15 @@ const reducer = (state = initialState, action: IAction) => {
         draft.editLectureLoading = false;
         draft.editLectureError = action.error;
         break;
-      case DELETE_ITEM_WHATYOUCANLEARN:
-        draft.lectureData.courseInfo.whatYouCanLearn = action.data;
-        break;
-      case DELETE_ITEM_EXPECTEDSTUDENTS:
-        draft.lectureData.courseInfo.expectedStudents = action.data;
-        break;
-      case DELETE_ITEM_REQUIREDKNOWLEDGE:
-        draft.lectureData.courseInfo.requiredKnowledge = action.data;
-        break;
+      // case DELETE_ITEM_WHATYOUCANLEARN:
+      //   draft.lectureData.courseInfo.whatYouCanLearn = action.data;
+      //   break;
+      // case DELETE_ITEM_EXPECTEDSTUDENTS:
+      //   draft.lectureData.courseInfo.expectedStudents = action.data;
+      //   break;
+      // case DELETE_ITEM_REQUIREDKNOWLEDGE:
+      //   draft.lectureData.courseInfo.requiredKnowledge = action.data;
+      //   break;
 
       // 나머지 추후 추가 예정
       default:

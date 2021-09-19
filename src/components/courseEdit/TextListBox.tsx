@@ -22,9 +22,19 @@ const DraggableButton = styled.button`
 
 type Props = {
   item: ItemInterface;
-  onClickDelete: () => void;
+  // onClickDelete: () => void;
+  list: ItemInterface[];
+  setList: React.Dispatch<React.SetStateAction<ItemInterface[]>>;
+  index: number;
 };
-const TextListBox = ({ item, onClickDelete }: Props) => {
+
+const TextListBox = ({ item, list, setList, index }: Props) => {
+  const onClickDelete = () => {
+    const copiedList = [...list];
+    copiedList.splice(index, 1); // 현재 항목을 지움
+    setList(copiedList); // 지운 것을 반영
+  };
+
   return (
     <DynamicBox>
       <div>{item.name}</div>

@@ -1251,4 +1251,17 @@ I may even enforce this into the design to eliminate errors.
 
 - [ ] 드래그 앤 드랍 후 저장 버튼 누르면 변경된 순서로
 - [ ] 중간 저장하면서 saga에서 order를 내가 변경해서 보내주는게 맞는건지 생각해보기
+
+- delete 아이콘 클릭하면 삭제하던 방식 변경
+  - 기존 : reducer에서 store에 있는 것을 바로 삭제
+  - 변경 : store에 있는 것을 건들지 않고 useState로 임시로 저장 후 삭제 또는 순서의 변경을 해당 페이지에서 중간저장 버튼을 누르면 서버에 반영되도록 변경
+    - 변경된 순서는 새로고침을 하면 다시 서버에서 변경 데이터를 store에 저장하는 방식
+    - store는 서버에서 받은 정보만을 저장
+    - react-sortablejs에서 사용하는 방식과 맞추는 것
+
+## Things to do on this page
+
+- [ ] 카테고리, 강의 수준 만들기
+- [ ] 중간 저장버튼과 redux, saga 연결하기
+
 </details>

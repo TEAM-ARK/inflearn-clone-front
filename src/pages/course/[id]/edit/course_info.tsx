@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { ItemInterface, ReactSortable } from 'react-sortablejs';
 import styled from 'styled-components';
 import CourseCommonButton from '@components/courseEdit/CourseCommonButton';
 import CourseTitle from '@components/courseEdit/CourseTitle';
 import CourseTitleLabel from '@components/courseEdit/CourseTitleLabel';
+import SaveButton from '@components/courseEdit/SaveButton';
 import TextListBox from '@components/courseEdit/TextListBox';
 import CourseLayout from 'src/layouts/CourseLayout';
 import { RootState } from 'src/redux/reducers';
-import {
-  DELETE_ITEM_EXPECTEDSTUDENTS,
-  DELETE_ITEM_REQUIREDKNOWLEDGE,
-  DELETE_ITEM_WHATYOUCANLEARN,
-} from 'src/redux/reducers/lecture';
-import { LectureInfoChild } from 'src/redux/reducers/types';
+// import {
+//   DELETE_ITEM_EXPECTEDSTUDENTS,
+//   DELETE_ITEM_REQUIREDKNOWLEDGE,
+//   DELETE_ITEM_WHATYOUCANLEARN,
+// } from 'src/redux/reducers/lecture';
+// import { LectureInfoChild } from 'src/redux/reducers/types';
 
 const BoxInput = styled.input`
   border: 0;
@@ -79,39 +80,39 @@ function CourseInfo() {
   const { createLectureData, lectureData } = useSelector((state: RootState) => state.lecture);
   const title = createLectureData?.title;
   const [selectedId, setSelectedId] = useState<string>('');
-  const dispatch = useDispatch();
-  const onClickTextBoxDelete =
-    (
-      textList: LectureInfoChild[],
-      id: number | string,
-      boxType: 'whatYouCanLearn' | 'expectedStudents' | 'requiredKnowledge'
-    ) =>
-    () => {
-      const textArray = [...textList];
-      textArray.splice(+id, 1);
-      switch (boxType) {
-        case 'whatYouCanLearn':
-          dispatch({
-            type: DELETE_ITEM_WHATYOUCANLEARN,
-            data: textArray,
-          });
-          break;
-        case 'expectedStudents':
-          dispatch({
-            type: DELETE_ITEM_EXPECTEDSTUDENTS,
-            data: textArray,
-          });
-          break;
-        case 'requiredKnowledge':
-          dispatch({
-            type: DELETE_ITEM_REQUIREDKNOWLEDGE,
-            data: textArray,
-          });
-          break;
-        default:
-          console.error('boxType is wrong');
-      }
-    };
+  // const dispatch = useDispatch();
+  // const onClickTextBoxDelete =
+  //   (
+  //     textList: LectureInfoChild[],
+  //     id: number | string,
+  //     boxType: 'whatYouCanLearn' | 'expectedStudents' | 'requiredKnowledge'
+  //   ) =>
+  //   () => {
+  //     const textArray = [...textList];
+  //     textArray.splice(+id, 1);
+  //     switch (boxType) {
+  //       case 'whatYouCanLearn':
+  //         dispatch({
+  //           type: DELETE_ITEM_WHATYOUCANLEARN,
+  //           data: textArray,
+  //         });
+  //         break;
+  //       case 'expectedStudents':
+  //         dispatch({
+  //           type: DELETE_ITEM_EXPECTEDSTUDENTS,
+  //           data: textArray,
+  //         });
+  //         break;
+  //       case 'requiredKnowledge':
+  //         dispatch({
+  //           type: DELETE_ITEM_REQUIREDKNOWLEDGE,
+  //           data: textArray,
+  //         });
+  //         break;
+  //       default:
+  //         console.error('boxType is wrong');
+  //     }
+  //   };
 
   const [whatYouCanLearn, setWhatYouCanLearn] = useState<ItemInterface[]>(
     lectureData?.courseInfo.whatYouCanLearn.map((item) => ({
@@ -131,6 +132,13 @@ function CourseInfo() {
       name: item.name,
     }))
   );
+
+  const onClickSaveButton = () => {
+    console.log('onClickSaveButton');
+    // useState의 list들을 다 취합해서 saga로 보냄
+    // 서버에 전송 성공 후 다음페이지(상세 소개)로 이동
+  };
+
   useEffect(() => {
     setWhatYouCanLearn(
       lectureData?.courseInfo.whatYouCanLearn.map((item) => ({
@@ -168,11 +176,14 @@ function CourseInfo() {
         {/* <TextListBox list={lectureData?.courseInfo.whatYouCanLearn} /> */}
         {/* <TextListBox list={textArray} setTextArray={setTextArray} /> */}
         <ReactSortable list={whatYouCanLearn} setList={setWhatYouCanLearn} animation={200} handle=".handle">
-          {whatYouCanLearn.map((item) => (
+          {whatYouCanLearn.map((item, index) => (
             <TextListBox
               key={item.id}
               item={item}
-              onClickDelete={onClickTextBoxDelete(lectureData?.courseInfo.whatYouCanLearn, item.id, 'whatYouCanLearn')}
+              // onClickDelete={onClickTextBoxDelete(lectureData?.courseInfo.whatYouCanLearn, item.id, 'whatYouCanLearn')}
+              list={whatYouCanLearn}
+              setList={setWhatYouCanLearn}
+              index={index}
             />
           ))}
         </ReactSortable>
@@ -183,15 +194,18 @@ function CourseInfo() {
         <AddButton>추가하기</AddButton>
         <WarnMessage>두 개 이상 넣어주세요</WarnMessage>
         <ReactSortable list={expectedStudents} setList={setExpectedStudents} animation={200} handle=".handle">
-          {expectedStudents.map((item) => (
+          {expectedStudents.map((item, index) => (
             <TextListBox
               key={item.id}
               item={item}
-              onClickDelete={onClickTextBoxDelete(
-                lectureData?.courseInfo.expectedStudents,
-                item.id,
-                'expectedStudents'
-              )}
+              // onClickDelete={onClickTextBoxDelete(
+              //   lectureData?.courseInfo.expectedStudents,
+              //   item.id,
+              //   'expectedStudents'
+              // )}
+              list={expectedStudents}
+              setList={setExpectedStudents}
+              index={index}
             />
           ))}
         </ReactSortable>
@@ -204,15 +218,18 @@ function CourseInfo() {
         <AddButton>추가하기</AddButton>
         <WarnMessage>두 개 이상 넣어주세요</WarnMessage>
         <ReactSortable list={requiredKnowledge} setList={setRequiredKnowledge} animation={200} handle=".handle">
-          {requiredKnowledge.map((item) => (
+          {requiredKnowledge.map((item, index) => (
             <TextListBox
               key={item.id}
               item={item}
-              onClickDelete={onClickTextBoxDelete(
-                lectureData?.courseInfo.requiredKnowledge,
-                item.id,
-                'requiredKnowledge'
-              )}
+              // onClickDelete={onClickTextBoxDelete(
+              //   lectureData?.courseInfo.requiredKnowledge,
+              //   item.id,
+              //   'requiredKnowledge'
+              // )}
+              list={requiredKnowledge}
+              setList={setRequiredKnowledge}
+              index={index}
             />
           ))}
         </ReactSortable>
@@ -222,7 +239,18 @@ function CourseInfo() {
         <CourseCommonButton id="1" text="개발, 프로그래밍" selectedId={selectedId} setSelectedId={setSelectedId} />
         <CourseCommonButton id="2" text="보안, 네트워크" selectedId={selectedId} setSelectedId={setSelectedId} />
         <CourseCommonButton id="3" text="데이터 사이언스" selectedId={selectedId} setSelectedId={setSelectedId} />
+        {
+          // 카테고리 버튼 전부 수정해야 됨 - 다시 클릭 시 해제하도록 해야 함
+          // 카테고리 리스트도 서버에서 가져와서 store에 저장 후 store에 있는 것을 가져오게 할 예정
+        }
       </FieldDiv>
+      <FieldDiv>
+        <Label>강의 수준</Label>
+        {
+          // 여기에 강의 수준 항목 추가되어야 함
+        }
+      </FieldDiv>
+      <SaveButton text="저장 후 다음이동" onClick={onClickSaveButton} />
     </CourseLayout>
   );
 }
