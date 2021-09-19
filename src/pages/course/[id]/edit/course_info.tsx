@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { ItemInterface, ReactSortable } from 'react-sortablejs';
@@ -10,7 +10,13 @@ import SaveButton from '@components/courseEdit/SaveButton';
 import TextListBox from '@components/courseEdit/TextListBox';
 import CourseLayout from 'src/layouts/CourseLayout';
 import { RootState } from 'src/redux/reducers';
-import { SAVE_COURSE_INFO_DONE, SAVE_COURSE_INFO_REQUEST } from 'src/redux/reducers/lecture';
+import {
+  ADD_EXPECTEDSTUDENTS,
+  ADD_REQUIREDKNOWLEDGE,
+  ADD_WHATYOUCANLEARN,
+  SAVE_COURSE_INFO_DONE,
+  SAVE_COURSE_INFO_REQUEST,
+} from 'src/redux/reducers/lecture';
 import { LectureInfoChild } from 'src/redux/reducers/types';
 // import {
 //   DELETE_ITEM_EXPECTEDSTUDENTS,
@@ -198,7 +204,59 @@ function CourseInfo() {
       }))
     );
     console.log('whatYouCanLearn', whatYouCanLearn); // 처음에 undefined인데 가져오면서 데이터 다시 넣고 렌더링
-  }, [lectureData]);
+  }, [lectureData?.courseInfo]);
+
+  const inputWhatYouCanLearn = useRef<HTMLInputElement>(null);
+  const inputExpectedStudents = useRef<HTMLInputElement>(null);
+  const inputRequiredKnowledge = useRef<HTMLInputElement>(null);
+
+  const handleSubmitAddItem = (inputElement: React.RefObject<HTMLInputElement>) => (event: React.FormEvent) => {
+    event.preventDefault();
+    const inputValue = inputElement.current?.value;
+    console.log('inputValue', inputValue);
+    if (!inputValue) {
+      console.log('입력된 값이 없음');
+      return; // '' == false
+    }
+
+    // store에 추가
+    switch (inputElement) {
+      // case inputElement.current.id === 'inputWhatYouCanLearn':
+      case inputWhatYouCanLearn:
+        console.log('inputWhatYouCanLearn');
+        dispatch({
+          type: ADD_WHATYOUCANLEARN,
+          data: {
+            name: inputWhatYouCanLearn.current?.value,
+            order: whatYouCanLearn.length + 1,
+          },
+        });
+        break;
+      case inputExpectedStudents:
+        console.log('inputExpectedStudents');
+        dispatch({
+          type: ADD_EXPECTEDSTUDENTS,
+          data: {
+            name: inputExpectedStudents.current?.value,
+            order: expectedStudents.length + 1,
+          },
+        });
+        break;
+      case inputRequiredKnowledge:
+        console.log('inputRequiredKnowledge');
+        dispatch({
+          type: ADD_REQUIREDKNOWLEDGE,
+          data: {
+            name: inputRequiredKnowledge.current?.value,
+            order: requiredKnowledge.length + 1,
+          },
+        });
+        break;
+      default:
+        console.error('check box type of handleSubmitAddItem');
+    }
+  };
+
   return (
     <CourseLayout>
       <CourseTitleLabel title="강의제작" />
@@ -208,10 +266,12 @@ function CourseInfo() {
         <BoxInput type="text" placeholder="제목을 입력해주세요" value={title} />
       </FirstFieldDiv>
       <FieldDiv>
-        <Label>이런 걸 배울 수 있어요</Label>
-        <BoxInput type="text" placeholder="e.g., 리액트 네이티브 개발" />
-        <AddButton>추가하기</AddButton>
-        <WarnMessage>두 개 이상 넣어주세요</WarnMessage>
+        <form onSubmit={handleSubmitAddItem(inputWhatYouCanLearn)}>
+          <Label>이런 걸 배울 수 있어요</Label>
+          <BoxInput ref={inputWhatYouCanLearn} type="text" placeholder="e.g., 리액트 네이티브 개발" />
+          <AddButton type="submit">추가하기</AddButton>
+          <WarnMessage>두 개 이상 넣어주세요</WarnMessage>
+        </form>
         <ReactSortable list={whatYouCanLearn} setList={setWhatYouCanLearn} animation={200} handle=".handle">
           {whatYouCanLearn.map((item, index) => (
             <TextListBox key={item.id} item={item} list={whatYouCanLearn} setList={setWhatYouCanLearn} index={index} />
@@ -219,10 +279,12 @@ function CourseInfo() {
         </ReactSortable>
       </FieldDiv>
       <FieldDiv>
-        <Label>이런 분들에게 추천해요</Label>
-        <BoxInput type="text" placeholder="e.g., 코딩을 처음 접하는 사람" />
-        <AddButton>추가하기</AddButton>
-        <WarnMessage>두 개 이상 넣어주세요</WarnMessage>
+        <form onSubmit={handleSubmitAddItem(inputExpectedStudents)}>
+          <Label>이런 분들에게 추천해요</Label>
+          <BoxInput ref={inputExpectedStudents} type="text" placeholder="e.g., 코딩을 처음 접하는 사람" />
+          <AddButton type="submit">추가하기</AddButton>
+          <WarnMessage>두 개 이상 넣어주세요</WarnMessage>
+        </form>
         <ReactSortable list={expectedStudents} setList={setExpectedStudents} animation={200} handle=".handle">
           {expectedStudents.map((item, index) => (
             <TextListBox
@@ -236,12 +298,19 @@ function CourseInfo() {
         </ReactSortable>
       </FieldDiv>
       <FieldDiv>
-        <Label>
-          선수지식이 필요하다면 무엇인가요?<OptionalText>(선택)</OptionalText>
-        </Label>
-        <BoxInput type="text" placeholder="e.g., 코딩을 처음 접하는 사람" />
-        <AddButton>추가하기</AddButton>
-        <WarnMessage>두 개 이상 넣어주세요</WarnMessage>
+        <form onSubmit={handleSubmitAddItem(inputRequiredKnowledge)}>
+          <Label>
+            선수지식이 필요하다면 무엇인가요?<OptionalText>(선택)</OptionalText>
+          </Label>
+          <BoxInput
+            id="inputRequiredKnowledge"
+            ref={inputRequiredKnowledge}
+            type="text"
+            placeholder="e.g., 코딩을 처음 접하는 사람"
+          />
+          <AddButton type="submit">추가하기</AddButton>
+          <WarnMessage>두 개 이상 넣어주세요</WarnMessage>
+        </form>
         <ReactSortable list={requiredKnowledge} setList={setRequiredKnowledge} animation={200} handle=".handle">
           {requiredKnowledge.map((item, index) => (
             <TextListBox

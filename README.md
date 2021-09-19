@@ -1283,3 +1283,14 @@ I may even enforce this into the design to eliminate errors.
 - [ ] 카테고리, 강의 수준 만들기
 - [x] 중간 저장버튼과 redux, saga 연결하기
 </details>
+
+<details>
+<summary>2021.09.19.(Tony)</summary>
+
+## 추가 하기 버튼 기능 구현
+
+- 추가하기를 누르면 store에 추가 됨
+  - 빈칸이면 추가 하지 않음
+  - order : list.length + 1번째에 추가(1부터 시작)
+
+</details>
