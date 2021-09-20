@@ -1,7 +1,9 @@
 import React from 'react';
 import DeleteIcon from '@material-ui/icons/Delete';
 import DragHandleIcon from '@material-ui/icons/DragHandle';
+import { ItemInterface } from 'react-sortablejs';
 import styled from 'styled-components';
+// import { LectureInfoChild } from 'src/redux/reducers/types';
 
 const DynamicBox = styled.li`
   display: flex;
@@ -19,18 +21,28 @@ const DraggableButton = styled.button`
 `;
 
 type Props = {
-  item: string;
-  onClick: () => void;
+  item: ItemInterface;
+  // onClickDelete: () => void;
+  list: ItemInterface[];
+  setList: React.Dispatch<React.SetStateAction<ItemInterface[]>>;
+  index: number;
 };
-const TextListBox = ({ item, onClick }: Props) => {
+
+const TextListBox = ({ item, list, setList, index }: Props) => {
+  const onClickDelete = () => {
+    const copiedList = [...list];
+    copiedList.splice(index, 1); // 현재 항목을 지움
+    setList(copiedList); // 지운 것을 반영
+  };
+
   return (
     <DynamicBox>
-      <div>{item}</div>
+      <div>{item.name}</div>
       <div>
-        <button onClick={onClick} type="button">
+        <button onClick={onClickDelete} type="button">
           <DeleteIcon />
         </button>
-        <DraggableButton>
+        <DraggableButton className="handle">
           <DragHandleIcon />
         </DraggableButton>
       </div>

@@ -1128,6 +1128,7 @@ export default useInput;
 - 간편 로그인
 
 </details>
+
 <details>
 <summary>2021.09.14(NOAH)</summary>
 
@@ -1183,13 +1184,14 @@ export default function Portal({ children, selector }: IProps) {
 - 백엔드쪽에 Router가 구현된 후 API 연결 테스트를 해야 함
 
 </details>
+
 <details>
 <summary>2021.09.19(나현)</summary>
 
 ## 구현한 것
 
-- 강의 페이지 레이아웃을 대략적으로 구현 
-- 강의 카테고리와 필터(난이도, 유·무료 선택, 온라인/오프라인)를 각각 CategoryMenu 컴포넌트와 LectureFilter 컴포넌트로 분리 
+- 강의 페이지 레이아웃을 대략적으로 구현
+- 강의 카테고리와 필터(난이도, 유·무료 선택, 온라인/오프라인)를 각각 CategoryMenu 컴포넌트와 LectureFilter 컴포넌트로 분리
 - 강의 검색하기 부분 디자인 구현
   - 인프런 CSS 참고함.
 
@@ -1197,5 +1199,106 @@ export default function Portal({ children, selector }: IProps) {
 
 - 더미데이터로 강의 리스트 나타내기
 - 카드 정렬 스타일을 선택하는 Grid와 List 버튼 구현하기
+
+</details>
+
+<details>
+<summary>2021.09.13~19.(Tony)</summary>
+
+## 강의 생성 부 drag and drop
+
+![](https://images.velog.io/images/gth1123/post/f3f4e477-405e-428d-a5c9-2d931999fa2d/dragAndDrop.gif)
+
+javascript로 직접 구현하려 했으나 애니메이션발동 도중 DOM을 변경하거나
+(DOM 위치가 바뀌면 애니메이션이 바뀐 위치를 기준으로 동작하기 때문에 계산이 어렵다)
+애니메이션이 끝나기 전에 애니메이션의 도착지점을 변경하는 것이 어려워서 라이브러리를 사용하기로 했다
+
+### sortablejs vs react-sortable-hoc vs react dnd
+
+#### sortablejs
+
+- Weekly Downloads : 약 80만
+- 자바스크립트에서 사용하기 위해서 만들어진 라이브러리
+- [sortablejs 예제](http://sortablejs.github.io/Sortable/#simple-list)
+- react-sortablejs를 사용하면 리액트에서도 편하게 사용가능
+  - Weekly Downloads : 약 8만
+
+#### react-sortable-hoc
+
+- Weekly Downloads : 약 46만
+- 예제가 잘 되어있다
+- [react-sortable-hoc 예제](http://clauderic.github.io/react-sortable-hoc/#/basic-configuration/basic-usage?_k=mpdxwt)
+
+#### react dnd
+
+- Weekly Downloads : 약 81만
+- drag and drop react 라이브러리 중 가장 많이 사용된다
+
+#### 선정 기준
+
+- inflearn 애니메이션과 가장 유사한 것
+- sortablejs가 거의 똑같고 나머진 mouseup 과 mousedown에서 애니메이션이 이동되는 방식이었다(drag api를 사용하지 않는 것으로 보임)
+
+### react-sortablejs
+
+```
+npm install --save react-sortablejs sortablejs
+npm install --save-dev @types/sortablejs
+```
+
+- force flag를 사용해서 설치를 했다.
+
+- [npm cli flag: ` force` and ` legacy peer deps`](https://github.com/Ark-inflearn/inflearn-clone-front/wiki/npm-cli-flag:-%60--force%60-and-%60--legacy-peer-deps%60)
+
+#### key !== index
+
+DO NOT use the index as a key for your list items. Sorting will not work.
+
+In all the examples above, I used an object with an ID. You should do the same!
+
+I may even enforce this into the design to eliminate errors.
+
+### type 변경 및 설정
+
+- [x] lectureData?.courseInfo에 속한 배열 whatYouCanLearn, expectedStudents, requiredKnowledge 타입변경
+  - string[] -> {name: string, order: number}[]
+- [x] ReactSortable(sortablejs 라이브러리 컴포넌트)에 props type 맞게 설정
+
+### redux 관련 세팅
+
+- [x] 드래그 앤 드랍 후 저장 버튼 누르면 변경된 순서로 보내기(saga)
+- [x] 중간 저장하면서 saga에서 order를 내가 변경해서 보내주는게 맞는건지 생각해보기
+
+  - 그냥 프론트에서 변경된 order로 보내주자 - 나중에 백엔드랑 같이 고민해봐야 함
+
+- delete 아이콘 클릭하면 삭제하던 방식 변경
+  - 기존 : reducer에서 store에 있는 것을 바로 삭제
+  - 변경 : store에 있는 것을 건들지 않고 useState로 임시로 저장 후 삭제 또는 순서의 변경을 해당 페이지에서 중간저장 버튼을 누르면 서버에 반영되도록 변경
+    - 변경된 순서는 새로고침을 하면 다시 서버에서 변경 데이터를 store에 저장하는 방식
+    - store는 서버에서 받은 정보만을 저장
+    - react-sortablejs에서 사용하는 방식과 맞추는 것
+
+## Things to do on this page
+
+- [ ] 카테고리, 강의 수준 만들기
+- [x] 중간 저장버튼과 redux, saga 연결하기
+</details>
+
+<details>
+<summary>2021.09.19 ~ 20.(Tony)</summary>
+
+## 추가 하기 버튼 기능 구현
+
+- 추가하기를 누르면 store가 아닌 setState에서 변경
+  - redux store에 직접 변경하지 않는 이유는 react-sortablejs에서 useState를 사용하기 때문
+
+```typescript
+// ReactSortable 컴포넌트에서 setList 속성에 setState가 들어가야 함
+<ReactSortable list={expectedStudents} setList={setExpectedStudents} animation={200} handle=".handle">
+  {expectedStudents.map((item, index) => (
+    <TextListBox key={item.id} item={item} list={expectedStudents} setList={setExpectedStudents} index={index} />
+  ))}
+</ReactSortable>
+```
 
 </details>

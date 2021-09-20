@@ -140,9 +140,48 @@ export const dummyLectureEditData: LectureData = {
   courseInfo: {
     id: 1,
     title: 'title from server',
-    whatYouCanLearn: ['당신은', '이것을', '배울 수 있습니다.'],
-    expectedStudents: ['예상', '되는', '수강생들'],
-    requiredKnowledge: ['자신만의', '철학', '열정'],
+    whatYouCanLearn: [
+      {
+        name: '당신은',
+        order: 1,
+      },
+      {
+        name: '이것을',
+        order: 2,
+      },
+      {
+        name: '배울 수 있습니다.',
+        order: 3,
+      },
+    ],
+    expectedStudents: [
+      {
+        name: '예상',
+        order: 1,
+      },
+      {
+        name: '되는',
+        order: 2,
+      },
+      {
+        name: '수강생들',
+        order: 3,
+      },
+    ],
+    requiredKnowledge: [
+      {
+        name: '자신만의',
+        order: 1,
+      },
+      {
+        name: '철학',
+        order: 2,
+      },
+      {
+        name: '열정',
+        order: 3,
+      },
+    ],
     category: [
       {
         id: '1',
