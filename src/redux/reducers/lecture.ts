@@ -90,9 +90,9 @@ export const SAVE_COURSE_INFO_SUCCESS = 'SAVE_COURSE_INFO_SUCCESS';
 export const SAVE_COURSE_INFO_FAILURE = 'SAVE_COURSE_INFO_FAILURE';
 export const SAVE_COURSE_INFO_DONE = 'SAVE_COURSE_INFO_DONE';
 
-export const ADD_WHATYOUCANLEARN = 'ADD_WHATYOUCANLEARN';
-export const ADD_EXPECTEDSTUDENTS = 'ADD_EXPECTEDSTUDENTS';
-export const ADD_REQUIREDKNOWLEDGE = 'ADD_REQUIREDKNOWLEDGE';
+// export const ADD_WHATYOUCANLEARN = 'ADD_WHATYOUCANLEARN';
+// export const ADD_EXPECTEDSTUDENTS = 'ADD_EXPECTEDSTUDENTS';
+// export const ADD_REQUIREDKNOWLEDGE = 'ADD_REQUIREDKNOWLEDGE';
 
 // reducer
 const reducer = (state = initialState, action: IAction) => {
@@ -180,15 +180,15 @@ const reducer = (state = initialState, action: IAction) => {
         draft.saveCourseInfoDone = false;
         break;
 
-      case ADD_WHATYOUCANLEARN:
-        draft.lectureData.courseInfo.whatYouCanLearn.push(action.data);
-        break;
-      case ADD_EXPECTEDSTUDENTS:
-        draft.lectureData.courseInfo.expectedStudents.push(action.data);
-        break;
-      case ADD_REQUIREDKNOWLEDGE:
-        draft.lectureData.courseInfo.requiredKnowledge.push(action.data);
-        break;
+      // case ADD_WHATYOUCANLEARN:
+      //   draft.lectureData.courseInfo.whatYouCanLearn.push(action.data);
+      //   break;
+      // case ADD_EXPECTEDSTUDENTS:
+      //   draft.lectureData.courseInfo.expectedStudents.push(action.data);
+      //   break;
+      // case ADD_REQUIREDKNOWLEDGE:
+      //   draft.lectureData.courseInfo.requiredKnowledge.push(action.data);
+      //   break;
 
       // 나머지 추후 추가 예정
       default:

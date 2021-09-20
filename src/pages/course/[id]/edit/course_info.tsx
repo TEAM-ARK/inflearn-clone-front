@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { ItemInterface, ReactSortable } from 'react-sortablejs';
+import shortid from 'shortid';
 import styled from 'styled-components';
 import CourseCommonButton from '@components/courseEdit/CourseCommonButton';
 import CourseTitle from '@components/courseEdit/CourseTitle';
@@ -11,9 +12,9 @@ import TextListBox from '@components/courseEdit/TextListBox';
 import CourseLayout from 'src/layouts/CourseLayout';
 import { RootState } from 'src/redux/reducers';
 import {
-  ADD_EXPECTEDSTUDENTS,
-  ADD_REQUIREDKNOWLEDGE,
-  ADD_WHATYOUCANLEARN,
+  // ADD_EXPECTEDSTUDENTS,
+  // ADD_REQUIREDKNOWLEDGE,
+  // ADD_WHATYOUCANLEARN,
   SAVE_COURSE_INFO_DONE,
   SAVE_COURSE_INFO_REQUEST,
 } from 'src/redux/reducers/lecture';
@@ -218,39 +219,45 @@ function CourseInfo() {
       console.log('입력된 값이 없음');
       return; // '' == false
     }
-
-    // store에 추가
+    const newItem: ItemInterface = {
+      id: shortid(),
+      name: inputElement.current?.value,
+    };
+    // setState에 추가
     switch (inputElement) {
       // case inputElement.current.id === 'inputWhatYouCanLearn':
       case inputWhatYouCanLearn:
         console.log('inputWhatYouCanLearn');
-        dispatch({
-          type: ADD_WHATYOUCANLEARN,
-          data: {
-            name: inputWhatYouCanLearn.current?.value,
-            order: whatYouCanLearn.length + 1,
-          },
-        });
+        // dispatch({
+        //   type: ADD_WHATYOUCANLEARN,
+        //   data: {
+        //     name: inputWhatYouCanLearn.current?.value,
+        //     order: whatYouCanLearn.length + 1,
+        //   },
+        // });
+        setWhatYouCanLearn((prev: ItemInterface[]) => [...prev, newItem]);
         break;
       case inputExpectedStudents:
         console.log('inputExpectedStudents');
-        dispatch({
-          type: ADD_EXPECTEDSTUDENTS,
-          data: {
-            name: inputExpectedStudents.current?.value,
-            order: expectedStudents.length + 1,
-          },
-        });
+        // dispatch({
+        //   type: ADD_EXPECTEDSTUDENTS,
+        //   data: {
+        //     name: inputExpectedStudents.current?.value,
+        //     order: expectedStudents.length + 1,
+        //   },
+        // });
+        setExpectedStudents((prev: ItemInterface[]) => [...prev, newItem]);
         break;
       case inputRequiredKnowledge:
         console.log('inputRequiredKnowledge');
-        dispatch({
-          type: ADD_REQUIREDKNOWLEDGE,
-          data: {
-            name: inputRequiredKnowledge.current?.value,
-            order: requiredKnowledge.length + 1,
-          },
-        });
+        // dispatch({
+        //   type: ADD_REQUIREDKNOWLEDGE,
+        //   data: {
+        //     name: inputRequiredKnowledge.current?.value,
+        //     order: requiredKnowledge.length + 1,
+        //   },
+        // });
+        setRequiredKnowledge((prev: ItemInterface[]) => [...prev, newItem]);
         break;
       default:
         console.error('check box type of handleSubmitAddItem');

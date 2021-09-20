@@ -1285,12 +1285,20 @@ I may even enforce this into the design to eliminate errors.
 </details>
 
 <details>
-<summary>2021.09.19.(Tony)</summary>
+<summary>2021.09.19 ~ 20.(Tony)</summary>
 
 ## 추가 하기 버튼 기능 구현
 
-- 추가하기를 누르면 store에 추가 됨
-  - 빈칸이면 추가 하지 않음
-  - order : list.length + 1번째에 추가(1부터 시작)
+- 추가하기를 누르면 store가 아닌 setState에서 변경
+  - redux store에 직접 변경하지 않는 이유는 react-sortablejs에서 useState를 사용하기 때문
+
+```typescript
+// ReactSortable 컴포넌트에서 setList 속성에 setState가 들어가야 함
+<ReactSortable list={expectedStudents} setList={setExpectedStudents} animation={200} handle=".handle">
+  {expectedStudents.map((item, index) => (
+    <TextListBox key={item.id} item={item} list={expectedStudents} setList={setExpectedStudents} index={index} />
+  ))}
+</ReactSortable>
+```
 
 </details>
