@@ -1,5 +1,7 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
+import ListIcon from '@material-ui/icons/List';
+import ViewComfyIcon from '@material-ui/icons/ViewComfy';
 import styled from 'styled-components';
 import CategoryMenu from '@components/CategoryMenu';
 import LectureFilter from '@components/LectureFilter';
@@ -63,6 +65,23 @@ const LectureSearchBtn = styled.button`
   margin-left: -1rem;
 `;
 
+type ListViewProps = {
+  view: string;
+};
+
+const ListViewBtn = styled.button<ListViewProps>`
+  background: white;
+  border: 1px solid #dbdbdb;
+  border-right-width: ${(props) => (props.view === 'Grid' ? '0' : '1px')};
+  cursor: pointer;
+  padding: calc(0.375em - 1px) 0.75em;
+  border-radius: ${(props) => (props.view === 'Grid' ? `4px 0 0 4px` : `0 4px 4px 0`)};
+
+  &:hover {
+    border-color: #b5b5b5;
+  }
+`;
+
 const Courses = () => {
   const handleSubmit = () => {
     console.log('success!');
@@ -85,7 +104,12 @@ const Courses = () => {
                 </LectureSearchForm>
               </CoursesHeader>
               <nav>카테고리 경로</nav>
-              <span>Grid와 list 선택</span>
+              <ListViewBtn type="button" view="Grid">
+                <ViewComfyIcon />
+              </ListViewBtn>
+              <ListViewBtn type="button" view="List">
+                <ListIcon />
+              </ListViewBtn>
               <span>카드 정렬 선택</span>
               <div>기술검색</div>
               <div>강의 카드</div>
