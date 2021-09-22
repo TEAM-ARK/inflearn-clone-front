@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Grid from '@material-ui/core/Grid';
 import ListIcon from '@material-ui/icons/List';
 import ViewComfyIcon from '@material-ui/icons/ViewComfy';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import CategoryMenu from '@components/CategoryMenu';
+import LectureCard from '@components/lectureCard/LectureCard';
 import LectureFilter from '@components/LectureFilter';
+import LoadingSpinner from '@components/LoadingSpinner';
 import AppLayout from 'src/layouts/AppLayout';
+import { RootState } from 'src/redux/reducers';
+import { LOAD_ALL_LECTURES_REQUEST } from 'src/redux/reducers/lecture';
+import { ILecture } from 'src/redux/reducers/types';
 
 const CoursesSection = styled.section`
   background: white;
@@ -82,7 +88,20 @@ const ListViewBtn = styled.button<ListViewProps>`
   }
 `;
 
+const LectureList = styled.ul`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  margin-top: 1rem;
+`;
+
 const Courses = () => {
+  const { mainLectures, loadLectureLoading } = useSelector((state: RootState) => state.lecture);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch({ type: LOAD_ALL_LECTURES_REQUEST });
+  }, []);
+
   const handleSubmit = () => {
     console.log('success!');
   };
@@ -112,7 +131,18 @@ const Courses = () => {
               </ListViewBtn>
               <span>카드 정렬 선택</span>
               <div>기술검색</div>
-              <div>강의 카드</div>
+              <div className="lecture-list">
+                {loadLectureLoading ? (
+                  <LoadingSpinner />
+                ) : (
+                  // view의 값은 router.query.view값 가져와서 사용하기
+                  <LectureList>
+                    {mainLectures?.map((lecture: ILecture) => (
+                      <LectureCard key={lecture.id} lecture={lecture} />
+                    ))}
+                  </LectureList>
+                )}
+              </div>
               <div>페이지네이션</div>
             </Grid>
           </Grid>
