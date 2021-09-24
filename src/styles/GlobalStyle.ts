@@ -73,7 +73,11 @@ ul, li {
   display: inline-block;
 }
 
-
+.selected-list-view {
+  background: #1dc078 !important;
+  border-color: transparent !important;
+  color: white;
+}
 
 `;
 
