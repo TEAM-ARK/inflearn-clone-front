@@ -1378,4 +1378,11 @@ Warning: You provided a `value` prop to a form field without an `onChange` handl
 - https://bbangaro.tistory.com/28
 - https://stackoverflow.com/questions/43556212/failed-form-proptype-you-provided-a-value-prop-to-a-form-field-without-an-on
 
+### 추가하기 이후 input tag value 초기화
+
+```typescript
+// course_info.tsx의 handleSubmitAddItem 함수
+inputElement.current.value = ''; // input value 초기화
+```
+
 </details>
