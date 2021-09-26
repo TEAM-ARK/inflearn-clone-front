@@ -1302,3 +1302,87 @@ I may even enforce this into the design to eliminate errors.
 ```
 
 </details>
+
+<details>
+<summary>2021.09.25.(Tony)</summary>
+
+- [ ] package.json에서 dev에 포함된 NODE_OPTIONS='--inspect'자세히 알아보기
+  - 예전엔 안됐었는데 지금은 되는 이유
+- [x] create_course.tsx warning 조사 후 수정하기
+- [ ] course_info.tsx warning 조사 후 수정하기
+  - 무시
+- [x] 추가하기 이후 input tag value 초기화
+
+### create_course.tsx warning 조사 후 수정하기
+
+- react_devtools_backend.js:4049 Warning: Received `false` for a non-boolean attribute `loading`.
+
+```
+// create_course.tsx
+
+Warning: Received `false` for a non-boolean attribute `loading`.
+
+If you want to write it to the DOM, pass a string instead: loading="false" or loading={value.toString()}.
+
+If you used to conditionally omit it with loading={condition && value}, pass loading={condition ? value : undefined} instead.
+```
+
+#### BtnMakeCourse의 loading prop에 $를 붙여서 해결
+
+```typescript
+// create_course.tsx
+interface IBtnProps {
+  $loading: boolean;
+}
+
+const BtnMakeCourse = styled.button`
+  // ...
+  pointer-events: ${(props: IBtnProps) => (props.$loading ? 'none' : 'auto')};
+  opacity: ${(props: IBtnProps) => (props.$loading ? 0.7 : 1)};
+`;
+
+<BtnMakeCourse $loading={createLectureLoading} type="button" onClick={handleSubmit}>
+  강의 만들기
+</BtnMakeCourse>;
+```
+
+- Transient props : $
+  - 스타일이 지정된 구성 요소에 의해 사용되는 props가 기본 React 노드로 전달되거나 DOM 요소에 렌더링되는 것을 방지하려면 prop 이름 앞에 달러 기호($)를 붙여 일시적인 prop으로 만들 수 있습니다.
+
+#### 참고 문헌
+
+- https://mygumi.tistory.com/382
+- https://stackoverflow.com/questions/49784294/warning-received-false-for-a-non-boolean-attribute-how-do-i-pass-a-boolean-f
+- https://styled-components.com/docs/api#transient-props
+
+### course_info.tsx warning
+
+```
+Warning: You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+```
+
+```typescript
+<form onSubmit={handleSubmitAddItem(inputWhatYouCanLearn)}>
+  <Label>이런 걸 배울 수 있어요</Label>
+  <BoxInput ref={inputWhatYouCanLearn} type="text" placeholder="e.g., 리액트 네이티브 개발" />
+  <AddButton type="submit">추가하기</AddButton>
+  <WarnMessage>두 개 이상 넣어주세요</WarnMessage>
+</form>
+```
+
+- 위 코드에서 input tag에서 value를 사용하고 있지 않음
+  - 원인 파악 안됨 - 프로그램에 영향없으니 무시하기로 함
+
+#### 참고 문헌
+
+- https://bbangaro.tistory.com/28
+- https://stackoverflow.com/questions/43556212/failed-form-proptype-you-provided-a-value-prop-to-a-form-field-without-an-on
+
+### 추가하기 이후 input tag value 초기화
+
+```typescript
+// course_info.tsx의 handleSubmitAddItem 함수
+inputElement.current.value = ''; // input value 초기화
+```
+
+</details>

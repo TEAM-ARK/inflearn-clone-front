@@ -79,20 +79,11 @@ export const LOAD_EDIT_LECTURE_REQUEST = 'LOAD_EDIT_LECTURE_REQUEST';
 export const LOAD_EDIT_LECTURE_SUCCESS = 'LOAD_EDIT_LECTURE_SUCCESS';
 export const LOAD_EDIT_LECTURE_FAILURE = 'LOAD_EDIT_LECTURE_FAILURE';
 
-// TextListBox delete button
-// export const DELETE_ITEM_WHATYOUCANLEARN = 'DELETE_ITEM_WHATYOUCANLEARN';
-// export const DELETE_ITEM_EXPECTEDSTUDENTS = 'DELETE_ITEM_EXPECTEDSTUDENTS';
-// export const DELETE_ITEM_REQUIREDKNOWLEDGE = 'DELETE_ITEM_REQUIREDKNOWLEDGE';
-
 // save course info page
 export const SAVE_COURSE_INFO_REQUEST = 'SAVE_COURSE_INFO_REQUEST';
 export const SAVE_COURSE_INFO_SUCCESS = 'SAVE_COURSE_INFO_SUCCESS';
 export const SAVE_COURSE_INFO_FAILURE = 'SAVE_COURSE_INFO_FAILURE';
 export const SAVE_COURSE_INFO_DONE = 'SAVE_COURSE_INFO_DONE';
-
-// export const ADD_WHATYOUCANLEARN = 'ADD_WHATYOUCANLEARN';
-// export const ADD_EXPECTEDSTUDENTS = 'ADD_EXPECTEDSTUDENTS';
-// export const ADD_REQUIREDKNOWLEDGE = 'ADD_REQUIREDKNOWLEDGE';
 
 // reducer
 const reducer = (state = initialState, action: IAction) => {
@@ -153,15 +144,6 @@ const reducer = (state = initialState, action: IAction) => {
         draft.editLectureLoading = false;
         draft.editLectureError = action.error;
         break;
-      // case DELETE_ITEM_WHATYOUCANLEARN:
-      //   draft.lectureData.courseInfo.whatYouCanLearn = action.data;
-      //   break;
-      // case DELETE_ITEM_EXPECTEDSTUDENTS:
-      //   draft.lectureData.courseInfo.expectedStudents = action.data;
-      //   break;
-      // case DELETE_ITEM_REQUIREDKNOWLEDGE:
-      //   draft.lectureData.courseInfo.requiredKnowledge = action.data;
-      //   break;
 
       case SAVE_COURSE_INFO_REQUEST:
         draft.saveCourseInfoLoading = true;
@@ -179,16 +161,6 @@ const reducer = (state = initialState, action: IAction) => {
       case SAVE_COURSE_INFO_DONE:
         draft.saveCourseInfoDone = false;
         break;
-
-      // case ADD_WHATYOUCANLEARN:
-      //   draft.lectureData.courseInfo.whatYouCanLearn.push(action.data);
-      //   break;
-      // case ADD_EXPECTEDSTUDENTS:
-      //   draft.lectureData.courseInfo.expectedStudents.push(action.data);
-      //   break;
-      // case ADD_REQUIREDKNOWLEDGE:
-      //   draft.lectureData.courseInfo.requiredKnowledge.push(action.data);
-      //   break;
 
       // 나머지 추후 추가 예정
       default:
