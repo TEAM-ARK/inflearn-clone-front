@@ -11,20 +11,8 @@ import SaveButton from '@components/courseEdit/SaveButton';
 import TextListBox from '@components/courseEdit/TextListBox';
 import CourseLayout from 'src/layouts/CourseLayout';
 import { RootState } from 'src/redux/reducers';
-import {
-  // ADD_EXPECTEDSTUDENTS,
-  // ADD_REQUIREDKNOWLEDGE,
-  // ADD_WHATYOUCANLEARN,
-  SAVE_COURSE_INFO_DONE,
-  SAVE_COURSE_INFO_REQUEST,
-} from 'src/redux/reducers/lecture';
+import { SAVE_COURSE_INFO_DONE, SAVE_COURSE_INFO_REQUEST } from 'src/redux/reducers/lecture';
 import { LectureInfoChild } from 'src/redux/reducers/types';
-// import {
-//   DELETE_ITEM_EXPECTEDSTUDENTS,
-//   DELETE_ITEM_REQUIREDKNOWLEDGE,
-//   DELETE_ITEM_WHATYOUCANLEARN,
-// } from 'src/redux/reducers/lecture';
-// import { LectureInfoChild } from 'src/redux/reducers/types';
 
 const BoxInput = styled.input`
   border: 0;
@@ -92,38 +80,6 @@ function CourseInfo() {
   const [selectedId, setSelectedId] = useState<string>('');
   const dispatch = useDispatch();
   const router = useRouter();
-  // const onClickTextBoxDelete =
-  //   (
-  //     textList: LectureInfoChild[],
-  //     id: number | string,
-  //     boxType: 'whatYouCanLearn' | 'expectedStudents' | 'requiredKnowledge'
-  //   ) =>
-  //   () => {
-  //     const textArray = [...textList];
-  //     textArray.splice(+id, 1);
-  //     switch (boxType) {
-  //       case 'whatYouCanLearn':
-  //         dispatch({
-  //           type: DELETE_ITEM_WHATYOUCANLEARN,
-  //           data: textArray,
-  //         });
-  //         break;
-  //       case 'expectedStudents':
-  //         dispatch({
-  //           type: DELETE_ITEM_EXPECTEDSTUDENTS,
-  //           data: textArray,
-  //         });
-  //         break;
-  //       case 'requiredKnowledge':
-  //         dispatch({
-  //           type: DELETE_ITEM_REQUIREDKNOWLEDGE,
-  //           data: textArray,
-  //         });
-  //         break;
-  //       default:
-  //         console.error('boxType is wrong');
-  //     }
-  //   };
 
   const [whatYouCanLearn, setWhatYouCanLearn] = useState<ItemInterface[]>(
     lectureData?.courseInfo.whatYouCanLearn.map((item) => ({
@@ -204,7 +160,7 @@ function CourseInfo() {
         name: item.name,
       }))
     );
-    console.log('whatYouCanLearn', whatYouCanLearn); // 처음에 undefined인데 가져오면서 데이터 다시 넣고 렌더링
+    // console.log('whatYouCanLearn', whatYouCanLearn); // 처음에 undefined인데 가져오면서 데이터 다시 넣고 렌더링
   }, [lectureData?.courseInfo]);
 
   const inputWhatYouCanLearn = useRef<HTMLInputElement>(null);
@@ -227,41 +183,21 @@ function CourseInfo() {
     switch (inputElement) {
       // case inputElement.current.id === 'inputWhatYouCanLearn':
       case inputWhatYouCanLearn:
-        console.log('inputWhatYouCanLearn');
-        // dispatch({
-        //   type: ADD_WHATYOUCANLEARN,
-        //   data: {
-        //     name: inputWhatYouCanLearn.current?.value,
-        //     order: whatYouCanLearn.length + 1,
-        //   },
-        // });
+        // console.log('inputWhatYouCanLearn');
         setWhatYouCanLearn((prev: ItemInterface[]) => [...prev, newItem]);
         break;
       case inputExpectedStudents:
-        console.log('inputExpectedStudents');
-        // dispatch({
-        //   type: ADD_EXPECTEDSTUDENTS,
-        //   data: {
-        //     name: inputExpectedStudents.current?.value,
-        //     order: expectedStudents.length + 1,
-        //   },
-        // });
+        // console.log('inputExpectedStudents');
         setExpectedStudents((prev: ItemInterface[]) => [...prev, newItem]);
         break;
       case inputRequiredKnowledge:
-        console.log('inputRequiredKnowledge');
-        // dispatch({
-        //   type: ADD_REQUIREDKNOWLEDGE,
-        //   data: {
-        //     name: inputRequiredKnowledge.current?.value,
-        //     order: requiredKnowledge.length + 1,
-        //   },
-        // });
+        // console.log('inputRequiredKnowledge');
         setRequiredKnowledge((prev: ItemInterface[]) => [...prev, newItem]);
         break;
       default:
         console.error('check box type of handleSubmitAddItem');
     }
+    inputElement.current.value = ''; // input value 초기화
   };
 
   return (
