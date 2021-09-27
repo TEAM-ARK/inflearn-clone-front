@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import CategoryMenu from '@components/CategoryMenu';
+import HorizonLectureCard from '@components/lectureCard/HorizonLectureCard';
 import LectureCard from '@components/lectureCard/LectureCard';
 import LectureFilter from '@components/LectureFilter';
 import LoadingSpinner from '@components/LoadingSpinner';
@@ -168,9 +169,13 @@ const Courses = () => {
                 ) : (
                   // view의 값은 router.query.view값 가져와서 사용하기
                   <LectureList view={queryView}>
-                    {mainLectures?.map((lecture: ILecture) => (
-                      <LectureCard key={lecture.id} lecture={lecture} />
-                    ))}
+                    {mainLectures?.map((lecture: ILecture, idx: number) =>
+                      queryView === 'Grid' ? (
+                        <LectureCard key={lecture.id} lecture={lecture} />
+                      ) : (
+                        <HorizonLectureCard key={lecture.id} lecture={lecture} index={idx} />
+                      )
+                    )}
                   </LectureList>
                 )}
               </div>
