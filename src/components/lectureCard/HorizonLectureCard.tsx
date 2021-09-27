@@ -4,6 +4,7 @@ import AddOutlinedIcon from '@material-ui/icons/AddOutlined';
 import AddShoppingCartOutlinedIcon from '@material-ui/icons/AddShoppingCartOutlined';
 import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
 import styled from 'styled-components';
+import LecturePrice from '@components/lectureCard/LecturePrice';
 import RatingStar from '@components/lectureCard/RatingStar';
 import SpeechBubble from '@components/lectureCard/SpeechBubble';
 import { ILecture } from 'src/redux/reducers/types';
@@ -70,18 +71,7 @@ const IconButtonStyle = styled(IconButton)<IconButtonStyleProps>`
 `;
 
 const LecturePriceWrapper = styled.div`
-  font-size: 1.125rem;
-  font-weight: 700;
-
-  & del {
-    opacity: 0.7;
-    font-size: 0.875rem;
-    font-weight: inherit;
-  }
-
   @media screen and (max-width: 768px) {
-    font-size: 1rem;
-
     & > * {
       display: block;
     }
@@ -106,7 +96,6 @@ const HorizonLectrueCard = ({ lecture, index }: Props) => {
   const [isHoverCart, setIsHoverCart] = useState(false);
   const [isHoverHeart, setIsHoverHeart] = useState(false);
   const [isHoverPlus, setIsHoverPlus] = useState(false);
-  const discountPrice = onDiscount ? Math.ceil(price * ((100 - onDiscount) / 100)) : 0;
 
   return (
     <HorizonLectureCardStyle key={lecture.id} index={index}>
@@ -124,14 +113,7 @@ const HorizonLectrueCard = ({ lecture, index }: Props) => {
         </a>
         <LectureShoppingWContents>
           <LecturePriceWrapper>
-            {discountPrice === 0 ? (
-              <span>￦{price}</span>
-            ) : (
-              <>
-                <del>￦{price}</del>
-                <span>￦{discountPrice}</span>
-              </>
-            )}
+            <LecturePrice price={price} discount={onDiscount} cardStyle="List" />
           </LecturePriceWrapper>
           <LectureCardIconBtnWrapper>
             <IconButtonStyle otherColor="#fda011">
