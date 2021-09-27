@@ -29,7 +29,15 @@ const CourseCommonButton = ({ id, text, selectedId, setSelectedId }: Props) => {
   const [isSelected, setIsSelected] = useState(false);
 
   function onClickButton() {
+    if (isSelected) {
+      // true - 선택된 상태
+      setSelectedId('');
+      setIsSelected(false);
+      return;
+    }
+    // 선택된 상태가 아닌 경우
     setSelectedId(id);
+    setIsSelected(true);
   }
 
   useEffect(() => {
