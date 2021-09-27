@@ -47,7 +47,7 @@ const LecturePrice = ({ price, discount, cardStyle }: Props) => {
             &#8361;{price.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')}
           </OriginalPrice>
           <CurrentPrice cardStyle={cardStyle}>
-            &#8361;{price.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')}
+            &#8361;{discountPrice.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')}
           </CurrentPrice>
         </>
       )}
