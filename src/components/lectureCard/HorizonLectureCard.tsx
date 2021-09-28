@@ -73,12 +73,12 @@ const LectureShoppingContents = styled.div`
 `;
 
 type IconButtonStyleProps = {
-  otherColor: string;
+  iconcolor: string;
 };
 
 const IconButtonStyle = styled(IconButton)<IconButtonStyleProps>`
   padding: calc(0.375em - 1px) 0;
-  color: ${(props) => props.otherColor};
+  color: ${(props) => props.iconcolor};
 
   &:hover {
     background-color: rgba(0, 0, 0, 0);
@@ -131,7 +131,7 @@ const HorizonLectrueCard = ({ lecture, index }: Props) => {
   };
 
   return (
-    <HorizonLectureCardStyle key={lecture.id} index={index}>
+    <HorizonLectureCardStyle key={id} index={index}>
       <a id="thumbnail" href={`/course/${id}`}>
         <LectureCardImage loading="lazy" src={coverImage} alt={title} />
       </a>
@@ -152,7 +152,7 @@ const HorizonLectrueCard = ({ lecture, index }: Props) => {
             <LecturePrice price={price} discount={onDiscount} cardStyle="List" />
           </LecturePriceWrapper>
           <LectureCardIconBtnWrapper>
-            <IconButtonStyle otherColor="#fda011">
+            <IconButtonStyle iconcolor="#fda011">
               {isHoverCart && <SpeechBubble message="바구니에 추가하기" />}
               <AddShoppingCartOutlinedIcon
                 className="add-icon"
@@ -160,7 +160,7 @@ const HorizonLectrueCard = ({ lecture, index }: Props) => {
                 onMouseLeave={() => setIsHoverCart(false)}
               />
             </IconButtonStyle>
-            <IconButtonStyle otherColor="#ff6c5c">
+            <IconButtonStyle iconcolor="#ff6c5c">
               {isHoverHeart && <SpeechBubble message="위시리스트에 추가하기" />}
               <FavoriteBorderOutlinedIcon
                 className="add-icon"
@@ -168,7 +168,7 @@ const HorizonLectrueCard = ({ lecture, index }: Props) => {
                 onMouseLeave={() => setIsHoverHeart(false)}
               />
             </IconButtonStyle>
-            <IconButtonStyle otherColor="#333">
+            <IconButtonStyle iconcolor="#333">
               {isHoverPlus && <SpeechBubble message="내 폴더에 추가하기" />}
               <AddOutlinedIcon
                 className="add-icon"
