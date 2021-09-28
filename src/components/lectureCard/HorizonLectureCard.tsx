@@ -86,6 +86,11 @@ const LectureCardIconBtnWrapper = styled.div`
   }
 `;
 
+const LectureCommentCount = styled.span`
+  position: absolute;
+  font-size: 0.7rem;
+`;
+
 type Props = {
   lecture: ILecture;
   index: number;
@@ -108,7 +113,7 @@ const HorizonLectrueCard = ({ lecture, index }: Props) => {
           <div id="hashtags">{!!hashTags && hashTags.map((val: string) => <span>{val}</span>)}</div>
           <div id="rating-star">
             <RatingStar rating={rating} size="1rem" />
-            <span id="review-comment-count">({commentCount})</span>
+            <LectureCommentCount>({commentCount})</LectureCommentCount>
           </div>
         </a>
         <LectureShoppingWContents>
