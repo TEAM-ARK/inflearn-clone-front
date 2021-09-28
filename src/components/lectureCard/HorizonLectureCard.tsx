@@ -43,6 +43,26 @@ const LectureTitle = styled.h2`
   }
 `;
 
+const HashTagsWrapper = styled.div`
+  margin: 0.25rem 0;
+  display: flex;
+`;
+type HashTagProps = {
+  randomColor: () => string;
+};
+
+const HashTagStyle = styled.p<HashTagProps>`
+  display: inline-block;
+  color: #454545;
+  background-color: ${(props) => props.randomColor};
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding: 0 6px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  border-radius: 10px;
+`;
+
 const LectureShoppingWContents = styled.div`
   margin-left: auto;
   text-align: right;
@@ -102,6 +122,14 @@ const HorizonLectrueCard = ({ lecture, index }: Props) => {
   const [isHoverHeart, setIsHoverHeart] = useState(false);
   const [isHoverPlus, setIsHoverPlus] = useState(false);
 
+  const getRandomColor = () => {
+    const h = 360 * Math.random();
+    const s = 25 + 70 * Math.random();
+    const l = 85 + 10 * Math.random();
+
+    return `hsl(${h} ,${s}%, ${l}%)`;
+  };
+
   return (
     <HorizonLectureCardStyle key={lecture.id} index={index}>
       <a id="thumbnail" href={`/course/${id}`}>
@@ -110,7 +138,10 @@ const HorizonLectrueCard = ({ lecture, index }: Props) => {
       <LectureCardContents>
         <a id="lecture-info-contnents" href={`/course/${id}`}>
           <LectureTitle>{title}</LectureTitle>
-          <div id="hashtags">{!!hashTags && hashTags.map((val: string) => <span>{val}</span>)}</div>
+          <HashTagsWrapper>
+            {!!hashTags &&
+              hashTags.map((val: string) => <HashTagStyle randomColor={getRandomColor}>{val}</HashTagStyle>)}
+          </HashTagsWrapper>
           <div id="rating-star">
             <RatingStar rating={rating} size="1rem" />
             <LectureCommentCount>({commentCount})</LectureCommentCount>
