@@ -33,6 +33,14 @@ const CoursesWrapper = styled.div`
   }
 `;
 
+const CoursesViewGrid = styled(Grid)`
+  padding: 0 0.75rem;
+
+  @media screen and (max-width: 768px) {
+    padding: 0;
+  }
+`;
+
 const CoursesHeader = styled.header`
   padding-bottom: 1.5rem;
   border-bottom: 1px solid #dedede;
@@ -137,7 +145,7 @@ const Courses = () => {
               <CategoryMenu />
               <LectureFilter />
             </Grid>
-            <Grid item xs={10} style={{ padding: '0 0.75rem' }}>
+            <CoursesViewGrid item xs={10}>
               <CoursesHeader>
                 <LectureSearchForm name="lectureSearch" onSubmit={handleSubmit}>
                   <LectureSearchInput type="text" placeholder="강의 검색하기" />
@@ -180,7 +188,7 @@ const Courses = () => {
                 )}
               </div>
               <div>페이지네이션</div>
-            </Grid>
+            </CoursesViewGrid>
           </Grid>
         </CoursesWrapper>
       </CoursesSection>
