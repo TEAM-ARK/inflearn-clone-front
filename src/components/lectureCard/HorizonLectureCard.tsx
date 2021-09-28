@@ -63,7 +63,7 @@ const HashTagStyle = styled.p<HashTagProps>`
   border-radius: 10px;
 `;
 
-const LectureShoppingWContents = styled.div`
+const LectureShoppingContents = styled.div`
   margin-left: auto;
   text-align: right;
 
@@ -147,7 +147,7 @@ const HorizonLectrueCard = ({ lecture, index }: Props) => {
             <LectureCommentCount>({commentCount})</LectureCommentCount>
           </div>
         </a>
-        <LectureShoppingWContents>
+        <LectureShoppingContents>
           <LecturePriceWrapper>
             <LecturePrice price={price} discount={onDiscount} cardStyle="List" />
           </LecturePriceWrapper>
@@ -177,7 +177,7 @@ const HorizonLectrueCard = ({ lecture, index }: Props) => {
               />
             </IconButtonStyle>
           </LectureCardIconBtnWrapper>
-        </LectureShoppingWContents>
+        </LectureShoppingContents>
       </LectureCardContents>
     </HorizonLectureCardStyle>
   );
