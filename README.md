@@ -1390,6 +1390,8 @@ inputElement.current.value = ''; // input value 초기화
 <details>
 <summary>2021.09.27.(Tony)</summary>
 
+# branch : course_info/category
+
 ### Things to do
 
 - [ ] 카테고리 목록은 처음에 서버에서 받아오기(DB로 관리하는 것이 관리자페이지에서 관리하기 편하기 때문)
