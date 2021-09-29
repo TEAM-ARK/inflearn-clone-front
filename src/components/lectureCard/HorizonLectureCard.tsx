@@ -1,12 +1,8 @@
-import React, { useState } from 'react';
-import IconButton from '@material-ui/core/IconButton';
-import AddOutlinedIcon from '@material-ui/icons/AddOutlined';
-import AddShoppingCartOutlinedIcon from '@material-ui/icons/AddShoppingCartOutlined';
-import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
+import React from 'react';
 import styled from 'styled-components';
+import IconButtons from '@components/lectureCard/IconButtons';
 import LecturePrice from '@components/lectureCard/LecturePrice';
 import RatingStar from '@components/lectureCard/RatingStar';
-import SpeechBubble from '@components/lectureCard/SpeechBubble';
 import { ILecture } from 'src/redux/reducers/types';
 
 type HorizonLectureCardStyleProps = {
@@ -72,24 +68,6 @@ const LectureShoppingContents = styled.div`
   }
 `;
 
-type IconButtonStyleProps = {
-  iconcolor: string;
-};
-
-const IconButtonStyle = styled(IconButton)<IconButtonStyleProps>`
-  padding: calc(0.375em - 1px) 0;
-  color: ${(props) => props.iconcolor};
-
-  &:hover {
-    background-color: rgba(0, 0, 0, 0);
-  }
-
-  @media screen and (max-width: 768px) {
-    display: block;
-    margin: auto;
-  }
-`;
-
 const LecturePriceWrapper = styled.div`
   @media screen and (max-width: 768px) {
     & > * {
@@ -118,9 +96,6 @@ type Props = {
 
 const HorizonLectrueCard = ({ lecture, index }: Props) => {
   const { id, coverImage, title, rating, commentCount, price, hashTags, onDiscount } = lecture;
-  const [isHoverCart, setIsHoverCart] = useState(false);
-  const [isHoverHeart, setIsHoverHeart] = useState(false);
-  const [isHoverPlus, setIsHoverPlus] = useState(false);
 
   const getRandomColor = () => {
     const h = 360 * Math.random();
@@ -152,30 +127,7 @@ const HorizonLectrueCard = ({ lecture, index }: Props) => {
             <LecturePrice price={price} discount={onDiscount} cardStyle="List" />
           </LecturePriceWrapper>
           <LectureCardIconBtnWrapper>
-            <IconButtonStyle iconcolor="#fda011">
-              {isHoverCart && <SpeechBubble message="바구니에 추가하기" />}
-              <AddShoppingCartOutlinedIcon
-                className="add-icon"
-                onMouseEnter={() => setIsHoverCart(true)}
-                onMouseLeave={() => setIsHoverCart(false)}
-              />
-            </IconButtonStyle>
-            <IconButtonStyle iconcolor="#ff6c5c">
-              {isHoverHeart && <SpeechBubble message="위시리스트에 추가하기" />}
-              <FavoriteBorderOutlinedIcon
-                className="add-icon"
-                onMouseEnter={() => setIsHoverHeart(true)}
-                onMouseLeave={() => setIsHoverHeart(false)}
-              />
-            </IconButtonStyle>
-            <IconButtonStyle iconcolor="#333">
-              {isHoverPlus && <SpeechBubble message="내 폴더에 추가하기" />}
-              <AddOutlinedIcon
-                className="add-icon"
-                onMouseEnter={() => setIsHoverPlus(true)}
-                onMouseLeave={() => setIsHoverPlus(false)}
-              />
-            </IconButtonStyle>
+            <IconButtons />
           </LectureCardIconBtnWrapper>
         </LectureShoppingContents>
       </LectureCardContents>
