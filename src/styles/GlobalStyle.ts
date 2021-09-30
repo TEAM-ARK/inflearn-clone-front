@@ -73,7 +73,23 @@ ul, li {
   display: inline-block;
 }
 
+.selected-list-view {
+  background: #1dc078 !important;
+  border-color: transparent !important;
+  color: white;
+}
 
+.selected-list-view:hover {
+  background: #1bb571 !important;
+  border-color: transparent !important;
+  color: white;
+}
+
+.add-icon {
+  @media screen and (max-width: 768px) {
+    transform: scale(0.7);
+  }
+}
 
 `;
 

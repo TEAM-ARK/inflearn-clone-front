@@ -77,7 +77,7 @@ const OptionalText = styled.span`
 function CourseInfo() {
   const { createLectureData, lectureData, saveCourseInfoDone } = useSelector((state: RootState) => state.lecture);
   const title = createLectureData?.title;
-  const [selectedId, setSelectedId] = useState<string>('');
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string>('');
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -268,9 +268,24 @@ function CourseInfo() {
       </FieldDiv>
       <FieldDiv>
         <Label>카테고리</Label>
-        <CourseCommonButton id="1" text="개발, 프로그래밍" selectedId={selectedId} setSelectedId={setSelectedId} />
-        <CourseCommonButton id="2" text="보안, 네트워크" selectedId={selectedId} setSelectedId={setSelectedId} />
-        <CourseCommonButton id="3" text="데이터 사이언스" selectedId={selectedId} setSelectedId={setSelectedId} />
+        <CourseCommonButton
+          id="1"
+          text="개발, 프로그래밍"
+          selectedId={selectedCategoryId}
+          setSelectedId={setSelectedCategoryId}
+        />
+        <CourseCommonButton
+          id="2"
+          text="보안, 네트워크"
+          selectedId={selectedCategoryId}
+          setSelectedId={setSelectedCategoryId}
+        />
+        <CourseCommonButton
+          id="3"
+          text="데이터 사이언스"
+          selectedId={selectedCategoryId}
+          setSelectedId={setSelectedCategoryId}
+        />
         {
           // 카테고리 버튼 전부 수정해야 됨 - 다시 클릭 시 해제하도록 해야 함
           // 카테고리 리스트도 서버에서 가져와서 store에 저장 후 store에 있는 것을 가져오게 할 예정
