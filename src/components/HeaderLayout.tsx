@@ -77,7 +77,7 @@ const useStyles = makeStyles({
 const headersData = [
   {
     label: '강의',
-    href: '/',
+    href: '/courses',
   },
   {
     label: '로드맵',

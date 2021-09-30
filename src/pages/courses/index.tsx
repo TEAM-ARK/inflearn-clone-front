@@ -1,9 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Grid from '@material-ui/core/Grid';
+import ListIcon from '@material-ui/icons/List';
+import ViewComfyIcon from '@material-ui/icons/ViewComfy';
+import { useRouter } from 'next/router';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import CategoryMenu from '@components/CategoryMenu';
+import HorizonLectureCard from '@components/lectureCard/HorizonLectureCard';
+import LectureCard from '@components/lectureCard/LectureCard';
 import LectureFilter from '@components/LectureFilter';
+import LoadingSpinner from '@components/LoadingSpinner';
 import AppLayout from 'src/layouts/AppLayout';
+import { RootState } from 'src/redux/reducers';
+import { LOAD_ALL_LECTURES_REQUEST } from 'src/redux/reducers/lecture';
+import { ILecture } from 'src/redux/reducers/types';
 
 const CoursesSection = styled.section`
   background: white;
@@ -20,6 +30,14 @@ const CoursesWrapper = styled.div`
 
   @media screen and (min-width: 1473px) {
     max-width: 1440px;
+  }
+`;
+
+const CoursesViewGrid = styled(Grid)`
+  padding: 0 0.75rem;
+
+  @media screen and (max-width: 768px) {
+    padding: 0;
   }
 `;
 
@@ -63,9 +81,59 @@ const LectureSearchBtn = styled.button`
   margin-left: -1rem;
 `;
 
+type ListViewProps = {
+  view: string | string[];
+};
+
+const ListViewBtn = styled.button<ListViewProps>`
+  background: white;
+  border: 1px solid #dbdbdb;
+  border-right-width: ${(props) => (props.view === 'Grid' ? '0' : '1px')};
+  border-left-width: ${(props) => (props.view === 'List' ? '0' : '1px')};
+  cursor: pointer;
+  padding: calc(0.375em - 1px) 0.75em;
+  border-radius: ${(props) => (props.view === 'Grid' ? `4px 0 0 4px` : `0 4px 4px 0`)};
+
+  &:hover {
+    border-color: #b5b5b5;
+  }
+`;
+
+const LectureList = styled.ul<ListViewProps>`
+  ${(props) => (props.view === 'Grid' ? 'display: flex; flex-wrap: wrap; align-items: flex-start;' : '')}
+  margin-top: 1rem;
+`;
+
 const Courses = () => {
+  const router = useRouter();
+  const { mainLectures, loadLectureLoading } = useSelector((state: RootState) => state.lecture);
+  const dispatch = useDispatch();
+
+  const [queryView, setQueryView] = useState<string | string[]>('Grid');
+
+  useEffect(() => {
+    // 외부에서 접근하는 url을 다루는 경우에는 window.location을 사용해야함.
+    // next/router는 클라이언트 측 전환을 처리함.
+    const queryString = window.location.search;
+    const params = new URLSearchParams(queryString);
+    const view = params.get('view');
+    // url(ex. localhost:3000/courses?view=List)을 통해 바로 접근한 경우 쿼리 스트링에 view parameter가 존재한다면,  view parameter 값에 대한 스타일 보여주기
+    if (view) setQueryView(view);
+
+    dispatch({ type: LOAD_ALL_LECTURES_REQUEST });
+  }, []);
+
   const handleSubmit = () => {
     console.log('success!');
+  };
+
+  const handleListViewClick = (value: string) => {
+    router.push({
+      pathname: '/courses',
+      query: { view: value },
+    });
+    // view 스타일 변경을 위해 query에 전달된 view 값을 queryView state에 반영함.
+    setQueryView(value);
   };
 
   return (
@@ -77,7 +145,7 @@ const Courses = () => {
               <CategoryMenu />
               <LectureFilter />
             </Grid>
-            <Grid item xs={10} style={{ padding: '0 0.75rem' }}>
+            <CoursesViewGrid item xs={10}>
               <CoursesHeader>
                 <LectureSearchForm name="lectureSearch" onSubmit={handleSubmit}>
                   <LectureSearchInput type="text" placeholder="강의 검색하기" />
@@ -85,12 +153,42 @@ const Courses = () => {
                 </LectureSearchForm>
               </CoursesHeader>
               <nav>카테고리 경로</nav>
-              <span>Grid와 list 선택</span>
+              <ListViewBtn
+                type="button"
+                className={queryView === 'Grid' ? 'selected-list-view' : ''}
+                view="Grid"
+                onClick={() => handleListViewClick('Grid')}
+              >
+                <ViewComfyIcon />
+              </ListViewBtn>
+              <ListViewBtn
+                type="button"
+                className={queryView === 'List' ? 'selected-list-view' : ''}
+                view="List"
+                onClick={() => handleListViewClick('List')}
+              >
+                <ListIcon />
+              </ListViewBtn>
               <span>카드 정렬 선택</span>
               <div>기술검색</div>
-              <div>강의 카드</div>
+              <div className="lecture-list">
+                {loadLectureLoading ? (
+                  <LoadingSpinner />
+                ) : (
+                  // view의 값은 router.query.view값 가져와서 사용하기
+                  <LectureList view={queryView}>
+                    {mainLectures?.map((lecture: ILecture, idx: number) =>
+                      queryView === 'Grid' ? (
+                        <LectureCard key={lecture.id} lecture={lecture} />
+                      ) : (
+                        <HorizonLectureCard key={lecture.id} lecture={lecture} index={idx} />
+                      )
+                    )}
+                  </LectureList>
+                )}
+              </div>
               <div>페이지네이션</div>
-            </Grid>
+            </CoursesViewGrid>
           </Grid>
         </CoursesWrapper>
       </CoursesSection>

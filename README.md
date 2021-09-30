@@ -1386,3 +1386,59 @@ inputElement.current.value = ''; // input value 초기화
 ```
 
 </details>
+<details>
+<summary>2021.09.23 ~ 29(나현)</summary>
+
+## 구현한 것
+
+- 더미데이터로 강의 데이터를 가져와서 Grid와 List 스타일에 맞는 형태로 강의 카드를 보여줌.
+  - 스타일 선택 버튼을 눌렀을 때, 쿼리 파라미터로 강의 카드 스타일 값을 전달
+    ```
+    http://localhost:3000/courses?view=Gird
+    ```
+    위 url로 바로 접근했을 때 Grid 형식의 강의 스타일이 유지됨.
+    - view에 전달할 수 있는 값
+
+      |view 값|역할|
+      |---|---|
+      |Grid|Grid 스타일|
+      |List|List 스타일|
+    
+- 강의의 할인율과 원가를 나타내는 LecturePrice 컴포넌트 생성
+  ```jsx
+  <LecturePrice price={price} discount={onDiscount} cardStyle="List" />
+  ```
+  - props 설명
+
+    |props|역할|전달 데이터 값|
+    |--|---|----|
+    |price|원래 가격을 전달하는 부분|lecture 더미데이터의 price|
+    |discount|할인율을 전달하는 부분|lecture 더미데이터의 onDiscount|
+    |cardStyle|각 강의 카드 스타일에 맞게 가격을 표시해줌.|<p>Grid: 기존 강의 카드(LectureCard.tsx)에 맞는 디자인</p><p>List: 수평으로 디자인된 강의 카드(HorizonLectureCard.tsx)에 맞는 디자인</p>|
+- HeaderLayout에 강의 페이지 경로인 /courses 추가
+
+
+## 아이콘 버튼 hover할 때마다 Card 컴포넌트 리렌더링 문제 해결 과정
+
+- **문제 상황**
+  추가 관련 아이콘 버튼을 hover 할 때마다, 랜덤으로 지정되는 해시태그 부분의 색상이 지속적으로 변경되는 문제 발생
+- **문제 해결 과정**
+  - React Developer Tools로 컴포넌트가 렌더링 될 때 업데이트 되는 부분을 확인해본 결과, 해당 아이콘이 위치한 HorizonLectureCard 컴포넌트 자체가 Hover할 때마다 리렌더링 되고 있었다.
+  - 처음에는 이벤트 동작으로 인한 문제라고 생각했으나 이벤트 버블링으로 인해 발생한 문제는 아니었다. 
+  왜냐하면 onMouseEnter와 onMouseLeave는 버블링이 존재하지 않고 캡쳐 단계 또한 없기 때문이다.
+  [onMouseEnter와 onMouseLeave의 버블링 문제 관련 글](https://github.com/facebook/react/issues/5739)
+  [React의 마우스 이벤트 관련 소개글](https://ko.reactjs.org/docs/events.html#mouse-events)
+  
+  - 일단 HorizonLectureCard 컴포넌트 안에서만 리렌더링이 되고 있었기 때문에 Icon Button만 모은 컴포넌트 안에서 따로 실행시킨다면 문제가 안 될 것 같다고 생각했다. 그래서 Icon Button을 모은 IconButtons 컴포넌트로 분리한 후 hover를 다시 시도했더니 문제가 해결되었다. 
+- **해결 과정을 통해 알게된 문제 발생 이유**
+  - isHoverCart와 같은 state들이 변경될 때마다, 해당 state가 존재하는 컴포넌트 전체에 영향을 끼쳐서 리렌더링 되었기 때문에 이러한 문제가 발생하게 된 것이다.  
+  - 리액트는 특정 state가 변경되면 해당 state가 선언된 컴포넌트와 하위 컴포넌트들을 모두 리렌더링 시킨다. 
+  - 불필요한 리렌더링을 방지하고 리액트 성능 최적화를 위해서 state를 다루는 컴포넌트는 따로 분리 시켜줘야 한다.
+- **참고**
+  [리액트의 state 선언 위치 관련 글](https://cocoder16.tistory.com/36)
+
+## 앞으로 진행할 작업
+
+- 기술 검색 부분 구현하기
+- 추천순, 인기순 등 정렬 선택 버튼 구현하기
+</details>
