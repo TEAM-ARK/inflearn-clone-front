@@ -94,7 +94,7 @@ type Props = {
   index: number;
 };
 
-const HorizonLectrueCard = ({ lecture, index }: Props) => {
+const HorizonLectureCard = ({ lecture, index }: Props) => {
   const { id, coverImage, title, rating, commentCount, price, hashTags, onDiscount } = lecture;
 
   const getRandomColor = () => {
@@ -139,4 +139,4 @@ const HorizonLectrueCard = ({ lecture, index }: Props) => {
   );
 };
 
-export default HorizonLectrueCard;
+export default HorizonLectureCard;
