@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, KeyboardEventHandler, KeyboardEvent } from 'react';
 import { useRouter } from 'next/dist/client/router';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -25,7 +25,7 @@ const InputTitle = styled.input`
 `;
 
 interface IBtnProps {
-  loading: boolean;
+  $loading: boolean;
 }
 
 const BtnMakeCourse = styled.button`
@@ -38,8 +38,8 @@ const BtnMakeCourse = styled.button`
   margin-top: 48px;
   width: 126px;
   height: 48px;
-  pointer-events: ${(props: IBtnProps) => (props.loading ? 'none' : 'auto')};
-  opacity: ${(props: IBtnProps) => (props.loading ? 0.7 : 1)};
+  pointer-events: ${(props: IBtnProps) => (props.$loading ? 'none' : 'auto')};
+  opacity: ${(props: IBtnProps) => (props.$loading ? 0.7 : 1)};
 `;
 
 const CreateCourseWrapper = styled.div`
@@ -102,7 +102,7 @@ const CreateCourse = () => {
     });
   };
 
-  const watchingInputText = (event: KeyboardEvent) => {
+  const watchingInputText: KeyboardEventHandler<HTMLInputElement> = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.keyCode === 13) {
       console.log('keyCode');
       handleSubmit();
@@ -129,7 +129,7 @@ const CreateCourse = () => {
         </div>
       </CreateCourseWrapper>
       <CreateCourseBtnWrapper>
-        <BtnMakeCourse loading={createLectureLoading} type="button" onClick={handleSubmit}>
+        <BtnMakeCourse $loading={createLectureLoading} type="button" onClick={handleSubmit}>
           강의 만들기
         </BtnMakeCourse>
       </CreateCourseBtnWrapper>
