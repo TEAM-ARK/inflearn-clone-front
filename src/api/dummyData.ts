@@ -184,14 +184,55 @@ export const dummyLectureEditData: LectureData = {
     ],
     category: [
       {
-        id: '1',
-        name: 'category1',
+        id: shortId(),
+        name: '개발, 프로그래밍',
       },
       {
-        id: '2',
-        name: 'category2',
+        id: shortId(),
+        name: '보안, 네트워크',
+      },
+      {
+        id: shortId(),
+        name: '데이터 사이언스',
+      },
+      {
+        id: shortId(),
+        name: '크리에이티브',
+      },
+      {
+        id: shortId(),
+        name: '직무, 마케팅',
+      },
+      {
+        id: shortId(),
+        name: '학문, 외국어',
+      },
+      {
+        id: shortId(),
+        name: '커리어',
+      },
+      {
+        id: shortId(),
+        name: '교양',
+      },
+      {
+        id: shortId(),
+        name: '그 외',
       },
     ],
-    level: 'basic',
+    level: [
+      {
+        id: '11',
+        name: '입문',
+      },
+      {
+        id: '22',
+        name: '초급',
+      },
+      {
+        id: '33',
+        name: '중급 이상',
+      },
+    ],
   },
 };

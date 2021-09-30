@@ -200,6 +200,11 @@ function CourseInfo() {
     inputElement.current.value = ''; // input value 초기화
   };
 
+  // test
+  useEffect(() => {
+    console.log('lectureData', lectureData);
+  }, []);
+
   return (
     <CourseLayout>
       <CourseTitleLabel title="강의제작" />
@@ -295,6 +300,9 @@ function CourseInfo() {
         <Label>강의 수준</Label>
         {
           // 여기에 강의 수준 항목 추가되어야 함
+          lectureData.courseInfo.level.map((item) => {
+            // <CourseCommonButton />
+          })
         }
       </FieldDiv>
       <SaveButton text="저장 후 다음이동" onClick={onClickSaveButton} />

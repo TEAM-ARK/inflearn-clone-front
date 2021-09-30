@@ -60,10 +60,13 @@ export interface ILectureInfo {
   expectedStudents: LectureInfoChild[];
   requiredKnowledge: LectureInfoChild[];
   category: {
-    id: string;
+    id: string | number;
     name: string;
   }[];
-  level: string;
+  level: {
+    id: string | number;
+    name: string;
+  }[];
 }
 
 // Lecture data on load edit page
