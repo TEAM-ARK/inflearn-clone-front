@@ -115,7 +115,11 @@ const HorizonLectrueCard = ({ lecture, index }: Props) => {
           <LectureTitle>{title}</LectureTitle>
           <HashTagsWrapper>
             {!!hashTags &&
-              hashTags.map((val: string) => <HashTagStyle randomColor={getRandomColor}>{val}</HashTagStyle>)}
+              hashTags.map((val: string, idx: number) => (
+                <HashTagStyle key={idx} randomColor={getRandomColor}>
+                  {val}
+                </HashTagStyle>
+              ))}
           </HashTagsWrapper>
           <div id="rating-star">
             <RatingStar rating={rating} size="1rem" />
