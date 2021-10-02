@@ -77,7 +77,8 @@ const OptionalText = styled.span`
 function CourseInfo() {
   const { createLectureData, lectureData, saveCourseInfoDone } = useSelector((state: RootState) => state.lecture);
   const title = createLectureData?.title;
-  const [selectedCategoryId, setSelectedCategoryId] = useState<string>('');
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string | number>('');
+  const [selectedLevelId, setSelectedLevelId] = useState<string | number>('');
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -118,14 +119,20 @@ function CourseInfo() {
       // order: item.id,
       order: index, // front에서 변경된 order 반영
     }));
+
+    const data = {
+      whatYouCanLearnList,
+      expectedStudentsList,
+      requiredKnowledgeList,
+      selectedCategoryId,
+      selectedLevelId,
+    };
+    // console.log('data', data);
+
+    //  // 다음 페이지로 이동
     dispatch({
       type: SAVE_COURSE_INFO_REQUEST,
-      data: {
-        whatYouCanLearnList,
-        expectedStudentsList,
-        requiredKnowledgeList,
-        // 카테고리, 강의 수준 도 여기에 추가 되어야 함
-      },
+      data,
     });
     // 서버에 전송 성공 후 다음페이지(상세 소개)로 이동 - useEffect에서
   };
@@ -273,35 +280,34 @@ function CourseInfo() {
       </FieldDiv>
       <FieldDiv>
         <Label>카테고리</Label>
-        <CourseCommonButton
-          id="1"
-          text="개발, 프로그래밍"
-          selectedId={selectedCategoryId}
-          setSelectedId={setSelectedCategoryId}
-        />
-        <CourseCommonButton
-          id="2"
-          text="보안, 네트워크"
-          selectedId={selectedCategoryId}
-          setSelectedId={setSelectedCategoryId}
-        />
-        <CourseCommonButton
-          id="3"
-          text="데이터 사이언스"
-          selectedId={selectedCategoryId}
-          setSelectedId={setSelectedCategoryId}
-        />
         {
           // 카테고리 버튼 전부 수정해야 됨 - 다시 클릭 시 해제하도록 해야 함
           // 카테고리 리스트도 서버에서 가져와서 store에 저장 후 store에 있는 것을 가져오게 할 예정
+          lectureData.courseInfo?.category?.map((item) => (
+            <CourseCommonButton
+              id={item.id}
+              text={item.name}
+              selectedId={selectedCategoryId}
+              setSelectedId={setSelectedCategoryId}
+            />
+          ))
         }
       </FieldDiv>
       <FieldDiv>
         <Label>강의 수준</Label>
         {
           // 여기에 강의 수준 항목 추가되어야 함
-          lectureData.courseInfo.level.map((item) => {
+          lectureData.courseInfo?.level?.map((item) => {
             // <CourseCommonButton />
+            // console.log('lectureData.courseInfo.level.map((item)', item);
+            return (
+              <CourseCommonButton
+                id={item.id}
+                text={item.name}
+                selectedId={selectedLevelId}
+                setSelectedId={setSelectedLevelId}
+              />
+            );
           })
         }
       </FieldDiv>
