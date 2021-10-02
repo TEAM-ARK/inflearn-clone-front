@@ -1459,13 +1459,32 @@ inputElement.current.value = ''; // input value 초기화
 
 ### Things to do
 
-- [ ] 카테고리 목록은 처음에 서버에서 받아오기(DB로 관리하는 것이 관리자페이지에서 관리하기 편하기 때문)
-- [ ] 카테고리 버튼 클릭 시 선택한 카테고리 state에 보관
+- [x] 카테고리 목록은 처음에 서버에서 받아오기(DB로 관리하는 것이 관리자페이지에서 관리하기 편하기 때문)
+  - CourseLayout.tsx > dispatch(LOAD_EDIT_LECTURE_REQUEST) > saga : loadEditPage
+
+```typescript
+// 페이지 바뀔 때 마다 서버에서 데이터 다시 가져오기
+const currentUrl = useRef('');
+
+function getCurrentPath() {
+  currentUrl.current = router.pathname.split('edit')[1];
+  // console.log(currentUrl);
+  return currentUrl.current;
+}
+
+useEffect(() => {
+  dispatch({
+    type: LOAD_EDIT_LECTURE_REQUEST,
+  });
+}, [currentUrl.current]);
+```
+
+- [x] 카테고리 버튼 클릭 시 선택한 카테고리 state에 보관
 
   - state에 보관한 카테고리는 `저장 후 다음이동` 버튼을 누르면 취합돼어 서버로 전송
 
 - [x] 선택된 카테고리 다시 클릭하면 선택 해제
 
-- [ ] 강의 수준도 카테고리와 같음
+- [x] 강의 수준도 카테고리와 같음
 
 </details>

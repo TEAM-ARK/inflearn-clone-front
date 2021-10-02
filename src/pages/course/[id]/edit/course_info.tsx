@@ -207,11 +207,6 @@ function CourseInfo() {
     inputElement.current.value = ''; // input value 초기화
   };
 
-  // test
-  useEffect(() => {
-    console.log('lectureData', lectureData);
-  }, []);
-
   return (
     <CourseLayout>
       <CourseTitleLabel title="강의제작" />
@@ -285,6 +280,7 @@ function CourseInfo() {
           // 카테고리 리스트도 서버에서 가져와서 store에 저장 후 store에 있는 것을 가져오게 할 예정
           lectureData.courseInfo?.category?.map((item) => (
             <CourseCommonButton
+              key={item.id}
               id={item.id}
               text={item.name}
               selectedId={selectedCategoryId}
@@ -302,6 +298,7 @@ function CourseInfo() {
             // console.log('lectureData.courseInfo.level.map((item)', item);
             return (
               <CourseCommonButton
+                key={item.id}
                 id={item.id}
                 text={item.name}
                 selectedId={selectedLevelId}

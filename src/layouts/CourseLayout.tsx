@@ -133,18 +133,21 @@ const CourseLayout = ({ children }: IProps) => {
   const [headerHeight, setHeaderHeight] = useState<number>(64);
   const dispatch = useDispatch();
   const { lectureData } = useSelector((state: RootState) => state.lecture);
+  const currentUrl = useRef('');
 
   function getCurrentPath() {
-    const currentUrl = router.pathname.split('edit')[1];
+    // currentUrl.current = router.pathname.split('edit')[1];
+    const [, pathName] = router.pathname.split('edit');
+    currentUrl.current = pathName;
     // console.log(currentUrl);
-    return currentUrl;
+    return currentUrl.current;
   }
 
   useEffect(() => {
     dispatch({
       type: LOAD_EDIT_LECTURE_REQUEST,
     });
-  }, []);
+  }, [currentUrl.current]);
 
   useEffect(() => {
     console.log('lectureData', lectureData);
