@@ -8,7 +8,7 @@ type StyleProps = {
 const CourseCommonButtonStyle = styled.button<StyleProps>`
   height: 45px;
   border-radius: 3px;
-  border: ${(props: StyleProps) => (props.isSelected ? 'border: 1px solid #1dc078' : '1px solid #dedede')};
+  border: ${(props: StyleProps) => (props.isSelected ? '1px solid #1dc078' : '1px solid #dedede')};
   color: ${(props: StyleProps) => (props.isSelected ? '#fff' : '#333')};
   font-size: 1rem;
   padding: 5px 12px;
@@ -19,17 +19,25 @@ const CourseCommonButtonStyle = styled.button<StyleProps>`
 `;
 
 type Props = {
-  id: string;
+  id: string | number;
   text: string;
-  selectedId: string;
-  setSelectedId: React.Dispatch<React.SetStateAction<string>>;
+  selectedId: string | number;
+  setSelectedId: React.Dispatch<React.SetStateAction<string | number>>;
 };
 
 const CourseCommonButton = ({ id, text, selectedId, setSelectedId }: Props) => {
   const [isSelected, setIsSelected] = useState(false);
 
   function onClickButton() {
+    if (isSelected) {
+      // true - 선택된 상태
+      setSelectedId('');
+      setIsSelected(false);
+      return;
+    }
+    // 선택된 상태가 아닌 경우
     setSelectedId(id);
+    setIsSelected(true);
   }
 
   useEffect(() => {
