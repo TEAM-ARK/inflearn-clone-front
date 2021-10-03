@@ -54,7 +54,6 @@ const Notification = styled.div`
     > span {
       text-decoration: underline;
       color: rgb(0, 196, 113);
-      --darkreader-inline-color: #43ffaf;
       cursor: pointer;
     }
   }
