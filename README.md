@@ -1490,12 +1490,40 @@ useEffect(() => {
 </details>
 
 <details>
-<summary>2021.10.02.(Tony)</summary>
+<summary>2021.10.03.(Tony)</summary>
 
 ## 상세소개 페이지
 
-- [ ] 기본적인 틀 잡기 : 제목, 소개글 등
+### Things to do
+
+- [x] 기본적인 틀 잡기 : 제목, 소개글 등
+  - textarea place holder만 색 연하게
+
+```css
+textarea::placeholder {
+  color: #dbdbdb;
+}
+```
+
 - [ ] 텍스트 에디터 넣기
 - [ ] 텍스트 에디터에 서버에서 불러온 내용(HTML 같은 것) 넣기
 - [ ] 완성 표시 조건 적용 및 저장 후 다음 이동
+
+### next.js font 추가
+
+- \_document의 Head에 추가 후 사용
+
+```typescript
+<Head>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
+    rel="stylesheet"
+  />
+</Head>
+```
+
+- font-family 변경
+  - Roboto -> Noto+Sans+KR
+  - 인프런과 달리 font-weight 800이 존재하지 않아서 기존 800인 것은 700으로 변경해야 함
+
 </details>

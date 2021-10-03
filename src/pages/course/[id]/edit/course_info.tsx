@@ -31,18 +31,18 @@ const BoxInput = styled.input`
   }
 `;
 
-const Label = styled.div`
+export const Label = styled.div`
   font-size: 14px;
-  font-weight: 800;
+  font-weight: 700;
   color: #929292;
   margin-bottom: 0.2rem;
 `;
 
-const FirstFieldDiv = styled.div`
+export const FieldDiv = styled.div`
   margin-bottom: 0.75rem;
 `;
 
-const FieldDiv = styled.div`
+export const FieldDivMarginTop = styled.div`
   margin-top: 24px;
   margin-bottom: 0.75rem;
 `;
@@ -211,11 +211,11 @@ function CourseInfo() {
     <CourseLayout>
       <CourseTitleLabel title="강의제작" />
       <CourseTitle title="강의 정보" />
-      <FirstFieldDiv>
+      <FieldDiv>
         <Label>강의 제목</Label>
         <BoxInput type="text" placeholder="제목을 입력해주세요" value={title} />
-      </FirstFieldDiv>
-      <FieldDiv>
+      </FieldDiv>
+      <FieldDivMarginTop>
         <form onSubmit={handleSubmitAddItem(inputWhatYouCanLearn)}>
           <Label>이런 걸 배울 수 있어요</Label>
           <BoxInput ref={inputWhatYouCanLearn} type="text" placeholder="e.g., 리액트 네이티브 개발" />
@@ -227,8 +227,8 @@ function CourseInfo() {
             <TextListBox key={item.id} item={item} list={whatYouCanLearn} setList={setWhatYouCanLearn} index={index} />
           ))}
         </ReactSortable>
-      </FieldDiv>
-      <FieldDiv>
+      </FieldDivMarginTop>
+      <FieldDivMarginTop>
         <form onSubmit={handleSubmitAddItem(inputExpectedStudents)}>
           <Label>이런 분들에게 추천해요</Label>
           <BoxInput ref={inputExpectedStudents} type="text" placeholder="e.g., 코딩을 처음 접하는 사람" />
@@ -246,8 +246,8 @@ function CourseInfo() {
             />
           ))}
         </ReactSortable>
-      </FieldDiv>
-      <FieldDiv>
+      </FieldDivMarginTop>
+      <FieldDivMarginTop>
         <form onSubmit={handleSubmitAddItem(inputRequiredKnowledge)}>
           <Label>
             선수지식이 필요하다면 무엇인가요?<OptionalText>(선택)</OptionalText>
@@ -272,8 +272,8 @@ function CourseInfo() {
             />
           ))}
         </ReactSortable>
-      </FieldDiv>
-      <FieldDiv>
+      </FieldDivMarginTop>
+      <FieldDivMarginTop>
         <Label>카테고리</Label>
         {
           // 카테고리 버튼 전부 수정해야 됨 - 다시 클릭 시 해제하도록 해야 함
@@ -288,8 +288,8 @@ function CourseInfo() {
             />
           ))
         }
-      </FieldDiv>
-      <FieldDiv>
+      </FieldDivMarginTop>
+      <FieldDivMarginTop>
         <Label>강의 수준</Label>
         {
           // 여기에 강의 수준 항목 추가되어야 함
@@ -307,7 +307,7 @@ function CourseInfo() {
             );
           })
         }
-      </FieldDiv>
+      </FieldDivMarginTop>
       <SaveButton text="저장 후 다음이동" onClick={onClickSaveButton} />
     </CourseLayout>
   );

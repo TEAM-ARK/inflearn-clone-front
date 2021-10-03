@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const CourseTitleLabelStyle = styled.h4`
   font-size: 14px;
   color: #929292;
-  font-weight: 800;
+  font-weight: 700;
 `;
 
 type Prop = {
