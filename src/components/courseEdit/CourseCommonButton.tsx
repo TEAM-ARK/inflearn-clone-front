@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 type StyleProps = {
@@ -19,39 +19,45 @@ const CourseCommonButtonStyle = styled.button<StyleProps>`
 `;
 
 type Props = {
-  id: string | number;
-  text: string;
-  selectedId: string | number;
-  setSelectedId: React.Dispatch<React.SetStateAction<string | number>>;
+  kind: string;
+  handleId: (value: { id: string | number; kind: string }) => void;
+  data: {
+    id: string | number;
+    name: string;
+  }[];
 };
 
-const CourseCommonButton = ({ id, text, selectedId, setSelectedId }: Props) => {
-  const [isSelected, setIsSelected] = useState(false);
+const CourseCommonButton = ({ kind, handleId, data }: Props) => {
+  const [selectedId, setSelectedId] = useState<string | number>('');
 
-  function onClickButton() {
-    if (isSelected) {
+  const onClickButton = (id: string | number) => {
+    if (id === selectedId) {
       // true - 선택된 상태
       setSelectedId('');
-      setIsSelected(false);
-      return;
-    }
-    // 선택된 상태가 아닌 경우
-    setSelectedId(id);
-    setIsSelected(true);
-  }
-
-  useEffect(() => {
-    if (id === selectedId) {
-      setIsSelected(true);
+      handleId({ id: '', kind });
     } else {
-      setIsSelected(false);
+      // 선택된 상태가 아닌 경우
+      setSelectedId(id);
+      handleId({ id, kind });
     }
-  }, [selectedId]);
+  };
 
   return (
-    <CourseCommonButtonStyle onClick={onClickButton} key={id} isSelected={isSelected}>
-      {text}
-    </CourseCommonButtonStyle>
+    <>
+      {
+        // 카테고리 버튼 전부 수정해야 됨 - 다시 클릭 시 해제하도록 해야 함
+        // 카테고리 리스트도 서버에서 가져와서 store에 저장 후 store에 있는 것을 가져오게 할 예정
+        data.map((item) => (
+          <CourseCommonButtonStyle
+            onClick={() => onClickButton(item.id)}
+            key={item.id}
+            isSelected={item.id === selectedId}
+          >
+            {item.name}
+          </CourseCommonButtonStyle>
+        ))
+      }
+    </>
   );
 };
 
