@@ -9,15 +9,14 @@ const Button = styled.button`
   margin-top: 48px;
   padding: 0.2rem 0.6rem;
   height: 48px;
-  font-weight: 800;
+  font-weight: 700;
   font-size: 1rem;
   border-radius: 4px;
   box-shadow: 0 0 4px 0 rgb(0 0 0 / 16%);
-  border-color: #dbdbdb;
-  border-width: 1px;
+  border: 1px solid #dbdbdb;
   color: #363636;
   &:hover {
-    background-color: #fff;
+    border-color: #a7a7a7;
   }
 `;
 type Prop = {
