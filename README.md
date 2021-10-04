@@ -1574,7 +1574,6 @@ textarea::placeholder {
        ```jsx
         <FieldDivMarginTop>
           <Label>강의 수준</Label>
-          {/* 여기에 강의 수준 항목 추가되어야 함 */}
           <CourseCommonButton kind="level" handleId={handleId} data={lectureData.courseInfo.level} />
         </FieldDivMarginTop>
        ```
