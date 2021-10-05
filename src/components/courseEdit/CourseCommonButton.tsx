@@ -18,9 +18,14 @@ const CourseCommonButtonStyle = styled.button<StyleProps>`
   ${(props: StyleProps) => props.isSelected && 'background: #1dc078'};
 `;
 
-type Props = {
+export interface IHandleIdParams {
+  id: string | number;
   kind: 'category' | 'level';
-  handleId: (value: { id: string | number; kind: 'category' | 'level' }) => void;
+}
+
+type Props = {
+  kind: IHandleIdParams['kind'];
+  handleId: (value: IHandleIdParams) => void;
   data: {
     id: string | number;
     name: string;

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ItemInterface, ReactSortable } from 'react-sortablejs';
 import shortid from 'shortid';
 import styled from 'styled-components';
-import CourseCommonButton from '@components/courseEdit/CourseCommonButton';
+import CourseCommonButton, { IHandleIdParams } from '@components/courseEdit/CourseCommonButton';
 import CourseTitle from '@components/courseEdit/CourseTitle';
 import CourseTitleLabel from '@components/courseEdit/CourseTitleLabel';
 import SaveButton from '@components/courseEdit/SaveButton';
@@ -207,12 +207,7 @@ function CourseInfo() {
     inputElement.current.value = ''; // input value 초기화
   };
 
-  type HandleIdParams = {
-    id: string | number;
-    kind: 'category' | 'level';
-  };
-
-  const handleId = (value: HandleIdParams) => {
+  const handleId = (value: IHandleIdParams) => {
     // value는 CourseCommonButton의 handleId 프로퍼티의 인자를 통해 전달 받은 값
     if (value.kind === 'category') categoryId.current = value.id;
     if (value.kind === 'level') levelId.current = value.id;
