@@ -25,7 +25,7 @@ export interface IHandleIdParams {
 
 type Props = {
   kind: IHandleIdParams['kind'];
-  handleId: (value: IHandleIdParams) => IHandleIdParams['id'];
+  handleId: (value: IHandleIdParams) => void;
   data: {
     id: string | number;
     name: string;
