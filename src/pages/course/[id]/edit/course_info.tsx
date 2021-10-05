@@ -207,10 +207,18 @@ function CourseInfo() {
     inputElement.current.value = ''; // input value 초기화
   };
 
-  const handleId = (value: IHandleIdParams) => {
+  const handleId = (value: IHandleIdParams): IHandleIdParams['id'] => {
     // value는 CourseCommonButton의 handleId 프로퍼티의 인자를 통해 전달 받은 값
-    if (value.kind === 'category') categoryId.current = value.id;
-    if (value.kind === 'level') levelId.current = value.id;
+    if (value.kind === 'category') {
+      categoryId.current = value.id;
+      return categoryId.current;
+    }
+    if (value.kind === 'level') {
+      levelId.current = value.id;
+      return levelId.current;
+    }
+
+    return '해당되는 조건 없음';
   };
 
   return (
