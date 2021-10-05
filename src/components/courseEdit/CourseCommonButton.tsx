@@ -19,8 +19,8 @@ const CourseCommonButtonStyle = styled.button<StyleProps>`
 `;
 
 type Props = {
-  kind: string;
-  handleId: (value: { id: string | number; kind: string }) => void;
+  kind: 'category' | 'level';
+  handleId: (value: { id: string | number; kind: 'category' | 'level' }) => void;
   data: {
     id: string | number;
     name: string;
