@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ItemInterface, ReactSortable } from 'react-sortablejs';
 import shortid from 'shortid';
 import styled from 'styled-components';
-import CourseCommonButton, { IHandleIdParams } from '@components/courseEdit/CourseCommonButton';
+import CourseCommonButtons, { IHandleIdParams } from '@components/courseEdit/CourseCommonButtons';
 import CourseTitle from '@components/courseEdit/CourseTitle';
 import CourseTitleLabel from '@components/courseEdit/CourseTitleLabel';
 import SaveButton from '@components/courseEdit/SaveButton';
@@ -283,12 +283,12 @@ function CourseInfo() {
         <Label>카테고리</Label>
         {/* 카테고리 버튼 전부 수정해야 됨 - 다시 클릭 시 해제하도록 해야 함 */}
         {/* 카테고리 리스트도 서버에서 가져와서 store에 저장 후 store에 있는 것을 가져오게 할 예정 */}
-        <CourseCommonButton kind="category" handleId={handleId} data={lectureData.courseInfo.category} />
+        <CourseCommonButtons kind="category" handleId={handleId} data={lectureData.courseInfo.category} />
       </FieldDivMarginTop>
       <FieldDivMarginTop>
         <Label>강의 수준</Label>
         {/* 여기에 강의 수준 항목 추가되어야 함 */}
-        <CourseCommonButton kind="level" handleId={handleId} data={lectureData.courseInfo.level} />
+        <CourseCommonButtons kind="level" handleId={handleId} data={lectureData.courseInfo.level} />
       </FieldDivMarginTop>
       <SaveButton text="저장 후 다음이동" onClick={onClickSaveButton} />
     </CourseLayout>

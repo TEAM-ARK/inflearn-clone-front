@@ -32,7 +32,7 @@ type Props = {
   }[];
 };
 
-const CourseCommonButton = ({ kind, handleId, data }: Props) => {
+const CourseCommonButtons = ({ kind, handleId, data }: Props) => {
   const [selectedId, setSelectedId] = useState<string | number>('');
 
   const onClickButton = (id: string | number) => {
@@ -66,4 +66,4 @@ const CourseCommonButton = ({ kind, handleId, data }: Props) => {
   );
 };
 
-export default CourseCommonButton;
+export default CourseCommonButtons;
