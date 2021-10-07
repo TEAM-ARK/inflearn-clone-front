@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ItemInterface, ReactSortable } from 'react-sortablejs';
 import shortid from 'shortid';
 import styled from 'styled-components';
-import CourseCommonButton from '@components/courseEdit/CourseCommonButton';
+import CourseCommonButtons, { IHandleIdParams } from '@components/courseEdit/CourseCommonButtons';
 import CourseTitle from '@components/courseEdit/CourseTitle';
 import CourseTitleLabel from '@components/courseEdit/CourseTitleLabel';
 import SaveButton from '@components/courseEdit/SaveButton';
@@ -31,18 +31,18 @@ const BoxInput = styled.input`
   }
 `;
 
-const Label = styled.div`
+export const Label = styled.div`
   font-size: 14px;
-  font-weight: 800;
+  font-weight: 700;
   color: #929292;
   margin-bottom: 0.2rem;
 `;
 
-const FirstFieldDiv = styled.div`
+export const FieldDiv = styled.div`
   margin-bottom: 0.75rem;
 `;
 
-const FieldDiv = styled.div`
+export const FieldDivMarginTop = styled.div`
   margin-top: 24px;
   margin-bottom: 0.75rem;
 `;
@@ -77,10 +77,10 @@ const OptionalText = styled.span`
 function CourseInfo() {
   const { createLectureData, lectureData, saveCourseInfoDone } = useSelector((state: RootState) => state.lecture);
   const title = createLectureData?.title;
-  const [selectedCategoryId, setSelectedCategoryId] = useState<string | number>('');
-  const [selectedLevelId, setSelectedLevelId] = useState<string | number>('');
   const dispatch = useDispatch();
   const router = useRouter();
+  const categoryId = useRef<string | number>('');
+  const levelId = useRef<string | number>('');
 
   const [whatYouCanLearn, setWhatYouCanLearn] = useState<ItemInterface[]>(
     lectureData?.courseInfo.whatYouCanLearn.map((item) => ({
@@ -124,12 +124,12 @@ function CourseInfo() {
       whatYouCanLearnList,
       expectedStudentsList,
       requiredKnowledgeList,
-      selectedCategoryId,
-      selectedLevelId,
+      selectedCategoryId: categoryId.current,
+      selectedLevelId: levelId.current,
     };
     // console.log('data', data);
 
-    //  // 다음 페이지로 이동
+    // 다음 페이지로 이동
     dispatch({
       type: SAVE_COURSE_INFO_REQUEST,
       data,
@@ -207,15 +207,24 @@ function CourseInfo() {
     inputElement.current.value = ''; // input value 초기화
   };
 
+  const handleId = (value: IHandleIdParams) => {
+    // value는 CourseCommonButton의 handleId 프로퍼티의 인자를 통해 전달 받은 값
+    if (value.kind === 'category') {
+      categoryId.current = value.id;
+      return;
+    }
+    levelId.current = value.id;
+  };
+
   return (
     <CourseLayout>
       <CourseTitleLabel title="강의제작" />
       <CourseTitle title="강의 정보" />
-      <FirstFieldDiv>
+      <FieldDiv>
         <Label>강의 제목</Label>
         <BoxInput type="text" placeholder="제목을 입력해주세요" value={title} />
-      </FirstFieldDiv>
-      <FieldDiv>
+      </FieldDiv>
+      <FieldDivMarginTop>
         <form onSubmit={handleSubmitAddItem(inputWhatYouCanLearn)}>
           <Label>이런 걸 배울 수 있어요</Label>
           <BoxInput ref={inputWhatYouCanLearn} type="text" placeholder="e.g., 리액트 네이티브 개발" />
@@ -227,8 +236,8 @@ function CourseInfo() {
             <TextListBox key={item.id} item={item} list={whatYouCanLearn} setList={setWhatYouCanLearn} index={index} />
           ))}
         </ReactSortable>
-      </FieldDiv>
-      <FieldDiv>
+      </FieldDivMarginTop>
+      <FieldDivMarginTop>
         <form onSubmit={handleSubmitAddItem(inputExpectedStudents)}>
           <Label>이런 분들에게 추천해요</Label>
           <BoxInput ref={inputExpectedStudents} type="text" placeholder="e.g., 코딩을 처음 접하는 사람" />
@@ -246,8 +255,8 @@ function CourseInfo() {
             />
           ))}
         </ReactSortable>
-      </FieldDiv>
-      <FieldDiv>
+      </FieldDivMarginTop>
+      <FieldDivMarginTop>
         <form onSubmit={handleSubmitAddItem(inputRequiredKnowledge)}>
           <Label>
             선수지식이 필요하다면 무엇인가요?<OptionalText>(선택)</OptionalText>
@@ -272,42 +281,18 @@ function CourseInfo() {
             />
           ))}
         </ReactSortable>
-      </FieldDiv>
-      <FieldDiv>
+      </FieldDivMarginTop>
+      <FieldDivMarginTop>
         <Label>카테고리</Label>
-        {
-          // 카테고리 버튼 전부 수정해야 됨 - 다시 클릭 시 해제하도록 해야 함
-          // 카테고리 리스트도 서버에서 가져와서 store에 저장 후 store에 있는 것을 가져오게 할 예정
-          lectureData.courseInfo?.category?.map((item) => (
-            <CourseCommonButton
-              key={item.id}
-              id={item.id}
-              text={item.name}
-              selectedId={selectedCategoryId}
-              setSelectedId={setSelectedCategoryId}
-            />
-          ))
-        }
-      </FieldDiv>
-      <FieldDiv>
+        {/* 카테고리 버튼 전부 수정해야 됨 - 다시 클릭 시 해제하도록 해야 함 */}
+        {/* 카테고리 리스트도 서버에서 가져와서 store에 저장 후 store에 있는 것을 가져오게 할 예정 */}
+        <CourseCommonButtons kind="category" handleId={handleId} data={lectureData.courseInfo.category} />
+      </FieldDivMarginTop>
+      <FieldDivMarginTop>
         <Label>강의 수준</Label>
-        {
-          // 여기에 강의 수준 항목 추가되어야 함
-          lectureData.courseInfo?.level?.map((item) => {
-            // <CourseCommonButton />
-            // console.log('lectureData.courseInfo.level.map((item)', item);
-            return (
-              <CourseCommonButton
-                key={item.id}
-                id={item.id}
-                text={item.name}
-                selectedId={selectedLevelId}
-                setSelectedId={setSelectedLevelId}
-              />
-            );
-          })
-        }
-      </FieldDiv>
+        {/* 여기에 강의 수준 항목 추가되어야 함 */}
+        <CourseCommonButtons kind="level" handleId={handleId} data={lectureData.courseInfo.level} />
+      </FieldDivMarginTop>
       <SaveButton text="저장 후 다음이동" onClick={onClickSaveButton} />
     </CourseLayout>
   );

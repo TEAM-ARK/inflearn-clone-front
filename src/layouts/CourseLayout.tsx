@@ -27,6 +27,7 @@ const CourseNav = styled.nav`
 const CourseMain = styled.main`
   box-shadow: 0 2px 10px 0 hsl(0deg 0% 75% / 50%);
   padding: 12px 24px;
+  background-color: white;
 `;
 
 const CourseAside = styled.aside`
@@ -43,7 +44,7 @@ const CourseHeader = styled.header`
 `;
 
 const SeeTheLecture = styled.button`
-  font-weight: 800;
+  font-weight: 700;
   width: 160px;
   height: 48px;
   font-size: 18px;
@@ -69,7 +70,7 @@ const CourseHeaderContainer = styled.div`
 `;
 
 const BtnSaveCourse = styled.button`
-  font-weight: 800;
+  font-weight: 700;
   width: 160px;
   height: 48px;
   font-size: 18px;
