@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
-type PriceStyleProps = {
-  cardStyle: string;
-};
+interface PriceStyleProps {
+  cardStyle: 'Grid' | 'List';
+}
 
 const CurrentPrice = styled.span<PriceStyleProps>`
   font-size: 1.125rem;
@@ -29,7 +29,7 @@ const OriginalPrice = styled.del<PriceStyleProps>`
 type Props = {
   price: number;
   discount: number | undefined;
-  cardStyle: string;
+  cardStyle: PriceStyleProps['cardStyle'];
 };
 
 const LecturePrice = ({ price, discount, cardStyle }: Props) => {
