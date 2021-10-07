@@ -92,7 +92,7 @@ const LectureCard = ({ lecture }: Props) => {
             <LectureCardTitle>{title}</LectureCardTitle>
             <LectureCardAuthor>{author}</LectureCardAuthor>
             <LectureCardRating>
-              <RatingStar rating={rating} size="1rem" />
+              <RatingStar rating={rating} size="1.5rem" responsive />
               <LectureCardReviewCount>{`(${commentCount})`}</LectureCardReviewCount>
             </LectureCardRating>
             <LectureCardPrice>

@@ -122,7 +122,7 @@ const HorizonLectureCard = ({ lecture, index }: Props) => {
               ))}
           </HashTagsWrapper>
           <div id="rating-star">
-            <RatingStar rating={rating} size="1rem" />
+            <RatingStar rating={rating} size="1.5rem" responsive />
             <LectureCommentCount>({commentCount})</LectureCommentCount>
           </div>
         </a>
