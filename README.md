@@ -1527,3 +1527,117 @@ textarea::placeholder {
   - 인프런과 달리 font-weight 800이 존재하지 않아서 기존 800인 것은 700으로 변경해야 함
 
 </details>
+
+<details>
+<summary>2021.10.02 ~ 04(나현)</summary>
+
+## 카테고리 및 강의 수준 버튼 클릭 시 전체 화면 리렌더링 문제 해결 과정
+
+#### 문제 상황
+
+  React Developer Tools로 강의 생성 페이지의 카테고리 및 강의 수준 버튼을 클릭 할 때마다 전체 화면이 리렌더링 되는 문제 발견
+
+#### 문제 발생 이유
+
+  - '2021.09.23 ~ 29(나현)'에 기재된 '아이콘 버튼 hover할 때마다 Card 컴포넌트 리렌더링 문제 해결 과정' 경험을 통해 버튼 클릭시 selectedCategoryId가 변경되면서 state가 선언된 컴포넌트와 하위 컴포넌트들을 모두 리렌더링 시켜서 발생한 문제라고 유추할 수 있었다.
+
+#### 문제 해결 과정
+
+  - 일단 카테고리 영역으로 문제 해결을 진행함.
+  - 아래에서 말하는 부모 컴포넌트는 course_info.tsx이고 자식 컴포넌트는 CourseComminButton.tsx이다.
+  - **시도한 해결 방법 (1)**
+    - 일단 CourseCommonButton은 원래 컴포넌트가 따로 분리되어 있었다. 다만 CourseCommonButton에서 발생시킨 selectedCategory state 변경이 부모 컴포넌트에 전달이 되어서 영향을 끼치고 있었기 때문에 course_info에 선언된 selectedCategory state를 CourseCommonButton으로 포함시켰다. 
+    - 이렇게 구현했을 때 리렌더링은 선택한 버튼에서만 발생했지만 카테고리가 중복 선택이 되는 문제가 발생했다. 
+  - **시도한 해결 방법 (2)**
+    - 첫번째로 시도한 해결 방법을 통해 선택한 버튼만 리렌더링이 되어야 하는 것이 아니라, 카테고리 부분 자체가 리렌더링이 되어야 이전에 선택했던 버튼 내역을 지워줘서 중복으로 버튼이 선택되는 문제를 해결해줄 수 있다고 판단했다.
+    - 그래서 map 코드도 포함시켜서 CourseCommonButton 컴포넌트로 이동시켜서 버튼 하나를 선택하면 카테고리 버튼 전체가 리렌더링 되게끔 했다. 
+    - 하지만 데이터를 전달하는 방식에서 문제가 발생했다. 
+      자식 컴포넌트가 갖고 있는 카테고리 id state 값을 부모 컴포넌트로 전달해줘야 나중에 서버로 다른 데이터들과 함께 전달 할 수 있는데, 부모 컴포넌트가 카테고리 id state를 전달 받아서 부모 컴포넌트 내에서 새로 생성한 state에 값을 저장하면 전체 화면 리렌더링이 발생해서 컴포넌트 분리를 한 의미가 없어지게 됐다. 
+      그리고 redux를 사용할 수도 있었지만 토니님과 의견을 나누는 과정에서 redux 사용이 어쩌면 단순한 과정을 번거롭게 만들 수 있겠다는 생각이 들었다.
+  - **최종 해결 방법**
+    - [토니님이 useRef로 시도하신 방법](https://github.com/Ark-inflearn/inflearn-clone-front/issues/83)에서 아이디어를 얻어서 자식 컴포넌트에서 부모 컴포넌트로 전달 받은 카테고리 id값을 useRef로 저장하면 되겠다고 생각을 됐다. 
+    - 참고로 [useRef의 current 값이 바뀐다고 하여 컴포넌트가 리렌더링 되지 않는다.](https://ko.reactjs.org/docs/hooks-reference.html#useref)
+    - 수정한 CourseCommonButton 컴포넌트는 강의 수준 선택에서도 재사용이 가능하게끔 만들었다.
+    1. 먼저 CourseCommonButton.tsx에서 전달받아서 저장할 categoryId를 useRef로 선언해준다. 
+       ```javascript
+       const categoryId = useRef<string | number>('');
+       const levelId = useRef<string | number>('');
+       ```
+    2. course_info.tsx에서 카테고리 선택 영역의 기존 map 함수가 있던 자리에 `<CourseCommonButton />` 컴포넌트만 있는 코드로 바꿔준다. 이 컴포넌트는 kind로 category값을 가지기 때문에 카테고리 버튼을 담당한다.  
+       ```jsx
+        <FieldDivMarginTop>
+          <Label>카테고리</Label>
+          <CourseCommonButton kind="category" handleId={handleId} data={lectureData.courseInfo.category} />
+        </FieldDivMarginTop>
+       ```  
+       강의 수준 선택 영역은 아래와 같이 코드를 작성한다. 
+       ```jsx
+        <FieldDivMarginTop>
+          <Label>강의 수준</Label>
+          <CourseCommonButton kind="level" handleId={handleId} data={lectureData.courseInfo.level} />
+        </FieldDivMarginTop>
+       ```
+       - props 설명
+
+       |props   |역할                                                                  |전달하는 데이터|
+       |--------|----------------------------------------------------------------------|-----------------------------------------------|
+       |kind    |버튼 종류 선택하는 부분                                                 |<p>category: 카테고리 버튼</p><p>level: 강의 수준 선택 버튼</p>|
+       |handleId|카테고리 혹은 강의 수준(level)의 id와 kind가 저장된 객체 값을 전달받는 부분|course_info에 선언된 handleId 함수|
+       |data    |카테고리 및 강의 수준에 관한 값을 전달하는 부분                           |lectureData에서 배열로 된 category 혹은 level 데이터|
+    3. 그리고 CourseCommonButton.tsx에는 다음과 같이 코드를 수정해줬다. 참고로 useEffect 부분과 상관없이 버튼을 선택할 때마다 리렌더링이 되어서 useEffect 코드를 구현하지 않았다.
+       selectedId state는 선택한 버튼의 아이디를 저장하는 것으로, 이전에 사용했던 selectedCategoryId와 같은 역할을 하는데 카테고리 뿐만아니라 강의 수준 버튼을 구현할 때는 selectedLevelId 역할을 한다.
+       ```jsx
+        const [selectedId, setSelectedId] = useState<string | number>('');
+       ```
+       그리고 버튼 클릭으로 onClickButton이 실행될 때 선택한 버튼의 item.id 값이 전달되게 해줬다. 
+       ```jsx
+        return (
+          <>
+            {
+              data.map((item) => (
+                <CourseCommonButtonStyle
+                  onClick={() => onClickButton(item.id)}
+                  key={item.id}
+                  isSelected={item.id === selectedId}
+                >
+                  {item.name}
+                </CourseCommonButtonStyle>
+              ))
+            }
+          </>
+        );
+       ```
+       실행된 onClickButton의 각 조건문 안에는 handleId 프로퍼티를 통해 선택한 버튼의 id와 현재 실행되고 있는 버튼의 종류를 객체로 전달한다. 
+       ```javascript
+        const onClickButton = (id: string | number) => {
+          if (id === selectedId) {
+            // true - 선택된 상태
+            setSelectedId('');
+            handleId({ id: '', kind });
+          } else {
+            // 선택된 상태가 아닌 경우
+            setSelectedId(id);
+            handleId({ id, kind });
+          }
+        };
+       ```
+    4. 위 handleId가 실행될 때 course_info에 선언되어있는 hadleId 함수로 인자 값이 전달된다. 매개 변수에서 kind 속성을 확인하여 각 버튼 종류의 id에 맞게 값을 저장시켜준다. 
+        ```javascript
+          const handleId = (value: { id: string | number; kind: string }) => {
+            // value는 CourseCommonButton의 handleId 프로퍼티의 인자를 통해 전달 받은 값
+            if (value.kind === 'category') categoryId.current = value.id;
+            if (value.kind === 'level') levelId.current = value.id;
+          };
+        ```
+       이렇게 저장한 값인 categoryId.current와 levelId.current는 onClickSaveButton이 실행됐을 때 서버로 전달하는 아래의 data 객체에 같이 실어서 보낼 수 있게 된다. 
+        ```
+          const data = {
+            whatYouCanLearnList,
+            expectedStudentsList,
+            requiredKnowledgeList,
+            selectedCategoryId: categoryId.current,
+            selectedLevelId: levelId.current,
+          };
+        ```
+
+</details>

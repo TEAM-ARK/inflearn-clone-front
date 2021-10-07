@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ItemInterface, ReactSortable } from 'react-sortablejs';
 import shortid from 'shortid';
 import styled from 'styled-components';
-import CourseCommonButton from '@components/courseEdit/CourseCommonButton';
+import CourseCommonButtons, { IHandleIdParams } from '@components/courseEdit/CourseCommonButtons';
 import CourseTitle from '@components/courseEdit/CourseTitle';
 import CourseTitleLabel from '@components/courseEdit/CourseTitleLabel';
 import SaveButton from '@components/courseEdit/SaveButton';
@@ -77,10 +77,10 @@ const OptionalText = styled.span`
 function CourseInfo() {
   const { createLectureData, lectureData, saveCourseInfoDone } = useSelector((state: RootState) => state.lecture);
   const title = createLectureData?.title;
-  const [selectedCategoryId, setSelectedCategoryId] = useState<string | number>('');
-  const [selectedLevelId, setSelectedLevelId] = useState<string | number>('');
   const dispatch = useDispatch();
   const router = useRouter();
+  const categoryId = useRef<string | number>('');
+  const levelId = useRef<string | number>('');
 
   const [whatYouCanLearn, setWhatYouCanLearn] = useState<ItemInterface[]>(
     lectureData?.courseInfo.whatYouCanLearn.map((item) => ({
@@ -124,12 +124,12 @@ function CourseInfo() {
       whatYouCanLearnList,
       expectedStudentsList,
       requiredKnowledgeList,
-      selectedCategoryId,
-      selectedLevelId,
+      selectedCategoryId: categoryId.current,
+      selectedLevelId: levelId.current,
     };
     // console.log('data', data);
 
-    //  // 다음 페이지로 이동
+    // 다음 페이지로 이동
     dispatch({
       type: SAVE_COURSE_INFO_REQUEST,
       data,
@@ -207,6 +207,15 @@ function CourseInfo() {
     inputElement.current.value = ''; // input value 초기화
   };
 
+  const handleId = (value: IHandleIdParams) => {
+    // value는 CourseCommonButton의 handleId 프로퍼티의 인자를 통해 전달 받은 값
+    if (value.kind === 'category') {
+      categoryId.current = value.id;
+      return;
+    }
+    levelId.current = value.id;
+  };
+
   return (
     <CourseLayout>
       <CourseTitleLabel title="강의제작" />
@@ -275,38 +284,14 @@ function CourseInfo() {
       </FieldDivMarginTop>
       <FieldDivMarginTop>
         <Label>카테고리</Label>
-        {
-          // 카테고리 버튼 전부 수정해야 됨 - 다시 클릭 시 해제하도록 해야 함
-          // 카테고리 리스트도 서버에서 가져와서 store에 저장 후 store에 있는 것을 가져오게 할 예정
-          lectureData.courseInfo?.category?.map((item) => (
-            <CourseCommonButton
-              key={item.id}
-              id={item.id}
-              text={item.name}
-              selectedId={selectedCategoryId}
-              setSelectedId={setSelectedCategoryId}
-            />
-          ))
-        }
+        {/* 카테고리 버튼 전부 수정해야 됨 - 다시 클릭 시 해제하도록 해야 함 */}
+        {/* 카테고리 리스트도 서버에서 가져와서 store에 저장 후 store에 있는 것을 가져오게 할 예정 */}
+        <CourseCommonButtons kind="category" handleId={handleId} data={lectureData.courseInfo.category} />
       </FieldDivMarginTop>
       <FieldDivMarginTop>
         <Label>강의 수준</Label>
-        {
-          // 여기에 강의 수준 항목 추가되어야 함
-          lectureData.courseInfo?.level?.map((item) => {
-            // <CourseCommonButton />
-            // console.log('lectureData.courseInfo.level.map((item)', item);
-            return (
-              <CourseCommonButton
-                key={item.id}
-                id={item.id}
-                text={item.name}
-                selectedId={selectedLevelId}
-                setSelectedId={setSelectedLevelId}
-              />
-            );
-          })
-        }
+        {/* 여기에 강의 수준 항목 추가되어야 함 */}
+        <CourseCommonButtons kind="level" handleId={handleId} data={lectureData.courseInfo.level} />
       </FieldDivMarginTop>
       <SaveButton text="저장 후 다음이동" onClick={onClickSaveButton} />
     </CourseLayout>
