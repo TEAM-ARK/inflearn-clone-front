@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import RatingStar from '@components/lectureCard/RatingStar';
 import { ILecture } from 'src/redux/reducers/types';
 import LectureCardHover from './LectureCardHover';
+import LecturePrice from './LecturePrice';
 
 const LectureCardStyle = styled.li`
   padding: 12px;
@@ -56,13 +57,6 @@ const LectureCardReviewCount = styled.span`
   color: var(--color-grey);
 `;
 
-const LectureCardPrice = styled.div`
-  color: var(--color-blue);
-  font-weight: 700;
-  font-size: 1rem;
-  margin-bottom: 5px;
-`;
-
 const LectureCardTag = styled.span`
   background-color: var(--color-light-pink);
   border-radius: 4px;
@@ -79,7 +73,7 @@ type Props = {
 };
 
 const LectureCard = ({ lecture }: Props) => {
-  const { id, coverImage, title, author, rating, commentCount, price, studentCount } = lecture;
+  const { id, coverImage, title, author, rating, commentCount, price, studentCount, onDiscount } = lecture;
   const studentCountFloor = Math.floor(studentCount / 100) * 100;
   const [isHover, setIsHover] = useState(false);
 
@@ -95,9 +89,7 @@ const LectureCard = ({ lecture }: Props) => {
               <RatingStar rating={rating} size="1.5rem" responsive />
               <LectureCardReviewCount>{`(${commentCount})`}</LectureCardReviewCount>
             </LectureCardRating>
-            <LectureCardPrice>
-              &#8361;{price.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')}
-            </LectureCardPrice>
+            <LecturePrice price={price} discount={onDiscount} cardStyle="Grid" />
             <div>
               <LectureCardTag>{`+${studentCountFloor}명`}</LectureCardTag>
             </div>
