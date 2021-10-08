@@ -28,7 +28,7 @@ const OriginalPrice = styled.del<IPriceStyleProps>`
 `;
 type Props = {
   price: number;
-  discount: number | undefined;
+  discount?: number;
   cardStyle: IPriceStyleProps['cardStyle'];
 };
 
