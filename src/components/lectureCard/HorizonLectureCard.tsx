@@ -44,13 +44,16 @@ const HashTagsWrapper = styled.div`
   display: flex;
 `;
 type HashTagProps = {
-  randomColor: () => string;
+  randomColor: string;
 };
 
-const HashTagStyle = styled.p<HashTagProps>`
+const HashTagStyle = styled.p.attrs<HashTagProps>((props) => ({
+  style: {
+    backgroundColor: props.randomColor,
+  },
+}))<HashTagProps>`
   display: inline-block;
   color: #454545;
-  background-color: ${(props) => props.randomColor};
   margin-right: 0.5rem;
   margin-bottom: 0.5rem;
   padding: 0 6px;
@@ -116,7 +119,7 @@ const HorizonLectureCard = ({ lecture, index }: Props) => {
           <HashTagsWrapper>
             {!!hashTags &&
               hashTags.map((val: string, idx: number) => (
-                <HashTagStyle key={idx} randomColor={getRandomColor}>
+                <HashTagStyle key={idx} randomColor={getRandomColor()}>
                   {val}
                 </HashTagStyle>
               ))}
