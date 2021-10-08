@@ -15,7 +15,7 @@ const SLectureCardHover = styled.article`
   left: 0;
   background-color: rgba(0, 0, 0, 0.7);
   color: white;
-  padding: 4px 8px;
+  padding: 0.75rem;
   overflow: auto;
   font-weight: 550;
 `;
