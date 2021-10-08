@@ -131,7 +131,7 @@ const HorizonLectureCard = ({ lecture, index }: Props) => {
             <LecturePrice price={price} discount={onDiscount} cardStyle="List" />
           </LecturePriceWrapper>
           <LectureCardIconBtnWrapper>
-            <IconButtons />
+            <IconButtons view="List" />
           </LectureCardIconBtnWrapper>
         </LectureShoppingContents>
       </LectureCardContents>

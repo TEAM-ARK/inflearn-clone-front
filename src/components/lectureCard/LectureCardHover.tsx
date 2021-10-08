@@ -1,14 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import AccountTreeOutlinedIcon from '@material-ui/icons/AccountTreeOutlined';
-import AddOutlinedIcon from '@material-ui/icons/AddOutlined';
-import AddShoppingCartOutlinedIcon from '@material-ui/icons/AddShoppingCartOutlined';
-import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
 import LocalOfferOutlinedIcon from '@material-ui/icons/LocalOfferOutlined';
 import SignalCellularAltIcon from '@material-ui/icons/SignalCellularAlt';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { ILecture } from 'src/redux/reducers/types';
-import SpeechBubble from './SpeechBubble';
+import IconButtons from './IconButtons';
 
 const SLectureCardHover = styled.article`
   position: absolute;
@@ -39,33 +36,14 @@ const IconContainer = styled.div`
   flex-direction: column;
   align-items: flex-end;
   justify-content: center;
-  & > div {
+  & > button {
     display: flex;
     align-items: center;
+    padding: 0;
     & > svg {
       transform: scale(0.9);
       &:hover {
         cursor: grab;
-      }
-    }
-  }
-`;
-
-const CartIconWrapper = styled.div`
-  & > svg {
-    &:nth-child(2) {
-      &:hover {
-        color: #c5ebf8;
-      }
-    }
-  }
-`;
-
-const HeartIconWrapper = styled.div`
-  & > svg {
-    &:nth-child(2) {
-      &:hover {
-        color: #e74c3c;
       }
     }
   }
@@ -76,9 +54,6 @@ type Props = {
 };
 
 const LectureCardHover = ({ lecture }: Props) => {
-  const [isHoverCart, setIsHoverCart] = useState(false);
-  const [isHoverHeart, setIsHoverHeart] = useState(false);
-  const [isHoverPlus, setIsHoverPlus] = useState(false);
   const { title, description, hashTags, categories, level, id } = lecture;
   // console.log('LectureCardHover lecture:', lecture);
   return (
@@ -106,24 +81,7 @@ const LectureCardHover = ({ lecture }: Props) => {
         </TagsContainer>
         <IconContainer>
           {/* icons */}
-          <CartIconWrapper>
-            {isHoverCart && <SpeechBubble message="바구니에 추가" />}
-            <AddShoppingCartOutlinedIcon
-              onMouseEnter={() => setIsHoverCart(true)}
-              onMouseLeave={() => setIsHoverCart(false)}
-            />
-          </CartIconWrapper>
-          <HeartIconWrapper>
-            {isHoverHeart && <SpeechBubble message="위시 리스트에 추가" />}
-            <FavoriteBorderOutlinedIcon
-              onMouseEnter={() => setIsHoverHeart(true)}
-              onMouseLeave={() => setIsHoverHeart(false)}
-            />
-          </HeartIconWrapper>
-          <div>
-            {isHoverPlus && <SpeechBubble message="내 목록에 추가" />}
-            <AddOutlinedIcon onMouseEnter={() => setIsHoverPlus(true)} onMouseLeave={() => setIsHoverPlus(false)} />
-          </div>
+          <IconButtons view="Grid" />
         </IconContainer>
       </SLectureCardHover>
     </Link>
