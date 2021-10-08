@@ -128,7 +128,7 @@ const Courses = () => {
   };
 
   const handleListViewClick = (value: string) => {
-    router.push({
+    router.replace({
       pathname: '/courses',
       query: { view: value },
     });
