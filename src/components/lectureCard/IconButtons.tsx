@@ -16,6 +16,10 @@ const getGridStyle = (color: string) => `
   @media screen and (max-width: 768px) {
     display: block;
     margin: auto;
+
+    & > span > svg {
+      transform: scale(0.7);
+    }
   }
 `;
 
@@ -51,7 +55,6 @@ const IconButtons = ({ view }: Props) => {
       <IconButtonStyle iconcolor={view === 'Grid' ? '#c5ebf8' : '#fda011'} view={view}>
         {isHoverCart && <SpeechBubble message="바구니에 추가" />}
         <AddShoppingCartOutlinedIcon
-          className="add-icon"
           onMouseOver={() => setIsHoverCart(true)}
           onMouseLeave={() => setIsHoverCart(false)}
         />
@@ -59,18 +62,13 @@ const IconButtons = ({ view }: Props) => {
       <IconButtonStyle iconcolor={view === 'Grid' ? '#e74c3c' : '#ff6c5c'} view={view}>
         {isHoverHeart && <SpeechBubble message="위시리스트에 추가" />}
         <FavoriteBorderOutlinedIcon
-          className="add-icon"
           onMouseEnter={() => setIsHoverHeart(true)}
           onMouseLeave={() => setIsHoverHeart(false)}
         />
       </IconButtonStyle>
       <IconButtonStyle iconcolor={view === 'Grid' ? 'none' : '#333'} view={view}>
         {isHoverPlus && <SpeechBubble message="내 폴더에 추가" />}
-        <AddOutlinedIcon
-          className="add-icon"
-          onMouseEnter={() => setIsHoverPlus(true)}
-          onMouseLeave={() => setIsHoverPlus(false)}
-        />
+        <AddOutlinedIcon onMouseEnter={() => setIsHoverPlus(true)} onMouseLeave={() => setIsHoverPlus(false)} />
       </IconButtonStyle>
     </>
   );
