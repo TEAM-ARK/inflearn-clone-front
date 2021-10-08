@@ -74,18 +74,6 @@ ul, li {
 .slick-slide {
   display: inline-block;
 }
-
-.selected-list-view {
-  background: #1dc078 !important;
-  border-color: transparent !important;
-  color: white;
-}
-
-.selected-list-view:hover {
-  background: #1bb571 !important;
-  border-color: transparent !important;
-  color: white;
-}
 `;
 
 export default Global;

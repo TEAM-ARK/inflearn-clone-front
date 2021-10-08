@@ -81,11 +81,26 @@ const LectureSearchBtn = styled.button`
   margin-left: -1rem;
 `;
 
+const getSelectedStyle = () => `
+  background: #1dc078 !important;
+  border-color: transparent !important;
+  color: white;
+
+  &:hover {
+    background: #1bb571 !important;
+    border-color: transparent !important;
+    color: white;
+  }
+`;
+
 type ListViewProps = {
   view: string | string[];
+  isSelected?: boolean;
 };
 
 const ListViewBtn = styled.button<ListViewProps>`
+  ${(props) => (props.isSelected ? getSelectedStyle() : '')}
+
   background: white;
   border: 1px solid #dbdbdb;
   border-right-width: ${(props) => (props.view === 'Grid' ? '0' : '1px')};
@@ -155,7 +170,7 @@ const Courses = () => {
               <nav>카테고리 경로</nav>
               <ListViewBtn
                 type="button"
-                className={queryView === 'Grid' ? 'selected-list-view' : ''}
+                isSelected={queryView === 'Grid'}
                 view="Grid"
                 onClick={() => handleListViewClick('Grid')}
               >
@@ -163,7 +178,7 @@ const Courses = () => {
               </ListViewBtn>
               <ListViewBtn
                 type="button"
-                className={queryView === 'List' ? 'selected-list-view' : ''}
+                isSelected={queryView === 'List'}
                 view="List"
                 onClick={() => handleListViewClick('List')}
               >
