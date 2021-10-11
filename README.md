@@ -1648,7 +1648,7 @@ textarea::placeholder {
 ## 의논 사항 반영
 
 - 별점 크기를 반응형 웹에 맞게 조절
-  - props로 `responsive`를 추가해줘야 반응형으로 동작하고 `reponsive`를 추가해주지 않으면 정적 크기로 동작한다.
+  - props로 `responsive`를 추가해줘야 반응형으로 동작하고 `reponsive`를 추가해주지 않으면 고정된 크기로 동작한다.
   - 참고로 `responsive` 만 적는 것과 `responsive={true}`는 같은 역할을 한다.
     - 반응형 웹에 맞게 별점크기를 변경하려 할 때
       ```jsx
