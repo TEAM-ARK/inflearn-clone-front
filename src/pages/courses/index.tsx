@@ -144,22 +144,20 @@ const Courses = () => {
 
   const handleListViewClick = useCallback(
     (value: string) => {
+      // 선택한 버튼이 이미 선택되어 있는 경우 if문 아래 코드 실행 안함
+      if (queryView === value) {
+        return;
+      }
+
       router.replace({
         pathname: '/courses',
         query: { view: value },
       });
 
-      // 선택한 버튼이 이미 선택되어 있는 경우는 아래 코드 실행 불가
-      if (queryView !== value) {
-        // view 버튼을 누를 때 마다 강의 리스트 데이터 요청
-        // setQueryView(value); 실행 다음에 dispatch를 하면 화면 전환 속도가 느림.
-        dispatch({ type: LOAD_ALL_LECTURES_REQUEST });
-
-        // view 스타일 변경을 위해 query에 전달된 view 값을 queryView state에 반영함.
-        setQueryView(value);
-      }
+      dispatch({ type: LOAD_ALL_LECTURES_REQUEST });
+      setQueryView(value);
     },
-    [queryView, router, dispatch]
+    [queryView, router]
   );
 
   return (
