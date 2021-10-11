@@ -6,7 +6,7 @@ import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutline
 import styled from 'styled-components';
 import SpeechBubble from '@components/lectureCard/SpeechBubble';
 
-const getGridStyle = (color: string) => `
+const getListStyle = (color: string) => `
   padding: calc(0.375em - 1px) 0;
   color: ${color};
   &:hover {
@@ -23,7 +23,7 @@ const getGridStyle = (color: string) => `
   }
 `;
 
-const getIconWrapper = (color: string) => `
+const getGridStyle = (color: string) => `
   color: #ffffff;
 
   &:hover {
@@ -41,8 +41,7 @@ type IconButtonStyleProps = {
 };
 
 const IconButtonStyle = styled(IconButton)<IconButtonStyleProps>`
-  ${(props) => (props.view === 'Grid' ? getIconWrapper(props.iconcolor) : '')}
-  ${(props) => (props.view === 'List' ? getGridStyle(props.iconcolor) : 'color: #ffffff;')}
+  ${(props) => (props.view === 'Grid' ? getGridStyle(props.iconcolor) : getListStyle(props.iconcolor))}
 `;
 
 const IconButtons = ({ view }: Props) => {
