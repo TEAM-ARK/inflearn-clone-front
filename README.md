@@ -1711,4 +1711,3 @@ textarea::placeholder {
 - 정렬순 버튼 구현하기
 
 </details>
-
