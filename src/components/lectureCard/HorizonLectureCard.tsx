@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import IconButtons from '@components/lectureCard/IconButtons';
 import LecturePrice from '@components/lectureCard/LecturePrice';
@@ -44,13 +44,16 @@ const HashTagsWrapper = styled.div`
   display: flex;
 `;
 type HashTagProps = {
-  randomColor: () => string;
+  randomColor: string;
 };
 
-const HashTagStyle = styled.p<HashTagProps>`
+const HashTagStyle = styled.p.attrs<HashTagProps>((props) => ({
+  style: {
+    backgroundColor: props.randomColor,
+  },
+}))<HashTagProps>`
   display: inline-block;
   color: #454545;
-  background-color: ${(props) => props.randomColor};
   margin-right: 0.5rem;
   margin-bottom: 0.5rem;
   padding: 0 6px;
@@ -97,13 +100,13 @@ type Props = {
 const HorizonLectureCard = ({ lecture, index }: Props) => {
   const { id, coverImage, title, rating, commentCount, price, hashTags, onDiscount } = lecture;
 
-  const getRandomColor = () => {
+  const getRandomColor = useCallback(() => {
     const h = 360 * Math.random();
     const s = 25 + 70 * Math.random();
     const l = 85 + 10 * Math.random();
 
     return `hsl(${h} ,${s}%, ${l}%)`;
-  };
+  }, []);
 
   return (
     <HorizonLectureCardStyle key={id} index={index}>
@@ -116,13 +119,13 @@ const HorizonLectureCard = ({ lecture, index }: Props) => {
           <HashTagsWrapper>
             {!!hashTags &&
               hashTags.map((val: string, idx: number) => (
-                <HashTagStyle key={idx} randomColor={getRandomColor}>
+                <HashTagStyle key={idx} randomColor={getRandomColor()}>
                   {val}
                 </HashTagStyle>
               ))}
           </HashTagsWrapper>
           <div id="rating-star">
-            <RatingStar rating={rating} size="1rem" />
+            <RatingStar rating={rating} size="1.5rem" responsive />
             <LectureCommentCount>({commentCount})</LectureCommentCount>
           </div>
         </a>
@@ -131,7 +134,7 @@ const HorizonLectureCard = ({ lecture, index }: Props) => {
             <LecturePrice price={price} discount={onDiscount} cardStyle="List" />
           </LecturePriceWrapper>
           <LectureCardIconBtnWrapper>
-            <IconButtons />
+            <IconButtons view="List" />
           </LectureCardIconBtnWrapper>
         </LectureShoppingContents>
       </LectureCardContents>

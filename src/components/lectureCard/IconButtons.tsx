@@ -6,14 +6,9 @@ import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutline
 import styled from 'styled-components';
 import SpeechBubble from '@components/lectureCard/SpeechBubble';
 
-type IconButtonStyleProps = {
-  iconcolor: string;
-};
-
-const IconButtonStyle = styled(IconButton)<IconButtonStyleProps>`
+const getListStyle = (color: string) => `
   padding: calc(0.375em - 1px) 0;
-  color: ${(props) => props.iconcolor};
-
+  color: ${color};
   &:hover {
     background-color: rgba(0, 0, 0, 0);
   }
@@ -21,39 +16,58 @@ const IconButtonStyle = styled(IconButton)<IconButtonStyleProps>`
   @media screen and (max-width: 768px) {
     display: block;
     margin: auto;
+
+    & > span > svg {
+      transform: scale(0.7);
+    }
   }
 `;
 
-const IconButtons = () => {
+const getGridStyle = (color: string) => `
+  color: #ffffff;
+
+  &:hover {
+    color: ${color};
+  }
+`;
+
+type Props = {
+  view: 'Grid' | 'List';
+};
+
+type IconButtonStyleProps = {
+  view: Props['view'];
+  iconcolor: string;
+};
+
+const IconButtonStyle = styled(IconButton)<IconButtonStyleProps>`
+  ${(props) => (props.view === 'Grid' ? getGridStyle(props.iconcolor) : getListStyle(props.iconcolor))}
+`;
+
+const IconButtons = ({ view }: Props) => {
   const [isHoverCart, setIsHoverCart] = useState(false);
   const [isHoverHeart, setIsHoverHeart] = useState(false);
   const [isHoverPlus, setIsHoverPlus] = useState(false);
 
   return (
     <>
-      <IconButtonStyle iconcolor="#fda011">
+      <IconButtonStyle iconcolor={view === 'Grid' ? '#c5ebf8' : '#fda011'} view={view}>
+        {isHoverCart && <SpeechBubble message="바구니에 추가" />}
         <AddShoppingCartOutlinedIcon
-          className="add-icon"
           onMouseOver={() => setIsHoverCart(true)}
           onMouseLeave={() => setIsHoverCart(false)}
         />
-        {isHoverCart && <SpeechBubble message="바구니에 추가히기" />}
       </IconButtonStyle>
-      <IconButtonStyle iconcolor="#ff6c5c">
-        {isHoverHeart && <SpeechBubble message="위시리스트에 추가하기" />}
+      <IconButtonStyle iconcolor={view === 'Grid' ? '#e74c3c' : '#ff6c5c'} view={view}>
+        {isHoverHeart && <SpeechBubble message="위시리스트에 추가" />}
         <FavoriteBorderOutlinedIcon
-          className="add-icon"
           onMouseEnter={() => setIsHoverHeart(true)}
           onMouseLeave={() => setIsHoverHeart(false)}
         />
       </IconButtonStyle>
-      <IconButtonStyle iconcolor="#333">
-        {isHoverPlus && <SpeechBubble message="내 폴더에 추가하기" />}
-        <AddOutlinedIcon
-          className="add-icon"
-          onMouseEnter={() => setIsHoverPlus(true)}
-          onMouseLeave={() => setIsHoverPlus(false)}
-        />
+      <IconButtonStyle iconcolor={view === 'Grid' ? 'none' : '#333'} view={view}>
+        {isHoverPlus && <SpeechBubble message="내 폴더에 추가" />}
+        <AddOutlinedIcon onMouseEnter={() => setIsHoverPlus(true)} onMouseLeave={() => setIsHoverPlus(false)} />
       </IconButtonStyle>
     </>
   );

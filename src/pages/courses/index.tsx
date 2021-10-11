@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import ListIcon from '@material-ui/icons/List';
 import ViewComfyIcon from '@material-ui/icons/ViewComfy';
@@ -81,11 +81,26 @@ const LectureSearchBtn = styled.button`
   margin-left: -1rem;
 `;
 
+const getSelectedStyle = () => `
+  background: #1dc078 !important;
+  border-color: transparent !important;
+  color: white;
+
+  &:hover {
+    background: #1bb571 !important;
+    border-color: transparent !important;
+    color: white;
+  }
+`;
+
 type ListViewProps = {
   view: string | string[];
+  isSelected?: boolean;
 };
 
 const ListViewBtn = styled.button<ListViewProps>`
+  ${(props) => (props.isSelected ? getSelectedStyle() : '')}
+
   background: white;
   border: 1px solid #dbdbdb;
   border-right-width: ${(props) => (props.view === 'Grid' ? '0' : '1px')};
@@ -127,14 +142,24 @@ const Courses = () => {
     console.log('success!');
   };
 
-  const handleListViewClick = (value: string) => {
-    router.push({
-      pathname: '/courses',
-      query: { view: value },
-    });
-    // view 스타일 변경을 위해 query에 전달된 view 값을 queryView state에 반영함.
-    setQueryView(value);
-  };
+  const handleListViewClick = useCallback(
+    (value: string) => {
+      // 선택한 버튼이 이미 선택되어 있는 경우 if문 아래 코드 실행 안함
+      if (queryView === value) {
+        return;
+      }
+
+      router.replace({
+        pathname: '/courses',
+        query: { view: value },
+      });
+
+      // view 버튼 클릭 시 매번 재요청 하는 것 고민하기
+      // dispatch({ type: LOAD_ALL_LECTURES_REQUEST });
+      setQueryView(value);
+    },
+    [queryView, router]
+  );
 
   return (
     <AppLayout>
@@ -155,7 +180,7 @@ const Courses = () => {
               <nav>카테고리 경로</nav>
               <ListViewBtn
                 type="button"
-                className={queryView === 'Grid' ? 'selected-list-view' : ''}
+                isSelected={queryView === 'Grid'}
                 view="Grid"
                 onClick={() => handleListViewClick('Grid')}
               >
@@ -163,7 +188,7 @@ const Courses = () => {
               </ListViewBtn>
               <ListViewBtn
                 type="button"
-                className={queryView === 'List' ? 'selected-list-view' : ''}
+                isSelected={queryView === 'List'}
                 view="List"
                 onClick={() => handleListViewClick('List')}
               >
