@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import IconButtons from '@components/lectureCard/IconButtons';
 import LecturePrice from '@components/lectureCard/LecturePrice';
@@ -100,13 +100,13 @@ type Props = {
 const HorizonLectureCard = ({ lecture, index }: Props) => {
   const { id, coverImage, title, rating, commentCount, price, hashTags, onDiscount } = lecture;
 
-  const getRandomColor = () => {
+  const getRandomColor = useCallback(() => {
     const h = 360 * Math.random();
     const s = 25 + 70 * Math.random();
     const l = 85 + 10 * Math.random();
 
     return `hsl(${h} ,${s}%, ${l}%)`;
-  };
+  }, []);
 
   return (
     <HorizonLectureCardStyle key={id} index={index}>
