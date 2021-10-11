@@ -154,7 +154,8 @@ const Courses = () => {
         query: { view: value },
       });
 
-      dispatch({ type: LOAD_ALL_LECTURES_REQUEST });
+      // view 버튼 클릭 시 매번 재요청 하는 것 고민하기
+      // dispatch({ type: LOAD_ALL_LECTURES_REQUEST });
       setQueryView(value);
     },
     [queryView, router]
