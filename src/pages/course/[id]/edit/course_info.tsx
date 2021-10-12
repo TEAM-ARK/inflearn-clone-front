@@ -284,40 +284,6 @@ function CourseInfo() {
       </FieldDivMarginTop>
       <FieldDivMarginTop>
         <Label>카테고리</Label>
-<<<<<<< HEAD
-        {
-          // 카테고리 버튼 전부 수정해야 됨 - 다시 클릭 시 해제하도록 해야 함
-          // 카테고리 리스트도 서버에서 가져와서 store에 저장 후 store에 있는 것을 가져오게 할 예정
-          lectureData.courseInfo?.category?.map((item) => (
-            <CourseCommonButton
-              key={item.id}
-              id={item.id}
-              text={item.name}
-              selectedId={selectedCategoryId}
-              setSelectedId={setSelectedCategoryId}
-            />
-          ))
-        }
-      </FieldDivMarginTop>
-      <FieldDivMarginTop>
-        <Label>강의 수준</Label>
-        {
-          // 여기에 강의 수준 항목 추가되어야 함
-          lectureData.courseInfo?.level?.map((item) => {
-            // <CourseCommonButton />
-            // console.log('lectureData.courseInfo.level.map((item)', item);
-            return (
-              <CourseCommonButton
-                key={item.id}
-                id={item.id}
-                text={item.name}
-                selectedId={selectedLevelId}
-                setSelectedId={setSelectedLevelId}
-              />
-            );
-          })
-        }
-=======
         {/* 카테고리 버튼 전부 수정해야 됨 - 다시 클릭 시 해제하도록 해야 함 */}
         {/* 카테고리 리스트도 서버에서 가져와서 store에 저장 후 store에 있는 것을 가져오게 할 예정 */}
         <CourseCommonButtons kind="category" handleId={handleId} data={lectureData.courseInfo.category} />
@@ -326,7 +292,6 @@ function CourseInfo() {
         <Label>강의 수준</Label>
         {/* 여기에 강의 수준 항목 추가되어야 함 */}
         <CourseCommonButtons kind="level" handleId={handleId} data={lectureData.courseInfo.level} />
->>>>>>> 3b92578ff7b84f00a421597c570ce465bbc2b060
       </FieldDivMarginTop>
       <SaveButton text="저장 후 다음이동" onClick={onClickSaveButton} />
     </CourseLayout>
