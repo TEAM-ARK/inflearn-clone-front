@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
-type PriceStyleProps = {
-  cardStyle: string;
-};
+interface IPriceStyleProps {
+  cardStyle: 'Grid' | 'List';
+}
 
-const CurrentPrice = styled.span<PriceStyleProps>`
+const CurrentPrice = styled.span<IPriceStyleProps>`
   font-size: 1.125rem;
   font-weight: 700;
   margin-left: 0.25rem;
@@ -16,7 +16,7 @@ const CurrentPrice = styled.span<PriceStyleProps>`
   }
 `;
 
-const OriginalPrice = styled.del<PriceStyleProps>`
+const OriginalPrice = styled.del<IPriceStyleProps>`
   ${(props) => (props.cardStyle === 'Grid' ? 'color: #595959;' : '')}
   opacity: ${(props) => (props.cardStyle === 'Grid' ? '0.75' : '0.7')};
   font-size: ${(props) => (props.cardStyle === 'Grid' ? '0.9rem' : '0.875rem')};
@@ -28,8 +28,8 @@ const OriginalPrice = styled.del<PriceStyleProps>`
 `;
 type Props = {
   price: number;
-  discount: number | undefined;
-  cardStyle: string;
+  discount?: number;
+  cardStyle: IPriceStyleProps['cardStyle'];
 };
 
 const LecturePrice = ({ price, discount, cardStyle }: Props) => {

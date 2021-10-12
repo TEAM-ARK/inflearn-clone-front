@@ -1641,3 +1641,73 @@ textarea::placeholder {
         ```
 
 </details>
+
+<details>
+<summary>2021.10.08 ~ 09, 11(나현)</summary>
+
+## 의논 사항 반영
+
+- 별점 크기를 반응형 웹에 맞게 조절
+  - props로 `responsive`를 추가해줘야 반응형으로 동작하고 `reponsive`를 추가해주지 않으면 고정된 크기로 동작한다.
+  - 참고로 `responsive` 만 적는 것과 `responsive={true}`는 같은 역할을 한다.
+    - 반응형 웹에 맞게 별점크기를 변경하려 할 때
+      ```jsx
+      <RatingStar rating={rating} size="1.5rem" responsive />
+      ``` 
+    - 고정된 별점 크기를 나타내려 할 때
+      ```jsx
+      <RatingStar rating={rating} size="1.5rem" />
+      ```
+
+- LectureCard.tsx에서 가격을 나타내는 부분을 LecturePrice 컴포넌트로 수정
+
+- LectureCard와 HorizonLectureCard에서 동시에 사용할 수 있게 IconButtons 컴포넌트로 수정
+  - view props에 전달하는 값에 따라 강의 리스트 스타일에 맞는 아이콘 버튼을 보여줄 수 있도록 했다.
+    ```
+    <IconButtons view="Grid" />
+    ```
+    - props 설명
+
+      |props|역할                              |전달하는 값                                     |
+      |-----|----------------------------------|-----------------------------------------------|
+      |view |강의 리스트 스타일 값을 전달하는 부분|<p>Grid: Grid 스타일</p><p>List: List 스타일</p>|
+
+## 이슈 해결
+ 
+- 강의 페이지에서 Grid나 List 버튼을 클릭한 후 데이터를 불러올 때 기존 화면 위에 스피너 불러오기
+  - 이미 선택된 버튼을 눌렀을 경우에는 데이터 재요청을 하지 않도록 했다.
+  - 그리고 버튼을 누르자마자 스피너가 실행되어서 기존에 화면 전환 시간이 오래 걸리는 단점도 함께 보완됐다.
+
+- /courses?view=Grid -> /courses?view=List 누르고 뒤로가기 버튼을 누르면 이전 페이지로 이동하지 않고 /courses?view=List -> /courses?view=Gird 이후에 이전 페이지로 이동하는 문제를 해결
+  - 기존 router.push를 사용하면 url이 변경 될 때 마다 History(브라우저 세션 기록) Stack에 쌓이게 되어 '뒤로가기'를 눌렀을 때 view가 변경된 내역이 다 반영됐다. 
+  - router.replace를 사용했을 경우 url은 변경되지만 History stack에는 반영되지 않아서 뒤로가기를 눌렀을 때, 강의 페이지에 접근하기 전의 페이지로 바로 이동한다. 
+  
+- selected-list-view 부분의 css 코드를 GlobalStyle.css가 아닌 selected-list-view을 사용하고 있는 내부 컴포넌트에 css 코드를 작성
+  - getSelectedStyle 함수에 기존 selected-list-view css 코드를 저장하여, 버튼이 선택되었을 때 함수를 호출하여 데이터를 불러오게 했다.
+    ```
+    const getSelectedStyle = () => `
+      background: #1dc078 !important;
+      border-color: transparent !important;
+      color: white;
+
+      &:hover {
+        background: #1bb571 !important;
+        border-color: transparent !important;
+        color: white;
+      }
+    `;
+
+    const ListViewBtn = styled.button<ListViewProps>`
+      ${(props) => (props.isSelected ? getSelectedStyle() : '')}
+      ...
+    `;
+    ```
+  - 참고로 `` const selected style = `background: #1dc078;...`; `` 이렇게 상수로 css 코드를 선언할 수도 있었지만 기존 styled-components 코드와 헷갈릴 수 있다고 생각하여 함수로 선언했다.  
+
+## 앞으로 진행할 작업
+
+- 각 조건 선택 버튼 부분을 컴포넌트로 분리할 때, 쿼리스트링 전달 문제에 대해 고민한 후 강의 리스트 스타일 선택 버튼을 따로 컴포넌트 분리하기
+- 브라우저 너비에 따라 변경되는 별점 크기에 맞추어 등록된 리뷰수 글자 나타내는 부분도 크기 조절하기
+- 정렬순 버튼 구현하기
+
+</details>
