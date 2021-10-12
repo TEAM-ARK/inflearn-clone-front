@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useRef } from 'react';
+import { Editor } from '@tinymce/tinymce-react';
 import styled from 'styled-components';
 import CourseTitle from '@components/courseEdit/CourseTitle';
 import CourseTitleLabel from '@components/courseEdit/CourseTitleLabel';
@@ -60,6 +61,14 @@ const Notification = styled.div`
 `;
 
 const Description = () => {
+  // test for editor
+  const editorRef = useRef(null);
+  const log = () => {
+    if (editorRef.current) {
+      console.log(editorRef.current.getContent());
+    }
+  };
+
   return (
     <CourseLayout>
       <CourseTitleLabel title="강의 제작" />
@@ -112,7 +121,31 @@ const Description = () => {
           강의 상세 내용&nbsp;
           <LabelSubText>(해당 내용은 강의소개에서 보여집니다.)</LabelSubText>
         </Label>
-        <div>Text Editor</div>
+        <div>
+          <Editor
+            apiKey={process.env.REACT_APP_TINYMCE_KEY}
+            onInit={(evt, editor) => (editorRef.current = editor)}
+            initialValue="<p>This is the initial content of the editor.</p>"
+            init={{
+              height: 500,
+              menubar: false,
+              plugins: [
+                'advlist autolink lists link image charmap print preview anchor',
+                'searchreplace visualblocks code fullscreen',
+                'insertdatetime media table paste code help wordcount',
+              ],
+              toolbar:
+                'undo redo | formatselect | ' +
+                'bold italic backcolor | alignleft aligncenter ' +
+                'alignright alignjustify | bullist numlist outdent indent | ' +
+                'removeformat | help',
+              content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+            }}
+          />
+          <button type="button" onClick={log}>
+            Log editor content
+          </button>
+        </div>
       </FieldDivMarginTop>
     </CourseLayout>
   );
