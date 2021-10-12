@@ -1729,6 +1729,8 @@ npm install --save @tinymce/tinymce-react
 ### .env 파일 생성, gitignore에 추가
 
 - [.env 파일 내용(멤버공개)](https://www.notion.so/00bd4ff4b0c64c16862efeba772417e4?v=213923c71e3141778c982b4f0adb72c7&p=c39a63b09193487dad27eb1fc34e65e9)
+- 환경변수 수정 : NEXT_PUBLIC_TINYMCE_KEY
+  - https://cpro95.tistory.com/464
 
 #### 참고 문헌
 

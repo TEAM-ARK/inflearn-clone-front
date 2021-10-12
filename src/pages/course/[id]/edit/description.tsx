@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 import styled from 'styled-components';
 import CourseTitle from '@components/courseEdit/CourseTitle';
@@ -69,6 +69,10 @@ const Description = () => {
     }
   };
 
+  useEffect(() => {
+    console.log('tiny key', process.env.NEXT_PUBLIC_TINYMCE_KEY); // undefined ? dev mode에서 인식을 못하나?
+  }, []);
+
   return (
     <CourseLayout>
       <CourseTitleLabel title="강의 제작" />
@@ -123,7 +127,7 @@ const Description = () => {
         </Label>
         <div>
           <Editor
-            apiKey={process.env.REACT_APP_TINYMCE_KEY}
+            apiKey={process.env.NEXT_PUBLIC_TINYMCE_KEY}
             onInit={(evt, editor) => (editorRef.current = editor)}
             initialValue="<p>This is the initial content of the editor.</p>"
             init={{
