@@ -1722,4 +1722,6 @@ textarea::placeholder {
   - Roboto -> Noto+Sans+KR
   - 인프런과 달리 font-weight 800이 존재하지 않아서 기존 800인 것은 700으로 변경해야 함
 
+### tinyMCE 설치
+
 </details>
