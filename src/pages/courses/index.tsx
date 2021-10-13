@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import Grid from '@material-ui/core/Grid';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import ListIcon from '@material-ui/icons/List';
 import ViewComfyIcon from '@material-ui/icons/ViewComfy';
 import { useRouter } from 'next/router';
@@ -114,6 +115,41 @@ const ListViewBtn = styled.button<ListViewProps>`
   }
 `;
 
+const LectureOrderWrapper = styled.div`
+  position: absolute;
+  display: inline-block;
+  width: 114px;
+  z-index: 1;
+`;
+
+const LectureOrderSelect = styled.select`
+  padding: calc(0.5em - 1px) calc(0.625em - 1px);
+  width: 100%;
+  background: transparent;
+  font-size: 1rem;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border-color: #dbdbdb;
+  border-radius: 4px;
+  cursor: pointer;
+  outline: none;
+
+  &:focus {
+    border-color: #1dc078;
+    box-shadow: 0 0 0 0.125em rgb(29 192 120 / 25%);
+  }
+
+  + svg {
+    position: absolute;
+    top: 11px;
+    left: 80px;
+    font-size: 1rem;
+    transform: rotate(90deg);
+    z-index: -1;
+  }
+`;
+
 const LectureList = styled.ul<ListViewProps>`
   ${(props) => (props.view === 'Grid' ? 'display: flex; flex-wrap: wrap; align-items: flex-start;' : '')}
   margin-top: 1rem;
@@ -194,7 +230,16 @@ const Courses = () => {
               >
                 <ListIcon />
               </ListViewBtn>
-              <span>카드 정렬 선택</span>
+              <LectureOrderWrapper>
+                <LectureOrderSelect>
+                  <option>추천순</option>
+                  <option>인기순</option>
+                  <option>최신순</option>
+                  <option>평점순</option>
+                  <option>학생수순</option>
+                </LectureOrderSelect>
+                <ArrowForwardIosIcon />
+              </LectureOrderWrapper>
               <div>기술검색</div>
               <div className="lecture-list">
                 {loadLectureLoading ? (
