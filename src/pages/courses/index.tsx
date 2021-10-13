@@ -161,6 +161,14 @@ const Courses = () => {
   const dispatch = useDispatch();
 
   const [queryView, setQueryView] = useState<string | string[]>('Grid');
+  const [queryOrder, setQueryOrder] = useState<string | string[]>('');
+  const orderArr = [
+    { value: 'recommand', label: '추천순' },
+    { value: 'popular', label: '인기순' },
+    { value: 'recent', label: '최신순' },
+    { value: 'rating', label: '평점순' },
+    { value: 'famous', label: '학생순수' },
+  ];
 
   useEffect(() => {
     // 외부에서 접근하는 url을 다루는 경우에는 window.location을 사용해야함.
@@ -168,8 +176,10 @@ const Courses = () => {
     const queryString = window.location.search;
     const params = new URLSearchParams(queryString);
     const view = params.get('view');
+    const order = params.get('order');
     // url(ex. localhost:3000/courses?view=List)을 통해 바로 접근한 경우 쿼리 스트링에 view parameter가 존재한다면,  view parameter 값에 대한 스타일 보여주기
     if (view) setQueryView(view);
+    if (order) setQueryOrder(order);
 
     dispatch({ type: LOAD_ALL_LECTURES_REQUEST });
   }, []);
@@ -196,6 +206,17 @@ const Courses = () => {
     },
     [queryView, router]
   );
+
+  const handleOrderChange = useCallback((e) => {
+    const result = e.target.value;
+
+    router.replace({
+      pathname: '/courses',
+      query: { order: result },
+    });
+
+    setQueryOrder(result);
+  }, []);
 
   return (
     <AppLayout>
@@ -231,12 +252,14 @@ const Courses = () => {
                 <ListIcon />
               </ListViewBtn>
               <LectureOrderWrapper>
-                <LectureOrderSelect>
-                  <option>추천순</option>
-                  <option>인기순</option>
-                  <option>최신순</option>
-                  <option>평점순</option>
-                  <option>학생수순</option>
+                <LectureOrderSelect onChange={handleOrderChange}>
+                  {React.Children.toArray(
+                    orderArr.map((item) => (
+                      <option selected={item.value === queryOrder} value={item.value}>
+                        {item.label}
+                      </option>
+                    ))
+                  )}
                 </LectureOrderSelect>
                 <ArrowForwardIosIcon />
               </LectureOrderWrapper>
