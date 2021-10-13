@@ -60,6 +60,12 @@ const Notification = styled.div`
   }
 `;
 
+const initialHTML = String.raw`
+  <div>
+    Javascript 또는 Typescript 파일에서 HTML을 만들어서 넣어야 되는 경우
+  </div>
+`;
+
 const Description = () => {
   // test for editor
   const editorRef = useRef(null);
@@ -129,7 +135,7 @@ const Description = () => {
           <Editor
             apiKey={process.env.NEXT_PUBLIC_TINYMCE_KEY}
             onInit={(evt, editor) => (editorRef.current = editor)}
-            initialValue="<p>This is the initial content of the editor.</p>"
+            initialValue={initialHTML}
             init={{
               height: 500,
               menubar: false,

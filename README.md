@@ -1686,7 +1686,7 @@ React Developer Tools로 강의 생성 페이지의 카테고리 및 강의 수�
 </details>
 
 <details>
-<summary>2021.10.03, 12(Tony)</summary>
+<summary>2021.10.03, 12~13(Tony)</summary>
 
 ## 상세소개 페이지
 
@@ -1701,7 +1701,7 @@ textarea::placeholder {
 }
 ```
 
-- [ ] 텍스트 에디터 넣기
+- [x] 텍스트 에디터 넣기
 - [ ] 텍스트 에디터에 서버에서 불러온 내용(HTML 같은 것) 넣기
 - [ ] 완성 표시 조건 적용 및 저장 후 다음 이동
 
@@ -1731,6 +1731,14 @@ npm install --save @tinymce/tinymce-react
 - [.env 파일 내용(멤버공개)](https://www.notion.so/00bd4ff4b0c64c16862efeba772417e4?v=213923c71e3141778c982b4f0adb72c7&p=c39a63b09193487dad27eb1fc34e65e9)
 - 환경변수 수정 : NEXT_PUBLIC_TINYMCE_KEY
   - https://cpro95.tistory.com/464
+
+### 미리 작성된 HTML을 표시 하기
+
+- Editor의 initialValue속성에 서버에서 받은 html string을 넣어주면 된다
+
+### 사진은 어떻게 업로드하고 전송할까?
+
+- [이미지 파일 업로드 분석1](https://velog.io/@gth1123/WYSIWYG-%EC%9D%B4%EB%AF%B8%EC%A7%80%ED%8C%8C%EC%9D%BC-%EC%97%85%EB%A1%9C%EB%93%9C)
 
 #### 참고 문헌
 
