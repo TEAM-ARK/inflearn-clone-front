@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import Grid from '@material-ui/core/Grid';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import ListIcon from '@material-ui/icons/List';
@@ -95,7 +95,7 @@ const getSelectedStyle = () => `
 `;
 
 type ListViewProps = {
-  view: string | string[];
+  view: string | null;
   isSelected?: boolean;
 };
 
@@ -160,8 +160,14 @@ const Courses = () => {
   const { mainLectures, loadLectureLoading } = useSelector((state: RootState) => state.lecture);
   const dispatch = useDispatch();
 
-  const [queryView, setQueryView] = useState<string | string[]>('Grid');
-  const [queryOrder, setQueryOrder] = useState<string | string[]>('');
+  type queryListProps = {
+    view?: string | null;
+    order?: string | null;
+  };
+
+  const queryList = useRef<queryListProps>({});
+  const queryOrder = useRef<string | null>('');
+  const queryView = useRef<string | null>('Grid');
   const orderArr = [
     { value: 'recommand', label: '추천순' },
     { value: 'popular', label: '인기순' },
@@ -178,8 +184,8 @@ const Courses = () => {
     const view = params.get('view');
     const order = params.get('order');
     // url(ex. localhost:3000/courses?view=List)을 통해 바로 접근한 경우 쿼리 스트링에 view parameter가 존재한다면,  view parameter 값에 대한 스타일 보여주기
-    if (view) setQueryView(view);
-    if (order) setQueryOrder(order);
+    if (view) queryView.current = view;
+    if (order) queryOrder.current = order;
 
     dispatch({ type: LOAD_ALL_LECTURES_REQUEST });
   }, []);
@@ -191,18 +197,20 @@ const Courses = () => {
   const handleListViewClick = useCallback(
     (value: string) => {
       // 선택한 버튼이 이미 선택되어 있는 경우 if문 아래 코드 실행 안함
-      if (queryView === value) {
+      if (queryView.current === value) {
         return;
       }
 
+      queryList.current.view = value;
+
       router.replace({
         pathname: '/courses',
-        query: { view: value },
+        query: queryList.current,
       });
 
       // view 버튼 클릭 시 매번 재요청 하는 것 고민하기
       // dispatch({ type: LOAD_ALL_LECTURES_REQUEST });
-      setQueryView(value);
+      queryView.current = value;
     },
     [queryView, router]
   );
@@ -210,12 +218,14 @@ const Courses = () => {
   const handleOrderChange = useCallback((e) => {
     const result = e.target.value;
 
+    queryList.current.order = result;
+
     router.replace({
       pathname: '/courses',
-      query: { order: result },
+      query: queryList.current,
     });
 
-    setQueryOrder(result);
+    queryOrder.current = result;
   }, []);
 
   return (
@@ -237,7 +247,7 @@ const Courses = () => {
               <nav>카테고리 경로</nav>
               <ListViewBtn
                 type="button"
-                isSelected={queryView === 'Grid'}
+                isSelected={queryView.current === 'Grid'}
                 view="Grid"
                 onClick={() => handleListViewClick('Grid')}
               >
@@ -245,7 +255,7 @@ const Courses = () => {
               </ListViewBtn>
               <ListViewBtn
                 type="button"
-                isSelected={queryView === 'List'}
+                isSelected={queryView.current === 'List'}
                 view="List"
                 onClick={() => handleListViewClick('List')}
               >
@@ -255,7 +265,7 @@ const Courses = () => {
                 <LectureOrderSelect onChange={handleOrderChange}>
                   {React.Children.toArray(
                     orderArr.map((item) => (
-                      <option selected={item.value === queryOrder} value={item.value}>
+                      <option selected={item.value === queryOrder.current} value={item.value}>
                         {item.label}
                       </option>
                     ))
@@ -269,9 +279,9 @@ const Courses = () => {
                   <LoadingSpinner />
                 ) : (
                   // view의 값은 router.query.view값 가져와서 사용하기
-                  <LectureList view={queryView}>
+                  <LectureList view={queryView.current}>
                     {mainLectures?.map((lecture: ILecture, idx: number) =>
-                      queryView === 'Grid' ? (
+                      queryView.current === 'Grid' ? (
                         <LectureCard key={lecture.id} lecture={lecture} />
                       ) : (
                         <HorizonLectureCard key={lecture.id} lecture={lecture} index={idx} />
