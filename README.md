@@ -1711,3 +1711,138 @@ textarea::placeholder {
 - 정렬순 버튼 구현하기
 
 </details>
+<details>
+<summary>2021.10.13, 20 ~ 22(나현)</summary>
+
+## 구현한 것
+- 정렬순 선택 버튼 디자인 및 view를 선택한 값과 함께 정렬순 선택 값이 URL 쿼리에 반영되도록 구현
+  - 정렬순을 선택했을 때 url로 나타내면 다음과 같다.
+    ```
+    http://localhost:3000/courses?order=popular
+    ```
+    - order에 전달할 수 있는 값
+
+      | order 값  | 역할     |
+      | --------- | -------- |
+      | recommend | 추천순   |
+      | popular   | 인기순   |
+      | recent    | 최신순   |
+      | rating    | 평점순   |
+      | famous    | 학생수순 |
+
+  - view와 order를 동시에 나타내게 할 수 있으며 order는 popular이나 view가 Grid 일 때, view를 List로 변경하면 order값은 popular로 계속 유지가 되고, view값만 List로 변경된다. 반대로 order값만 변경한다고 해도 view 값은 유지되고, order값만 바뀐다.
+  view와 order를 함께 url 쿼리에 반영하면 다음과 같다.
+    ```
+    http://localhost:3000/courses?view=Grid&order=popular
+    ```
+
+- 검색에서 쿼리로 전달 받은 데이터를 서버쪽으로 전송이 가능하도록 코드 추가 작성
+  - 검색 관련 API가 만들어지기 전까지는 더미데이터 활용
+
+## view나 order 버튼을 누를 때마다 즉각적으로 url에 반영이 되지 않는 문제 해결
+
+- **문제 상황**
+  - view 버튼이랑 order 버튼을 각각 따로 이렇게 `http://localhost:3000/courses?view=Grid`, `http://localhost:3000/courses?order=popular` 나타날 때는 문제가 없었다.
+
+  - 근데 `http://localhost:3000/courses?view=Grid&order=popular` 이렇게 같이 구현하려고 하니까 List 버튼을 눌렀을 때 url에 List가 즉각적으로 변경되지 않고, 다시 Grid 버튼을 눌렀을 때 `http://localhost:3000/courses?view=List&order=popular` 로 뒤늦게 List 값으로 변경이 되는 문제가 있었다.
+
+- **문제가 발생한 이유**
+  - `useState`로 view와 order 값을 바꿨을 때, 동기적으로 url에 즉각 값이 반영되어 바뀌지 않았다.
+
+- **시도한 해결 방법**
+  - useEffect를 통해 바꾼 값이 바로 반영되게 해서 `router.replace`로 url이 이동되게끔 했다.
+
+  - 하지만 처음 로딩 할 때 useEffect가 실행이 되다보니, `router.replace` 때문에 불필요하게 처음 페이지를 로드 할 때마다 url 이동이 발생했다. 그래서 이 방법으로는 문제를 해결하지 못했다.
+
+- **최종 해결 방법**
+  - `useState`로 view와 order 값을 저장하고 변경하는 것 대신에, `useRef`를 사용해서 view와 order 값이 즉각적으로 바뀌게 했다.
+  - 아래 해결 방법은 redux-saga 코드 추가 전에 구현한 것이라 최종적으로 구현된 코드와 차이가 있다.
+  1. `useState`로 정의된 queryVIew와 queryOrder를 `useRef`로 다 변경시켜준다.
+  
+  ```jsx
+  const queryOrder = useRef<string | null>('');
+  const queryView = useRef<string | null>('Grid');
+  ```
+  
+  2. 그리고 기존 useEffect에서 아래의 코드와 같이 setQueryView로 값을 변경시키던 부분을 `queryView.current = view`로, setQueryOrder는 `queryOrder.current = order`로  변경해준다. 
+      
+      ◎변경 전
+      
+      ```jsx
+      useEffect(() => {
+          ...
+          if (view) setQueryView(view);
+          if (order) setQueryOrder(order);
+      
+          dispatch({ type: LOAD_ALL_LECTURES_REQUEST });
+        }, []);
+      ```
+      
+      ◎변경 후
+      
+      ```jsx
+      useEffect(() => {
+          ...
+          if (view) queryView.current = view;
+          if (order) queryOrder.current = order;
+      
+          dispatch({ type: LOAD_ALL_LECTURES_REQUEST });
+        }, []);
+      ```
+      
+  3. 이 코드 뿐만 아니라 setQueryView로 되어 있던 부분은 전부 위와 같이 바꿔준다.
+  4. 그리고 `useRef` 통해서 queryList를 빈 객체로 선언하여 view나 order 버튼이 선택될 때 값을 저장한다. 그리고 `router.replace`로 query 값이 전달될 때 queryList에 저장된 값을 저장하도록 한다. 
+  
+      아래는 view 버튼을 선택했을 때 사용되는 handleListViewClick 코드의 예이다. 
+      
+      ```jsx
+      const queryList = useRef<queryListProps>({});
+      ```
+      
+      ```jsx
+      const handleListViewClick = useCallback(
+          (value: string) => {
+            // 선택한 버튼이 이미 선택되어 있는 경우 if문 아래 코드 실행 안함
+            if (queryView.current === value) {
+              return;
+            }
+      
+            queryList.current.view = value;
+      
+            router.replace({
+              pathname: '/courses',
+              query: queryList.current,
+            });
+      
+            // view 버튼 클릭 시 매번 재요청 하는 것 고민하기
+            // dispatch({ type: LOAD_ALL_LECTURES_REQUEST });
+            queryView.current = value;
+          },
+          [queryView, router]
+        );
+      ```
+    
+
+  5. 이런 식으로 코드를 바꿔주면 url주소가 [http://localhost:3000/courses?view=Grid&order=popular](http://localhost:3000/courses?view=Grid&order=popular) 였을 때, view를 List 버튼으로 눌러주게 되면 [http://localhost:3000/courses?view=List&order=popular](http://localhost:3000/courses?view=List&order=popular로) 로 view 부분만 바뀌게 된다. order 버튼도 마찬가지이다.
+
+## 기존 코드에서 수정사항
+- reducers/lecture.tsx에서 `loadLectureLoading: true`에서 `loadLectureLoading: false`로 변경
+  - 처음에 페이지를 로드할 때는 LOAD_ALL_LECTURES_REQUEST를 사용하고, 검색을 할 경우에는 SEARCH_LECTURES_REQUEST가 실행되게 함.
+  - 이에 따라 로딩 스피너를 실행할 때도 loadLectureLoading 뿐만아니라 검색을 할 경우에 사용되는 searchLecturesLoading을 따로 추가하게 됨.
+  - 그래서 로딩 스피너를 불러올 때 사용하는 조건문을 `loadLectureLoading || searchLecturesLoading`로 수정함.
+  - 하지만 loadLectureLoading 초기값이 true임에 따라 LOAD_ALL_LECTURES_REQUEST를 요청하지 않아도 로딩 스피너가 실행되는 문제가 발생함. 
+  - 나에게 발생한 문제는 SEARCH_LECTURES_REQUEST를 요청 후 SUCCESS가 되어 searchLecturesLoading가 false로 바뀌어도 loadLectureLoading가 계속 true라서 `loadLectureLoading || searchLecturesLoading` 조건문은 true 만 출력이 되고, 로딩 스피너가 무한히 실행되는 문제가 발생함.
+  - 그래서 이 문제를 해결하기 위해 `loadLectureLoading: false`로 변경함.
+
+## 진행 보류 작업
+- 원래 강의 리스트 스타일 선택 버튼(view)과 정렬순 선택 버튼(order)부분을 따로 컴포넌트 분리
+  - 기존 `useState`를 사용해서 쿼리를 변경하던 부분을 `useRef`로 바꾸면서 최적화도 상당 부분 되어 컴포넌트 분리의 이점이 보이지 않는다. 
+  - 만약에 컴포넌트 분리를 했을 경우, 쿼리를 변경해야 하기 때문에 부모 컴포넌트에서 자식 컴포넌트(ex. 검색 관련 버튼)에서 변경된 값을 받아와야 하는데 이 과정에서 `useRef` 사용으로 인해 성능 최적화 필요성도 줄어들어서 가독성에 대한 불편함을 감수하고 분리할 이유가 없다.
+  - 한 컴포넌트에서 변경되는 값들을 최대한 같이 관리하는게 효율적이라 생각되어 분리 작업을 일단 보류하게 되었다. 
+
+## 앞으로 진행할 작업
+
+- 정렬순 버튼 구현하기
+- 검색 관련 API 문서 작성하기
+
+</details>
