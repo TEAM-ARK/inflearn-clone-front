@@ -194,12 +194,13 @@ const Courses = () => {
       dispatch({
         type: LOAD_ALL_LECTURES_REQUEST,
       });
-    } else {
-      dispatch({
-        type: SEARCH_LECTURES_REQUEST,
-        data: queryList.current,
-      });
+      return;
     }
+
+    dispatch({
+      type: SEARCH_LECTURES_REQUEST,
+      data: queryList.current,
+    });
   }, []);
 
   const handleSubmit = () => {
