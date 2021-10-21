@@ -27,7 +27,7 @@ export interface ILectureState {
 export const initialState: ILectureState = {
   mainLectures: [],
   totalLectureCount: 0,
-  loadLectureLoading: true,
+  loadLectureLoading: false,
   loadLectureError: undefined,
   mainSliderList: [],
   loadSliderLoading: true,
