@@ -169,7 +169,7 @@ const Courses = () => {
   const queryOrder = useRef<string | null>('');
   const queryView = useRef<string | null>('Grid');
   const orderArr = [
-    { value: 'recommand', label: '추천순' },
+    { value: 'recommend', label: '추천순' },
     { value: 'popular', label: '인기순' },
     { value: 'recent', label: '최신순' },
     { value: 'rating', label: '평점순' },
