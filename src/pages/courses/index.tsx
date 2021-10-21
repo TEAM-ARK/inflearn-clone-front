@@ -13,7 +13,7 @@ import LectureFilter from '@components/LectureFilter';
 import LoadingSpinner from '@components/LoadingSpinner';
 import AppLayout from 'src/layouts/AppLayout';
 import { RootState } from 'src/redux/reducers';
-import { LOAD_ALL_LECTURES_REQUEST } from 'src/redux/reducers/lecture';
+import { LOAD_ALL_LECTURES_REQUEST, SEARCH_LECTURES_REQUEST } from 'src/redux/reducers/lecture';
 import { ILecture } from 'src/redux/reducers/types';
 
 const CoursesSection = styled.section`
@@ -157,7 +157,7 @@ const LectureList = styled.ul<ListViewProps>`
 
 const Courses = () => {
   const router = useRouter();
-  const { mainLectures, loadLectureLoading } = useSelector((state: RootState) => state.lecture);
+  const { mainLectures, loadLectureLoading, searchLecturesLoading } = useSelector((state: RootState) => state.lecture);
   const dispatch = useDispatch();
 
   type queryListProps = {
@@ -185,9 +185,21 @@ const Courses = () => {
     const order = params.get('order');
     // url(ex. localhost:3000/courses?view=List)을 통해 바로 접근한 경우 쿼리 스트링에 view parameter가 존재한다면,  view parameter 값에 대한 스타일 보여주기
     if (view) queryView.current = view;
-    if (order) queryOrder.current = order;
+    if (order) {
+      queryOrder.current = order;
+      queryList.current.order = order;
+    }
 
-    dispatch({ type: LOAD_ALL_LECTURES_REQUEST });
+    if (Object.keys(queryList.current).length === 0) {
+      dispatch({
+        type: LOAD_ALL_LECTURES_REQUEST,
+      });
+    } else {
+      dispatch({
+        type: SEARCH_LECTURES_REQUEST,
+        data: queryList.current,
+      });
+    }
   }, []);
 
   const handleSubmit = () => {
@@ -200,29 +212,42 @@ const Courses = () => {
       if (queryView.current === value) {
         return;
       }
+      queryView.current = value;
 
-      queryList.current.view = value;
+      const addView = { view: queryView.current } || '';
 
       router.replace({
         pathname: '/courses',
-        query: queryList.current,
+        query: {
+          ...addView,
+          ...queryList.current,
+        },
       });
 
       // view 버튼 클릭 시 매번 재요청 하는 것 고민하기
       // dispatch({ type: LOAD_ALL_LECTURES_REQUEST });
-      queryView.current = value;
     },
     [queryView, router]
   );
 
   const handleOrderChange = useCallback((e) => {
     const result = e.target.value;
+    // view는 queryList.current에 포함시켜서 서버에 전달할 필요가 없으므로 따로 객체 추가
+    const addView = { view: queryView.current } || '';
 
     queryList.current.order = result;
 
     router.replace({
       pathname: '/courses',
-      query: queryList.current,
+      query: {
+        ...addView,
+        ...queryList.current,
+      },
+    });
+
+    dispatch({
+      type: SEARCH_LECTURES_REQUEST,
+      data: queryList.current,
     });
 
     queryOrder.current = result;
@@ -275,7 +300,7 @@ const Courses = () => {
               </LectureOrderWrapper>
               <div>기술검색</div>
               <div className="lecture-list">
-                {loadLectureLoading ? (
+                {loadLectureLoading || searchLecturesLoading ? (
                   <LoadingSpinner />
                 ) : (
                   // view의 값은 router.query.view값 가져와서 사용하기

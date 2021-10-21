@@ -78,3 +78,7 @@ export type LectureInfoChild = {
   name: string;
   order: number | string;
 };
+
+export interface ISearchQueryData {
+  order?: string;
+}
