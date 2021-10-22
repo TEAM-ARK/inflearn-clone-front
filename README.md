@@ -1686,7 +1686,7 @@ React Developer Tools로 강의 생성 페이지의 카테고리 및 강의 수�
 </details>
 
 <details>
-<summary>2021.10.03, 12~13(Tony)</summary>
+<summary>2021.10.03, 12~13, 16(Tony)</summary>
 
 ## 상세소개 페이지
 
@@ -1739,6 +1739,12 @@ npm install --save @tinymce/tinymce-react
 ### 사진은 어떻게 업로드하고 전송할까?
 
 - [이미지 파일 업로드 분석1](https://velog.io/@gth1123/WYSIWYG-%EC%9D%B4%EB%AF%B8%EC%A7%80%ED%8C%8C%EC%9D%BC-%EC%97%85%EB%A1%9C%EB%93%9C)
+
+### 각 prop에 대해 알아보기
+
+### 에디터안의 버튼들(이미지 추가 버튼 등)을 어떻게 커스텀하는지 알아보기
+
+### 전송할 때
 
 #### 참고 문헌
 

@@ -90,12 +90,7 @@ const Description = () => {
             (강의소개 상단에 보여집니다. 잠재 수강생들이 매력을 느낄만한 글을 짧게 남겨주세요.)
           </LabelSubText>
         </Label>
-        <CourseDescriptionSummary
-          className="textarea"
-          name="description"
-          data-kv="description"
-          placeholder="ex) 이 강의를 통해 수강생은 컴퓨터 공학의 기초를 다질 수 있을 것으로 예상합니다."
-        />
+        <CourseDescriptionSummary placeholder="ex) 이 강의를 통해 수강생은 컴퓨터 공학의 기초를 다질 수 있을 것으로 예상합니다." />
       </FieldDiv>
       <FieldDivLine />
       <FieldDiv>
@@ -136,6 +131,7 @@ const Description = () => {
             apiKey={process.env.NEXT_PUBLIC_TINYMCE_KEY}
             onInit={(evt, editor) => (editorRef.current = editor)}
             initialValue={initialHTML}
+            textareaName="aNameOftextarea"
             init={{
               height: 500,
               menubar: false,
