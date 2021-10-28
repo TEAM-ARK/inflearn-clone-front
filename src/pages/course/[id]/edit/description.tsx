@@ -131,6 +131,7 @@ const Description = () => {
             apiKey={process.env.NEXT_PUBLIC_TINYMCE_KEY}
             onInit={(evt, editor) => (editorRef.current = editor)}
             initialValue={initialHTML}
+            // value={initialHTML} // controlled mode에서 사용
             textareaName="aNameOftextarea"
             init={{
               height: 500,
