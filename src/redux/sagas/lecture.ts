@@ -17,8 +17,11 @@ import {
   SAVE_COURSE_INFO_REQUEST,
   SAVE_COURSE_INFO_FAILURE,
   SAVE_COURSE_INFO_SUCCESS,
+  SEARCH_LECTURES_REQUEST,
+  SEARCH_LECTURES_SUCCESS,
+  SEARCH_LECTURES_FAILURE,
 } from '../reducers/lecture';
-import { IAction } from '../reducers/types';
+import { IAction, ISearchQueryData } from '../reducers/types';
 
 // Load all lectures
 function loadAllLecturesAPI() {
@@ -39,6 +42,11 @@ async function postCreateLecture(title: string) {
 async function postSaveCourseInfo(data) {
   const result = await axios.post('http://3.34.236.174/api/v1/save/course_info', data);
   return result; // Redundant use of `await` on a return value.eslintno-return-await
+}
+
+// search lecture
+function searchLectureAPI(data: ISearchQueryData) {
+  return axios.get(`http://localhost:4000/api/courses?order=${data.order}`);
 }
 
 function* loadMainPage(action) {
@@ -125,6 +133,24 @@ function* saveCourseInfo(action: IAction) {
   }
 }
 
+function* searchLectures(action: IAction) {
+  try {
+    //const result = yield call(searchLectureAPI, action.data);
+
+    yield delay(1000);
+    yield put({
+      type: SEARCH_LECTURES_SUCCESS,
+      data: generateDummyLectureList(10),
+    });
+  } catch (error) {
+    console.log(error);
+    yield put({
+      type: SEARCH_LECTURES_FAILURE,
+      error,
+    });
+  }
+}
+
 // watch function*
 
 function* watchLoadMainPage() {
@@ -147,6 +173,10 @@ function* watchSaveCourseInfo() {
   yield takeLatest(SAVE_COURSE_INFO_REQUEST, saveCourseInfo);
 }
 
+function* watchSearchLectures() {
+  yield takeLatest(SEARCH_LECTURES_REQUEST, searchLectures);
+}
+
 export default function* lectureSaga() {
   yield all([
     fork(watchLoadMainPage),
@@ -154,5 +184,6 @@ export default function* lectureSaga() {
     fork(watchCreateLecture),
     fork(watchLoadEditPage),
     fork(watchSaveCourseInfo),
+    fork(watchSearchLectures),
   ]);
 }

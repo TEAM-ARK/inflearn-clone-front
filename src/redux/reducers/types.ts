@@ -78,3 +78,8 @@ export type LectureInfoChild = {
   name: string;
   order: number | string;
 };
+
+// 강의 검색 관련 쿼리 데이터
+export interface ISearchQueryData {
+  order?: string;
+}

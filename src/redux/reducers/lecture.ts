@@ -20,12 +20,14 @@ export interface ILectureState {
   saveCourseInfoLoading: boolean;
   saveCourseInfoDone: boolean;
   saveCourseInfoError?: string;
+  searchLecturesLoading: boolean;
+  searchLecturesError?: string;
 }
 
 export const initialState: ILectureState = {
   mainLectures: [],
   totalLectureCount: 0,
-  loadLectureLoading: true,
+  loadLectureLoading: false,
   loadLectureError: undefined,
   mainSliderList: [],
   loadSliderLoading: true,
@@ -57,6 +59,8 @@ export const initialState: ILectureState = {
   saveCourseInfoLoading: false,
   saveCourseInfoDone: false,
   saveCourseInfoError: undefined,
+  searchLecturesLoading: false,
+  searchLecturesError: '',
 };
 
 // action types
@@ -84,6 +88,11 @@ export const SAVE_COURSE_INFO_REQUEST = 'SAVE_COURSE_INFO_REQUEST';
 export const SAVE_COURSE_INFO_SUCCESS = 'SAVE_COURSE_INFO_SUCCESS';
 export const SAVE_COURSE_INFO_FAILURE = 'SAVE_COURSE_INFO_FAILURE';
 export const SAVE_COURSE_INFO_DONE = 'SAVE_COURSE_INFO_DONE';
+
+// search lecture page action
+export const SEARCH_LECTURES_REQUEST = 'SEARCH_LECTURES_REQUEST';
+export const SEARCH_LECTURES_SUCCESS = 'SEARCH_LECTURES_SUCCESS';
+export const SEARCH_LECTURES_FAILURE = 'SEARCH_LECTURES_FAILURE';
 
 // reducer
 const reducer = (state = initialState, action: IAction) => {
@@ -162,6 +171,17 @@ const reducer = (state = initialState, action: IAction) => {
         draft.saveCourseInfoDone = false;
         break;
 
+      case SEARCH_LECTURES_REQUEST:
+        draft.searchLecturesLoading = true;
+        break;
+      case SEARCH_LECTURES_SUCCESS:
+        draft.searchLecturesLoading = false;
+        draft.mainLectures = action.data;
+        break;
+      case SEARCH_LECTURES_FAILURE:
+        draft.searchLecturesLoading = false;
+        draft.searchLecturesError = action.error;
+        break;
       // 나머지 추후 추가 예정
       default:
         break;
