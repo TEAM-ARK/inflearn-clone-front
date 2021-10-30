@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 import styled from 'styled-components';
+import { Editor as TinyEditor } from 'tinymce';
 import CourseTitle from '@components/courseEdit/CourseTitle';
 import CourseTitleLabel from '@components/courseEdit/CourseTitleLabel';
 import CourseLayout from '@layouts/CourseLayout';
@@ -68,7 +69,7 @@ const initialHTML = String.raw`
 
 const Description = () => {
   // test for editor
-  const editorRef = useRef(null);
+  const editorRef = useRef<TinyEditor>();
   const log = () => {
     if (editorRef.current) {
       console.log(editorRef.current.getContent());
@@ -129,7 +130,10 @@ const Description = () => {
         <div>
           <Editor
             apiKey={process.env.NEXT_PUBLIC_TINYMCE_KEY}
-            onInit={(evt, editor) => (editorRef.current = editor)}
+            onInit={(evt, editor) => {
+              editorRef.current = editor;
+              return editorRef.current;
+            }}
             initialValue={initialHTML}
             // value={initialHTML} // controlled mode에서 사용
             textareaName="aNameOftextarea"

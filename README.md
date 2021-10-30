@@ -1832,7 +1832,7 @@ React Developer Tools로 강의 생성 페이지의 카테고리 및 강의 수�
 </details>
 
 <details>
-<summary>2021.10.03, 12~13, 16(Tony), 28</summary>
+<summary>2021.10.03, 12~13, 16(Tony), 28, 30</summary>
 
 ## 상세소개 페이지
 
@@ -1871,6 +1871,10 @@ textarea::placeholder {
 ### tinyMCE 설치
 
 npm install --save @tinymce/tinymce-react
+npm i tinymce
+
+- 타입스크립트에서 tinymce를 타입으로 사용하기 위해 설치
+- 원래 기본적으로 @tinymce/tinymce-react 만 설치해도 같이 설치되는 것 같지만 그럴 경우 package.json에 추가가 안되어있어서 타입사용 불가능
 
 ### .env 파일 생성, gitignore에 추가
 
