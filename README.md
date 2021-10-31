@@ -1490,6 +1490,45 @@ useEffect(() => {
 </details>
 
 <details>
+<summary>2021.10.03.(Tony)</summary>
+
+## 상세소개 페이지
+
+### Things to do
+
+- [x] 기본적인 틀 잡기 : 제목, 소개글 등
+  - textarea place holder만 색 연하게
+
+```css
+textarea::placeholder {
+  color: #dbdbdb;
+}
+```
+
+- [ ] 텍스트 에디터 넣기
+- [ ] 텍스트 에디터에 서버에서 불러온 내용(HTML 같은 것) 넣기
+- [ ] 완성 표시 조건 적용 및 저장 후 다음 이동
+
+### next.js font 추가
+
+- \_document의 Head에 추가 후 사용
+
+```typescript
+<Head>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
+    rel="stylesheet"
+  />
+</Head>
+```
+
+- font-family 변경
+  - Roboto -> Noto+Sans+KR
+  - 인프런과 달리 font-weight 800이 존재하지 않아서 기존 800인 것은 700으로 변경해야 함
+
+</details>
+
+<details>
 <summary>2021.10.02 ~ 04(나현)</summary>
 
 ## 카테고리 및 강의 수준 버튼 클릭 시 전체 화면 리렌더링 문제 해결 과정
@@ -1832,41 +1871,7 @@ React Developer Tools로 강의 생성 페이지의 카테고리 및 강의 수�
 </details>
 
 <details>
-<summary>2021.10.03, 12~13, 16(Tony), 28, 30</summary>
-
-## 상세소개 페이지
-
-### Things to do
-
-- [x] 기본적인 틀 잡기 : 제목, 소개글 등
-  - textarea place holder만 색 연하게
-
-```css
-textarea::placeholder {
-  color: #dbdbdb;
-}
-```
-
-- [x] 텍스트 에디터 넣기
-- [ ] 텍스트 에디터에 서버에서 불러온 내용(HTML 같은 것) 넣기
-- [ ] 완성 표시 조건 적용 및 저장 후 다음 이동
-
-### next.js font 추가
-
-- \_document의 Head에 추가 후 사용
-
-```typescript
-<Head>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
-    rel="stylesheet"
-  />
-</Head>
-```
-
-- font-family 변경
-  - Roboto -> Noto+Sans+KR
-  - 인프런과 달리 font-weight 800이 존재하지 않아서 기존 800인 것은 700으로 변경해야 함
+<summary>2021.10.12~13, 16(Tony), 28, 30</summary>
 
 ### tinyMCE 설치
 
@@ -1900,5 +1905,10 @@ npm i tinymce
 
 - [tinyMCE React integration 공식문서](https://www.tiny.cloud/docs/integrations/react/#tinymcereactintegrationquickstartguide)
 - https://www.npmjs.com/package/@tinymce/tinymce-react
+
+### image upload
+
+- https://codepen.io/pen/
+- https://www.tiny.cloud/docs/plugins/opensource/image/#
 
 </details>
