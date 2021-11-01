@@ -231,7 +231,7 @@ const Courses = () => {
     [queryView, router]
   );
 
-  const handleOrderChange = useCallback((e) => {
+  const handleOrderChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
     const result = e.target.value;
     // view는 queryList.current에 포함시켜서 서버에 전달할 필요가 없으므로 따로 객체 추가
     const addView = { view: queryView.current } || '';
