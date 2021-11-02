@@ -94,12 +94,12 @@ const getSelectedStyle = () => `
   }
 `;
 
-type ListViewProps = {
+type LectureViewProps = {
   view: string | null;
   isSelected?: boolean;
 };
 
-const ListViewBtn = styled.button<ListViewProps>`
+const LectureViewBtn = styled.button<LectureViewProps>`
   ${(props) => (props.isSelected ? getSelectedStyle() : '')}
 
   background: white;
@@ -150,7 +150,7 @@ const LectureOrderSelect = styled.select`
   }
 `;
 
-const LectureList = styled.ul<ListViewProps>`
+const LectureList = styled.ul<LectureViewProps>`
   ${(props) => (props.view === 'Grid' ? 'display: flex; flex-wrap: wrap; align-items: flex-start;' : '')}
   margin-top: 1rem;
 `;
@@ -269,22 +269,22 @@ const Courses = () => {
                 </LectureSearchForm>
               </CoursesHeader>
               <nav>카테고리 경로</nav>
-              <ListViewBtn
+              <LectureViewBtn
                 type="button"
                 isSelected={!queryView.current || queryView.current === 'Grid'}
                 view="Grid"
                 onClick={() => handleViewClick('Grid')}
               >
                 <ViewComfyIcon />
-              </ListViewBtn>
-              <ListViewBtn
+              </LectureViewBtn>
+              <LectureViewBtn
                 type="button"
                 isSelected={queryView.current === 'List'}
                 view="List"
                 onClick={() => handleViewClick('List')}
               >
                 <ListIcon />
-              </ListViewBtn>
+              </LectureViewBtn>
               <LectureOrderWrapper>
                 <LectureOrderSelect onChange={handleOrderChange}>
                   {React.Children.toArray(
