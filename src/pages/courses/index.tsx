@@ -167,7 +167,7 @@ const Courses = () => {
 
   const queryList = useRef<queryListProps>({});
   const queryOrder = useRef<string | null>('');
-  const queryView = useRef<string | null>('Grid');
+  const queryView = useRef<string>('');
   const orderArr = [
     { value: 'recommend', label: '추천순' },
     { value: 'popular', label: '인기순' },
@@ -215,12 +215,10 @@ const Courses = () => {
       }
       queryView.current = value;
 
-      const addView = { view: queryView.current } || '';
-
       router.replace({
         pathname: '/courses',
         query: {
-          ...addView,
+          view: queryView.current,
           ...queryList.current,
         },
       });
@@ -234,7 +232,7 @@ const Courses = () => {
   const handleOrderChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
     const result = e.target.value;
     // view는 queryList.current에 포함시켜서 서버에 전달할 필요가 없으므로 따로 객체 추가
-    const addView = { view: queryView.current } || '';
+    const addView = queryView.current.length ? { view: queryView.current } : '';
 
     queryList.current.order = result;
 
@@ -273,7 +271,7 @@ const Courses = () => {
               <nav>카테고리 경로</nav>
               <ListViewBtn
                 type="button"
-                isSelected={queryView.current === 'Grid'}
+                isSelected={!queryView.current || queryView.current === 'Grid'}
                 view="Grid"
                 onClick={() => handleListViewClick('Grid')}
               >
