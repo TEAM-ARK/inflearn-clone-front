@@ -1793,14 +1793,14 @@ textarea::placeholder {
   3. 이 코드 뿐만 아니라 setQueryView로 되어 있던 부분은 전부 위와 같이 바꿔준다.
   4. 그리고 `useRef` 통해서 queryList를 빈 객체로 선언하여 view나 order 버튼이 선택될 때 값을 저장한다. 그리고 `router.replace`로 query 값이 전달될 때 queryList에 저장된 값을 저장하도록 한다. 
   
-      아래는 view 버튼을 선택했을 때 사용되는 handleListViewClick 코드의 예이다. 
+      아래는 view 버튼을 선택했을 때 사용되는 handleViewClick 코드의 예이다. 
       
       ```jsx
       const queryList = useRef<queryListProps>({});
       ```
       
       ```jsx
-      const handleListViewClick = useCallback(
+      const handleViewClick = useCallback(
           (value: string) => {
             // 선택한 버튼이 이미 선택되어 있는 경우 if문 아래 코드 실행 안함
             if (queryView.current === value) {

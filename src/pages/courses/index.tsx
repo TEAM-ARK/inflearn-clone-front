@@ -207,7 +207,7 @@ const Courses = () => {
     console.log('success!');
   };
 
-  const handleListViewClick = useCallback(
+  const handleViewClick = useCallback(
     (value: string) => {
       // 선택한 버튼이 이미 선택되어 있는 경우 if문 아래 코드 실행 안함
       if (queryView.current === value) {
@@ -273,7 +273,7 @@ const Courses = () => {
                 type="button"
                 isSelected={!queryView.current || queryView.current === 'Grid'}
                 view="Grid"
-                onClick={() => handleListViewClick('Grid')}
+                onClick={() => handleViewClick('Grid')}
               >
                 <ViewComfyIcon />
               </ListViewBtn>
@@ -281,7 +281,7 @@ const Courses = () => {
                 type="button"
                 isSelected={queryView.current === 'List'}
                 view="List"
-                onClick={() => handleListViewClick('List')}
+                onClick={() => handleViewClick('List')}
               >
                 <ListIcon />
               </ListViewBtn>
