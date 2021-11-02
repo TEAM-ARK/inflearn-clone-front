@@ -150,7 +150,7 @@ const LectureOrderSelect = styled.select`
   }
 `;
 
-const LectureList = styled.ul<LectureViewProps>`
+const LectureCardWrapper = styled.ul<LectureViewProps>`
   ${(props) => (props.view === 'Grid' ? 'display: flex; flex-wrap: wrap; align-items: flex-start;' : '')}
   margin-top: 1rem;
 `;
@@ -303,7 +303,7 @@ const Courses = () => {
                   <LoadingSpinner />
                 ) : (
                   // view의 값은 router.query.view값 가져와서 사용하기
-                  <LectureList view={queryView.current}>
+                  <LectureCardWrapper view={queryView.current}>
                     {mainLectures?.map((lecture: ILecture, idx: number) =>
                       queryView.current === 'Grid' ? (
                         <LectureCard key={lecture.id} lecture={lecture} />
@@ -311,7 +311,7 @@ const Courses = () => {
                         <HorizonLectureCard key={lecture.id} lecture={lecture} index={idx} />
                       )
                     )}
-                  </LectureList>
+                  </LectureCardWrapper>
                 )}
               </div>
               <div>페이지네이션</div>
