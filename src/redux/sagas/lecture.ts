@@ -1,5 +1,5 @@
 import { all, call, delay, fork, put, takeLatest, throttle } from '@redux-saga/core/effects';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { dummyLectureEditData, generateDummyLectureList, mainSliderData } from 'src/api/dummyData';
 import {
   CREATE_LECTURE_FAILURE,
@@ -20,8 +20,14 @@ import {
   SEARCH_LECTURES_REQUEST,
   SEARCH_LECTURES_SUCCESS,
   SEARCH_LECTURES_FAILURE,
+  LOAD_EDIT_LECTURE_DESCRIPTION_REQUEST,
+  LOAD_EDIT_LECTURE_DESCRIPTION_SUCCESS,
+  LOAD_EDIT_LECTURE_DESCRIPTION_FAILURE,
+  SAVE_EDIT_LECTURE_DESCRIPTION_REQUEST,
+  SAVE_EDIT_LECTURE_DESCRIPTION_FAILURE,
+  SAVE_EDIT_LECTURE_DESCRIPTION_SUCCESS,
 } from '../reducers/lecture';
-import { IAction, ISearchQueryData } from '../reducers/types';
+import { DescriptionData, IAction, ISearchQueryData } from '../reducers/types';
 
 // Load all lectures
 function loadAllLecturesAPI() {
@@ -47,6 +53,18 @@ async function postSaveCourseInfo(data) {
 // search lecture
 function searchLectureAPI(data: ISearchQueryData) {
   return axios.get(`http://localhost:4000/api/courses?order=${data.order}`);
+}
+
+// 강의 수정페이지의 description 페이지에서 초기 데이터 가져오기
+async function getEditLectureDescription() {
+  const result = await axios.get('https://www.ark-inflearn.shop/docs/api/course/description');
+  return result;
+}
+
+// 강의 수정페이지의 저장 후 다음이동 버튼 클릭 시 서버로 값 전송하기
+async function postSaveLectureDescription(data: DescriptionData) {
+  const result = await axios.post('https://www.ark-inflearn.shop/docs/api/course/description', data);
+  console.log('postSaveLectureDescription result', result);
 }
 
 function* loadMainPage(action) {
@@ -135,7 +153,7 @@ function* saveCourseInfo(action: IAction) {
 
 function* searchLectures(action: IAction) {
   try {
-    //const result = yield call(searchLectureAPI, action.data);
+    // const result = yield call(searchLectureAPI, action.data);
 
     yield delay(1000);
     yield put({
@@ -151,8 +169,42 @@ function* searchLectures(action: IAction) {
   }
 }
 
-// watch function*
+function* loadEditCourseDescription(action: IAction) {
+  try {
+    // const result = yield call<() => Promise<AxiosResponse<any>>>(getEditLectureDescription);
+    yield delay(300);
+    yield put({
+      type: LOAD_EDIT_LECTURE_DESCRIPTION_SUCCESS,
+      // data: result?.data,
+      data: dummyLectureEditData.description,
+    });
+  } catch (error) {
+    console.error(error);
+    yield put({
+      type: LOAD_EDIT_LECTURE_DESCRIPTION_FAILURE,
+      error,
+    });
+  }
+}
 
+function* saveCourseEditDescription(action: IAction) {
+  try {
+    // yield call(postSaveLectureDescription, action.data);
+    yield delay(500);
+    yield put({
+      type: SAVE_EDIT_LECTURE_DESCRIPTION_SUCCESS,
+      data: action.data, // 서버에 성공적으로 저장하면 로컬 store에 업데이트 함
+    });
+  } catch (error) {
+    console.error(error);
+    yield put({
+      type: SAVE_EDIT_LECTURE_DESCRIPTION_FAILURE,
+      error,
+    });
+  }
+}
+
+// watch function*
 function* watchLoadMainPage() {
   yield throttle(3000, LOAD_ALL_LECTURES_REQUEST, loadMainPage);
 }
@@ -177,6 +229,14 @@ function* watchSearchLectures() {
   yield takeLatest(SEARCH_LECTURES_REQUEST, searchLectures);
 }
 
+function* watchLoadCourseEditDescription() {
+  yield takeLatest(LOAD_EDIT_LECTURE_DESCRIPTION_REQUEST, loadEditCourseDescription);
+}
+
+function* watchSaveCourseEditDescription() {
+  yield takeLatest(SAVE_EDIT_LECTURE_DESCRIPTION_REQUEST, saveCourseEditDescription);
+}
+
 export default function* lectureSaga() {
   yield all([
     fork(watchLoadMainPage),
@@ -185,5 +245,7 @@ export default function* lectureSaga() {
     fork(watchLoadEditPage),
     fork(watchSaveCourseInfo),
     fork(watchSearchLectures),
+    fork(watchLoadCourseEditDescription),
+    fork(watchSaveCourseEditDescription),
   ]);
 }

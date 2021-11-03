@@ -1908,7 +1908,25 @@ npm i tinymce
 
 ### image upload
 
-- https://codepen.io/pen/
+- https://codepen.io/pen/?&prefill_data_id=3a898cfe-8e09-42a7-ae28-ee8d7c70a540
 - https://www.tiny.cloud/docs/plugins/opensource/image/#
+
+### WIKI 추가 보완하기
+
+- [ ] 이미지 업로드 관련
+  - [ ] 파일 변환 과정에 대해 자세히 정리하기
+    - [ ] base64, blob, file 차이 파악하기
+- [x] 서버로 받아서 들어오는 데이터 확인해보기
+
+### 설계 미스
+
+- CourseLayout에서 처음에 모든 데이터를 가져오게 했는데 이러면 안될 것 같다
+- 페이지 마다 모든 데이터를 다 불러오는 불필요한 요청이 발생한다
+- CourseLayout에선 강의 정보 / 상세 소개 / ... 등 어떤 것이 다 입력이 된 상태이고 어떤 것이 안된 상태인지 파악하는 API가 있어야 될 것 같다
+
+  - 그리고 각 페이지에서 각페이지에 필요한 데이터를 각각 요청해야될 것 같다
+
+- [ ] CourseLayout에서 데이터 요청 하는 부분 리팩터링 하기
+  - 다음 PR에서 진행할 예정
 
 </details>

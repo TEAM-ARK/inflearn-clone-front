@@ -235,4 +235,15 @@ export const dummyLectureEditData: LectureData = {
       },
     ],
   },
+  description: {
+    summary: 'next.js, typescript, redux 를 익힐 수 있습니다.',
+    descriptionHTMLString: String.raw`
+      <div>
+        Javascript 또는 Typescript 파일에서 HTML을 만들어서 넣어야 되는 경우
+      </div>
+      <div>
+        String.raw 메소드와 vscode lit-html extension을 이용하면 자동완성 기능을 이용할 수 있습니다.
+      </div>
+    `,
+  },
 };

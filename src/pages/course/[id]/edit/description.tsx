@@ -1,10 +1,19 @@
 import React, { useEffect, useRef } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
+import { useRouter } from 'next/router';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Editor as TinyEditor } from 'tinymce';
 import CourseTitle from '@components/courseEdit/CourseTitle';
 import CourseTitleLabel from '@components/courseEdit/CourseTitleLabel';
+import SaveButton from '@components/courseEdit/SaveButton';
 import CourseLayout from '@layouts/CourseLayout';
+import { RootState } from 'src/redux/reducers';
+import {
+  LOAD_EDIT_LECTURE_DESCRIPTION_REQUEST,
+  SAVE_EDIT_LECTURE_DESCRIPTION_DONE,
+  SAVE_EDIT_LECTURE_DESCRIPTION_REQUEST,
+} from 'src/redux/reducers/lecture';
 import { FieldDiv, FieldDivMarginTop, Label } from './course_info';
 
 const LabelSubText = styled.span`
@@ -61,24 +70,60 @@ const Notification = styled.div`
   }
 `;
 
-const initialHTML = String.raw`
-  <div>
-    Javascript 또는 Typescript 파일에서 HTML을 만들어서 넣어야 되는 경우
-  </div>
-`;
-
 const Description = () => {
   // test for editor
   const editorRef = useRef<TinyEditor>();
-  const log = () => {
-    if (editorRef.current) {
-      console.log(editorRef.current.getContent());
+  // const log = () => {
+  //   if (editorRef.current) {
+  //     console.log(editorRef.current.getContent());
+  //   }
+  // };
+  const refTextareaSummary = useRef<HTMLTextAreaElement>(null);
+  const dispatch = useDispatch();
+  const router = useRouter();
+  useEffect(() => {
+    // 초기 데이터 가져오기
+    dispatch({
+      type: LOAD_EDIT_LECTURE_DESCRIPTION_REQUEST,
+    });
+  }, []);
+
+  const {
+    lectureData: { description: descriptionInitialData },
+    createLectureData,
+    saveEditLectureDescriptionDone,
+  } = useSelector((state: RootState) => state.lecture);
+
+  const onClickSaveButton = async () => {
+    try {
+      if (editorRef.current) {
+        console.log('editorRef.current.getContent()', editorRef.current.getContent());
+
+        // summary, editor content 가져와서 전송
+        dispatch({
+          type: SAVE_EDIT_LECTURE_DESCRIPTION_REQUEST,
+          data: {
+            summary: refTextareaSummary.current?.value,
+            descriptionHTMLString: editorRef.current.getContent(),
+          },
+        });
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
 
+  // 저장 후 다음 페이지로 이동
   useEffect(() => {
-    console.log('tiny key', process.env.NEXT_PUBLIC_TINYMCE_KEY); // undefined ? dev mode에서 인식을 못하나?
-  }, []);
+    if (saveEditLectureDescriptionDone) {
+      // 서버에 전송 성공 후 다음페이지(상세 소개)로 이동
+      const { id } = createLectureData;
+      dispatch({
+        type: SAVE_EDIT_LECTURE_DESCRIPTION_DONE,
+      });
+      router.push(`/course/${id}/edit/curriculum`);
+    }
+  }, [saveEditLectureDescriptionDone]);
 
   return (
     <CourseLayout>
@@ -91,7 +136,11 @@ const Description = () => {
             (강의소개 상단에 보여집니다. 잠재 수강생들이 매력을 느낄만한 글을 짧게 남겨주세요.)
           </LabelSubText>
         </Label>
-        <CourseDescriptionSummary placeholder="ex) 이 강의를 통해 수강생은 컴퓨터 공학의 기초를 다질 수 있을 것으로 예상합니다." />
+        <CourseDescriptionSummary
+          ref={refTextareaSummary}
+          placeholder="ex) 이 강의를 통해 수강생은 컴퓨터 공학의 기초를 다질 수 있을 것으로 예상합니다."
+          defaultValue={descriptionInitialData.summary}
+        />
       </FieldDiv>
       <FieldDivLine />
       <FieldDiv>
@@ -134,7 +183,7 @@ const Description = () => {
               editorRef.current = editor;
               return editorRef.current;
             }}
-            initialValue={initialHTML}
+            initialValue={descriptionInitialData.descriptionHTMLString}
             // value={initialHTML} // controlled mode에서 사용
             textareaName="aNameOftextarea"
             init={{
@@ -142,21 +191,23 @@ const Description = () => {
               menubar: false,
               plugins: [
                 'advlist autolink lists link image charmap print preview anchor',
-                'searchreplace visualblocks code fullscreen',
-                'insertdatetime media table paste code help wordcount',
+                'searchreplace visualblocks code fullscreen paste',
+                'insertdatetime media table codesample help wordcount',
               ],
               toolbar:
-                'undo redo | formatselect | ' +
-                'bold italic backcolor | alignleft aligncenter ' +
+                'formatselect bold italic forecolor backcolor | alignleft aligncenter ' +
                 'alignright alignjustify | bullist numlist outdent indent | ' +
-                'removeformat | help |' +
-                'code | codesample |' +
-                'link image | preview',
+                'codesample code |' +
+                'link image | preview | help',
               content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
               image_title: true,
-              automatic_uploads: true,
+              paste_data_images: true,
+              // automatic_uploads: true,
               file_picker_types: 'image',
-              file_picker_callback(cb, value, meta) {
+              file_picker_callback(cb) {
+                // file_picker_callback(cb, value, meta)
+                console.log('file_picker_callback');
+                console.log('cb', cb);
                 const input = document.createElement('input');
                 input.setAttribute('type', 'file');
                 input.setAttribute('accept', 'image/*');
@@ -170,6 +221,7 @@ const Description = () => {
                 */
 
                 input.onchange = function () {
+                  console.log('input.onchange');
                   const file = this.files[0];
 
                   const reader = new FileReader();
@@ -179,10 +231,14 @@ const Description = () => {
                       registry. In the next release this part hopefully won't be
                       necessary, as we are looking to handle it internally.
                     */
+                    console.log('reader.onload');
                     const id = `blobid${new Date().getTime()}`;
-                    const { blobCache } = tinymce.activeEditor.editorUpload;
-                    const base64 = reader.result.split(',')[1];
+                    const { blobCache } = tinymce.activeEditor.editorUpload; // typescript에러 잡을 방법을 모르겠음
+                    console.log('blobCache', blobCache); // test
+                    const base64 = reader.result.split(',')[1]; // typescript에러 잡을 방법을 모르겠음
+                    console.log('base64', base64); // test
                     const blobInfo = blobCache.create(id, file, base64);
+                    console.log('blobInfo', blobInfo); // test
                     blobCache.add(blobInfo);
 
                     /* call the callback and populate the Title field with the file name */
@@ -195,11 +251,12 @@ const Description = () => {
               },
             }}
           />
-          <button type="button" onClick={log}>
+          {/* <button type="button" onClick={log}>
             Log editor content
-          </button>
+          </button> */}
         </div>
       </FieldDivMarginTop>
+      <SaveButton text="저장 후 다음이동" onClick={onClickSaveButton} />
     </CourseLayout>
   );
 };
