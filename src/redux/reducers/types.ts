@@ -78,6 +78,7 @@ export type LectureData = {
 export type DescriptionData = {
   summary: string;
   descriptionHTMLString: string;
+  courseId: string;
 };
 
 export type LectureInfoChild = {

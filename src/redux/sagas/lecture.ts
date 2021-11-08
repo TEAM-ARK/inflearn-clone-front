@@ -199,7 +199,7 @@ function* saveCourseEditDescription(action: IAction) {
     console.error(error);
     yield put({
       type: SAVE_EDIT_LECTURE_DESCRIPTION_FAILURE,
-      error,
+      error: 'test error',
     });
   }
 }

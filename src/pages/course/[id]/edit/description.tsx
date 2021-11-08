@@ -8,6 +8,7 @@ import CourseTitle from '@components/courseEdit/CourseTitle';
 import CourseTitleLabel from '@components/courseEdit/CourseTitleLabel';
 import SaveButton from '@components/courseEdit/SaveButton';
 import CourseLayout from '@layouts/CourseLayout';
+import useGetCourseId from 'src/hooks/useGetCourseId';
 import { RootState } from 'src/redux/reducers';
 import {
   LOAD_EDIT_LECTURE_DESCRIPTION_REQUEST,
@@ -81,6 +82,10 @@ const Description = () => {
   const refTextareaSummary = useRef<HTMLTextAreaElement>(null);
   const dispatch = useDispatch();
   const router = useRouter();
+  // const idRef = useRef<string>();
+
+  const { courseId } = useGetCourseId();
+
   useEffect(() => {
     // 초기 데이터 가져오기
     dispatch({
@@ -90,8 +95,8 @@ const Description = () => {
 
   const {
     lectureData: { description: descriptionInitialData },
-    createLectureData,
     saveEditLectureDescriptionDone,
+    saveEditLectureDescriptionError,
   } = useSelector((state: RootState) => state.lecture);
 
   const onClickSaveButton = async () => {
@@ -105,6 +110,7 @@ const Description = () => {
           data: {
             summary: refTextareaSummary.current?.value,
             descriptionHTMLString: editorRef.current.getContent(),
+            courseId,
           },
         });
       }
@@ -117,13 +123,14 @@ const Description = () => {
   useEffect(() => {
     if (saveEditLectureDescriptionDone) {
       // 서버에 전송 성공 후 다음페이지(상세 소개)로 이동
-      const { id } = createLectureData;
       dispatch({
         type: SAVE_EDIT_LECTURE_DESCRIPTION_DONE,
       });
-      router.push(`/course/${id}/edit/curriculum`);
+      router.push(`/course/${courseId}/edit/curriculum`);
+    } else if (saveEditLectureDescriptionError) {
+      alert(saveEditLectureDescriptionError); // 더 이쁘게 수정할 예정
     }
-  }, [saveEditLectureDescriptionDone]);
+  }, [saveEditLectureDescriptionDone, saveEditLectureDescriptionError]);
 
   return (
     <CourseLayout>
@@ -235,7 +242,7 @@ const Description = () => {
                     const id = `blobid${new Date().getTime()}`;
                     const { blobCache } = tinymce.activeEditor.editorUpload; // typescript에러 잡을 방법을 모르겠음
                     console.log('blobCache', blobCache); // test
-                    const base64 = reader.result.split(',')[1]; // typescript에러 잡을 방법을 모르겠음
+                    const base64 = (reader.result as string).split(',')[1]; // typescript에러 잡을 방법을 모르겠음
                     console.log('base64', base64); // test
                     const blobInfo = blobCache.create(id, file, base64);
                     console.log('blobInfo', blobInfo); // test

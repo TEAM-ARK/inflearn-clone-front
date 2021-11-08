@@ -63,6 +63,7 @@ export const initialState: ILectureState = {
     description: {
       summary: '',
       descriptionHTMLString: '',
+      courseId: '',
     },
   },
   saveCourseInfoLoading: false,
