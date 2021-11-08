@@ -1535,110 +1535,115 @@ textarea::placeholder {
 
 #### 문제 상황
 
-  React Developer Tools로 강의 생성 페이지의 카테고리 및 강의 수준 버튼을 클릭 할 때마다 전체 화면이 리렌더링 되는 문제 발견
+React Developer Tools로 강의 생성 페이지의 카테고리 및 강의 수준 버튼을 클릭 할 때마다 전체 화면이 리렌더링 되는 문제 발견
 
 #### 문제 발생 이유
 
-  - '2021.09.23 ~ 29(나현)'에 기재된 '아이콘 버튼 hover할 때마다 Card 컴포넌트 리렌더링 문제 해결 과정' 경험을 통해 버튼 클릭시 selectedCategoryId가 변경되면서 state가 선언된 컴포넌트와 하위 컴포넌트들을 모두 리렌더링 시켜서 발생한 문제라고 유추할 수 있었다.
+- '2021.09.23 ~ 29(나현)'에 기재된 '아이콘 버튼 hover할 때마다 Card 컴포넌트 리렌더링 문제 해결 과정' 경험을 통해 버튼 클릭시 selectedCategoryId가 변경되면서 state가 선언된 컴포넌트와 하위 컴포넌트들을 모두 리렌더링 시켜서 발생한 문제라고 유추할 수 있었다.
 
 #### 문제 해결 과정
 
-  - 일단 카테고리 영역으로 문제 해결을 진행함.
-  - 아래에서 말하는 부모 컴포넌트는 course_info.tsx이고 자식 컴포넌트는 CourseComminButton.tsx이다.
-  - **시도한 해결 방법 (1)**
-    - 일단 CourseCommonButton은 원래 컴포넌트가 따로 분리되어 있었다. 다만 CourseCommonButton에서 발생시킨 selectedCategory state 변경이 부모 컴포넌트에 전달이 되어서 영향을 끼치고 있었기 때문에 course_info에 선언된 selectedCategory state를 CourseCommonButton으로 포함시켰다. 
-    - 이렇게 구현했을 때 리렌더링은 선택한 버튼에서만 발생했지만 카테고리가 중복 선택이 되는 문제가 발생했다. 
-  - **시도한 해결 방법 (2)**
-    - 첫번째로 시도한 해결 방법을 통해 선택한 버튼만 리렌더링이 되어야 하는 것이 아니라, 카테고리 부분 자체가 리렌더링이 되어야 이전에 선택했던 버튼 내역을 지워줘서 중복으로 버튼이 선택되는 문제를 해결해줄 수 있다고 판단했다.
-    - 그래서 map 코드도 포함시켜서 CourseCommonButton 컴포넌트로 이동시켜서 버튼 하나를 선택하면 카테고리 버튼 전체가 리렌더링 되게끔 했다. 
-    - 하지만 데이터를 전달하는 방식에서 문제가 발생했다. 
-      자식 컴포넌트가 갖고 있는 카테고리 id state 값을 부모 컴포넌트로 전달해줘야 나중에 서버로 다른 데이터들과 함께 전달 할 수 있는데, 부모 컴포넌트가 카테고리 id state를 전달 받아서 부모 컴포넌트 내에서 새로 생성한 state에 값을 저장하면 전체 화면 리렌더링이 발생해서 컴포넌트 분리를 한 의미가 없어지게 됐다. 
-      그리고 redux를 사용할 수도 있었지만 토니님과 의견을 나누는 과정에서 redux 사용이 어쩌면 단순한 과정을 번거롭게 만들 수 있겠다는 생각이 들었다.
-  - **최종 해결 방법**
-    - [토니님이 useRef로 시도하신 방법](https://github.com/Ark-inflearn/inflearn-clone-front/issues/83)에서 아이디어를 얻어서 자식 컴포넌트에서 부모 컴포넌트로 전달 받은 카테고리 id값을 useRef로 저장하면 되겠다고 생각을 됐다. 
-    - 참고로 [useRef의 current 값이 바뀐다고 하여 컴포넌트가 리렌더링 되지 않는다.](https://ko.reactjs.org/docs/hooks-reference.html#useref)
-    - 수정한 CourseCommonButton 컴포넌트는 강의 수준 선택에서도 재사용이 가능하게끔 만들었다.
-    1. 먼저 CourseCommonButton.tsx에서 전달받아서 저장할 categoryId를 useRef로 선언해준다. 
-       ```javascript
-       const categoryId = useRef<string | number>('');
-       const levelId = useRef<string | number>('');
-       ```
-    2. course_info.tsx에서 카테고리 선택 영역의 기존 map 함수가 있던 자리에 `<CourseCommonButton />` 컴포넌트만 있는 코드로 바꿔준다. 이 컴포넌트는 kind로 category값을 가지기 때문에 카테고리 버튼을 담당한다.  
-       ```jsx
-        <FieldDivMarginTop>
-          <Label>카테고리</Label>
-          <CourseCommonButton kind="category" handleId={handleId} data={lectureData.courseInfo.category} />
-        </FieldDivMarginTop>
-       ```  
-       강의 수준 선택 영역은 아래와 같이 코드를 작성한다. 
-       ```jsx
-        <FieldDivMarginTop>
-          <Label>강의 수준</Label>
-          <CourseCommonButton kind="level" handleId={handleId} data={lectureData.courseInfo.level} />
-        </FieldDivMarginTop>
-       ```
-       - props 설명
+- 일단 카테고리 영역으로 문제 해결을 진행함.
+- 아래에서 말하는 부모 컴포넌트는 course_info.tsx이고 자식 컴포넌트는 CourseComminButton.tsx이다.
+- **시도한 해결 방법 (1)**
+  - 일단 CourseCommonButton은 원래 컴포넌트가 따로 분리되어 있었다. 다만 CourseCommonButton에서 발생시킨 selectedCategory state 변경이 부모 컴포넌트에 전달이 되어서 영향을 끼치고 있었기 때문에 course_info에 선언된 selectedCategory state를 CourseCommonButton으로 포함시켰다.
+  - 이렇게 구현했을 때 리렌더링은 선택한 버튼에서만 발생했지만 카테고리가 중복 선택이 되는 문제가 발생했다.
+- **시도한 해결 방법 (2)**
+  - 첫번째로 시도한 해결 방법을 통해 선택한 버튼만 리렌더링이 되어야 하는 것이 아니라, 카테고리 부분 자체가 리렌더링이 되어야 이전에 선택했던 버튼 내역을 지워줘서 중복으로 버튼이 선택되는 문제를 해결해줄 수 있다고 판단했다.
+  - 그래서 map 코드도 포함시켜서 CourseCommonButton 컴포넌트로 이동시켜서 버튼 하나를 선택하면 카테고리 버튼 전체가 리렌더링 되게끔 했다.
+  - 하지만 데이터를 전달하는 방식에서 문제가 발생했다.
+    자식 컴포넌트가 갖고 있는 카테고리 id state 값을 부모 컴포넌트로 전달해줘야 나중에 서버로 다른 데이터들과 함께 전달 할 수 있는데, 부모 컴포넌트가 카테고리 id state를 전달 받아서 부모 컴포넌트 내에서 새로 생성한 state에 값을 저장하면 전체 화면 리렌더링이 발생해서 컴포넌트 분리를 한 의미가 없어지게 됐다.
+    그리고 redux를 사용할 수도 있었지만 토니님과 의견을 나누는 과정에서 redux 사용이 어쩌면 단순한 과정을 번거롭게 만들 수 있겠다는 생각이 들었다.
+- **최종 해결 방법**
 
-       |props   |역할                                                                  |전달하는 데이터|
-       |--------|----------------------------------------------------------------------|-----------------------------------------------|
-       |kind    |버튼 종류 선택하는 부분                                                 |<p>category: 카테고리 버튼</p><p>level: 강의 수준 선택 버튼</p>|
-       |handleId|카테고리 혹은 강의 수준(level)의 id와 kind가 저장된 객체 값을 전달받는 부분|course_info에 선언된 handleId 함수|
-       |data    |카테고리 및 강의 수준에 관한 값을 전달하는 부분                           |lectureData에서 배열로 된 category 혹은 level 데이터|
-    3. 그리고 CourseCommonButton.tsx에는 다음과 같이 코드를 수정해줬다. 참고로 useEffect 부분과 상관없이 버튼을 선택할 때마다 리렌더링이 되어서 useEffect 코드를 구현하지 않았다.
-       selectedId state는 선택한 버튼의 아이디를 저장하는 것으로, 이전에 사용했던 selectedCategoryId와 같은 역할을 하는데 카테고리 뿐만아니라 강의 수준 버튼을 구현할 때는 selectedLevelId 역할을 한다.
-       ```jsx
-        const [selectedId, setSelectedId] = useState<string | number>('');
-       ```
-       그리고 버튼 클릭으로 onClickButton이 실행될 때 선택한 버튼의 item.id 값이 전달되게 해줬다. 
-       ```jsx
-        return (
-          <>
-            {
-              data.map((item) => (
-                <CourseCommonButtonStyle
-                  onClick={() => onClickButton(item.id)}
-                  key={item.id}
-                  isSelected={item.id === selectedId}
-                >
-                  {item.name}
-                </CourseCommonButtonStyle>
-              ))
-            }
-          </>
-        );
-       ```
-       실행된 onClickButton의 각 조건문 안에는 handleId 프로퍼티를 통해 선택한 버튼의 id와 현재 실행되고 있는 버튼의 종류를 객체로 전달한다. 
-       ```javascript
-        const onClickButton = (id: string | number) => {
-          if (id === selectedId) {
-            // true - 선택된 상태
-            setSelectedId('');
-            handleId({ id: '', kind });
-          } else {
-            // 선택된 상태가 아닌 경우
-            setSelectedId(id);
-            handleId({ id, kind });
-          }
-        };
-       ```
-    4. 위 handleId가 실행될 때 course_info에 선언되어있는 hadleId 함수로 인자 값이 전달된다. 매개 변수에서 kind 속성을 확인하여 각 버튼 종류의 id에 맞게 값을 저장시켜준다. 
-        ```javascript
-          const handleId = (value: { id: string | number; kind: string }) => {
-            // value는 CourseCommonButton의 handleId 프로퍼티의 인자를 통해 전달 받은 값
-            if (value.kind === 'category') categoryId.current = value.id;
-            if (value.kind === 'level') levelId.current = value.id;
-          };
-        ```
-       이렇게 저장한 값인 categoryId.current와 levelId.current는 onClickSaveButton이 실행됐을 때 서버로 전달하는 아래의 data 객체에 같이 실어서 보낼 수 있게 된다. 
-        ```
-          const data = {
-            whatYouCanLearnList,
-            expectedStudentsList,
-            requiredKnowledgeList,
-            selectedCategoryId: categoryId.current,
-            selectedLevelId: levelId.current,
-          };
-        ```
+  - [토니님이 useRef로 시도하신 방법](https://github.com/Ark-inflearn/inflearn-clone-front/issues/83)에서 아이디어를 얻어서 자식 컴포넌트에서 부모 컴포넌트로 전달 받은 카테고리 id값을 useRef로 저장하면 되겠다고 생각을 됐다.
+  - 참고로 [useRef의 current 값이 바뀐다고 하여 컴포넌트가 리렌더링 되지 않는다.](https://ko.reactjs.org/docs/hooks-reference.html#useref)
+  - 수정한 CourseCommonButton 컴포넌트는 강의 수준 선택에서도 재사용이 가능하게끔 만들었다.
+
+  1. 먼저 CourseCommonButton.tsx에서 전달받아서 저장할 categoryId를 useRef로 선언해준다.
+     ```javascript
+     const categoryId = (useRef < string) | (number > '');
+     const levelId = (useRef < string) | (number > '');
+     ```
+  2. course_info.tsx에서 카테고리 선택 영역의 기존 map 함수가 있던 자리에 `<CourseCommonButton />` 컴포넌트만 있는 코드로 바꿔준다. 이 컴포넌트는 kind로 category값을 가지기 때문에 카테고리 버튼을 담당한다.
+
+     ```jsx
+     <FieldDivMarginTop>
+       <Label>카테고리</Label>
+       <CourseCommonButton kind="category" handleId={handleId} data={lectureData.courseInfo.category} />
+     </FieldDivMarginTop>
+     ```
+
+     강의 수준 선택 영역은 아래와 같이 코드를 작성한다.
+
+     ```jsx
+     <FieldDivMarginTop>
+       <Label>강의 수준</Label>
+       <CourseCommonButton kind="level" handleId={handleId} data={lectureData.courseInfo.level} />
+     </FieldDivMarginTop>
+     ```
+
+     - props 설명
+
+     | props    | 역할                                                                        | 전달하는 데이터                                                 |
+     | -------- | --------------------------------------------------------------------------- | --------------------------------------------------------------- |
+     | kind     | 버튼 종류 선택하는 부분                                                     | <p>category: 카테고리 버튼</p><p>level: 강의 수준 선택 버튼</p> |
+     | handleId | 카테고리 혹은 강의 수준(level)의 id와 kind가 저장된 객체 값을 전달받는 부분 | course_info에 선언된 handleId 함수                              |
+     | data     | 카테고리 및 강의 수준에 관한 값을 전달하는 부분                             | lectureData에서 배열로 된 category 혹은 level 데이터            |
+
+  3. 그리고 CourseCommonButton.tsx에는 다음과 같이 코드를 수정해줬다. 참고로 useEffect 부분과 상관없이 버튼을 선택할 때마다 리렌더링이 되어서 useEffect 코드를 구현하지 않았다.
+     selectedId state는 선택한 버튼의 아이디를 저장하는 것으로, 이전에 사용했던 selectedCategoryId와 같은 역할을 하는데 카테고리 뿐만아니라 강의 수준 버튼을 구현할 때는 selectedLevelId 역할을 한다.
+     ```jsx
+     const [selectedId, setSelectedId] = (useState < string) | (number > '');
+     ```
+     그리고 버튼 클릭으로 onClickButton이 실행될 때 선택한 버튼의 item.id 값이 전달되게 해줬다.
+     ```jsx
+     return (
+       <>
+         {data.map((item) => (
+           <CourseCommonButtonStyle
+             onClick={() => onClickButton(item.id)}
+             key={item.id}
+             isSelected={item.id === selectedId}
+           >
+             {item.name}
+           </CourseCommonButtonStyle>
+         ))}
+       </>
+     );
+     ```
+     실행된 onClickButton의 각 조건문 안에는 handleId 프로퍼티를 통해 선택한 버튼의 id와 현재 실행되고 있는 버튼의 종류를 객체로 전달한다.
+     ```javascript
+     const onClickButton = (id: string | number) => {
+       if (id === selectedId) {
+         // true - 선택된 상태
+         setSelectedId('');
+         handleId({ id: '', kind });
+       } else {
+         // 선택된 상태가 아닌 경우
+         setSelectedId(id);
+         handleId({ id, kind });
+       }
+     };
+     ```
+  4. 위 handleId가 실행될 때 course_info에 선언되어있는 hadleId 함수로 인자 값이 전달된다. 매개 변수에서 kind 속성을 확인하여 각 버튼 종류의 id에 맞게 값을 저장시켜준다.
+     ```javascript
+     const handleId = (value: { id: string | number, kind: string }) => {
+       // value는 CourseCommonButton의 handleId 프로퍼티의 인자를 통해 전달 받은 값
+       if (value.kind === 'category') categoryId.current = value.id;
+       if (value.kind === 'level') levelId.current = value.id;
+     };
+     ```
+     이렇게 저장한 값인 categoryId.current와 levelId.current는 onClickSaveButton이 실행됐을 때 서버로 전달하는 아래의 data 객체에 같이 실어서 보낼 수 있게 된다.
+     ```
+       const data = {
+         whatYouCanLearnList,
+         expectedStudentsList,
+         requiredKnowledgeList,
+         selectedCategoryId: categoryId.current,
+         selectedLevelId: levelId.current,
+       };
+     ```
 
 </details>
 
@@ -1648,12 +1653,13 @@ textarea::placeholder {
 ## 의논 사항 반영
 
 - 별점 크기를 반응형 웹에 맞게 조절
+
   - props로 `responsive`를 추가해줘야 반응형으로 동작하고 `reponsive`를 추가해주지 않으면 고정된 크기로 동작한다.
   - 참고로 `responsive` 만 적는 것과 `responsive={true}`는 같은 역할을 한다.
     - 반응형 웹에 맞게 별점크기를 변경하려 할 때
       ```jsx
       <RatingStar rating={rating} size="1.5rem" responsive />
-      ``` 
+      ```
     - 고정된 별점 크기를 나타내려 할 때
       ```jsx
       <RatingStar rating={rating} size="1.5rem" />
@@ -1662,28 +1668,33 @@ textarea::placeholder {
 - LectureCard.tsx에서 가격을 나타내는 부분을 LecturePrice 컴포넌트로 수정
 
 - LectureCard와 HorizonLectureCard에서 동시에 사용할 수 있게 IconButtons 컴포넌트로 수정
+
   - view props에 전달하는 값에 따라 강의 리스트 스타일에 맞는 아이콘 버튼을 보여줄 수 있도록 했다.
+
     ```
     <IconButtons view="Grid" />
     ```
+
     - props 설명
 
-      |props|역할                              |전달하는 값                                     |
-      |-----|----------------------------------|-----------------------------------------------|
-      |view |강의 리스트 스타일 값을 전달하는 부분|<p>Grid: Grid 스타일</p><p>List: List 스타일</p>|
+      | props | 역할                                  | 전달하는 값                                      |
+      | ----- | ------------------------------------- | ------------------------------------------------ |
+      | view  | 강의 리스트 스타일 값을 전달하는 부분 | <p>Grid: Grid 스타일</p><p>List: List 스타일</p> |
 
 ## 이슈 해결
- 
+
 - 강의 페이지에서 Grid나 List 버튼을 클릭한 후 데이터를 불러올 때 기존 화면 위에 스피너 불러오기
+
   - 이미 선택된 버튼을 눌렀을 경우에는 데이터 재요청을 하지 않도록 했다.
   - 그리고 버튼을 누르자마자 스피너가 실행되어서 기존에 화면 전환 시간이 오래 걸리는 단점도 함께 보완됐다.
 
 - /courses?view=Grid -> /courses?view=List 누르고 뒤로가기 버튼을 누르면 이전 페이지로 이동하지 않고 /courses?view=List -> /courses?view=Gird 이후에 이전 페이지로 이동하는 문제를 해결
-  - 기존 router.push를 사용하면 url이 변경 될 때 마다 History(브라우저 세션 기록) Stack에 쌓이게 되어 '뒤로가기'를 눌렀을 때 view가 변경된 내역이 다 반영됐다. 
-  - router.replace를 사용했을 경우 url은 변경되지만 History stack에는 반영되지 않아서 뒤로가기를 눌렀을 때, 강의 페이지에 접근하기 전의 페이지로 바로 이동한다. 
-  
+  - 기존 router.push를 사용하면 url이 변경 될 때 마다 History(브라우저 세션 기록) Stack에 쌓이게 되어 '뒤로가기'를 눌렀을 때 view가 변경된 내역이 다 반영됐다.
+  - router.replace를 사용했을 경우 url은 변경되지만 History stack에는 반영되지 않아서 뒤로가기를 눌렀을 때, 강의 페이지에 접근하기 전의 페이지로 바로 이동한다.
 - selected-list-view 부분의 css 코드를 GlobalStyle.css가 아닌 selected-list-view을 사용하고 있는 내부 컴포넌트에 css 코드를 작성
+
   - getSelectedStyle 함수에 기존 selected-list-view css 코드를 저장하여, 버튼이 선택되었을 때 함수를 호출하여 데이터를 불러오게 했다.
+
     ```
     const getSelectedStyle = () => `
       background: #1dc078 !important;
@@ -1702,12 +1713,225 @@ textarea::placeholder {
       ...
     `;
     ```
-  - 참고로 `` const selected style = `background: #1dc078;...`; `` 이렇게 상수로 css 코드를 선언할 수도 있었지만 기존 styled-components 코드와 헷갈릴 수 있다고 생각하여 함수로 선언했다.  
+
+  - 참고로 `` const selected style = `background: #1dc078;...`; `` 이렇게 상수로 css 코드를 선언할 수도 있었지만 기존 styled-components 코드와 헷갈릴 수 있다고 생각하여 함수로 선언했다.
 
 ## 앞으로 진행할 작업
 
 - 각 조건 선택 버튼 부분을 컴포넌트로 분리할 때, 쿼리스트링 전달 문제에 대해 고민한 후 강의 리스트 스타일 선택 버튼을 따로 컴포넌트 분리하기
 - 브라우저 너비에 따라 변경되는 별점 크기에 맞추어 등록된 리뷰수 글자 나타내는 부분도 크기 조절하기
 - 정렬순 버튼 구현하기
+
+</details>
+
+<details>
+<summary>2021.10.13, 20 ~ 22(나현)</summary>
+
+## 구현한 것
+
+- 정렬순 선택 버튼 디자인 및 view를 선택한 값과 함께 정렬순 선택 값이 URL 쿼리에 반영되도록 구현
+
+  - 정렬순을 선택했을 때 url로 나타내면 다음과 같다.
+
+    ```
+    http://localhost:3000/courses?order=popular
+    ```
+
+    - order에 전달할 수 있는 값
+
+      | order 값  | 역할     |
+      | --------- | -------- |
+      | recommend | 추천순   |
+      | popular   | 인기순   |
+      | recent    | 최신순   |
+      | rating    | 평점순   |
+      | famous    | 학생수순 |
+
+  - view와 order를 동시에 나타내게 할 수 있으며 order는 popular이나 view가 Grid 일 때, view를 List로 변경하면 order값은 popular로 계속 유지가 되고, view값만 List로 변경된다. 반대로 order값만 변경한다고 해도 view 값은 유지되고, order값만 바뀐다.
+    view와 order를 함께 url 쿼리에 반영하면 다음과 같다.
+    ```
+    http://localhost:3000/courses?view=Grid&order=popular
+    ```
+
+- 검색에서 쿼리로 전달 받은 데이터를 서버쪽으로 전송이 가능하도록 코드 추가 작성
+  - 검색 관련 API가 만들어지기 전까지는 더미데이터 활용
+
+## view나 order 버튼을 누를 때마다 즉각적으로 url에 반영이 되지 않는 문제 해결
+
+- **문제 상황**
+
+  - view 버튼이랑 order 버튼을 각각 따로 이렇게 `http://localhost:3000/courses?view=Grid`, `http://localhost:3000/courses?order=popular` 나타날 때는 문제가 없었다.
+
+  - 근데 `http://localhost:3000/courses?view=Grid&order=popular` 이렇게 같이 구현하려고 하니까 List 버튼을 눌렀을 때 url에 List가 즉각적으로 변경되지 않고, 다시 Grid 버튼을 눌렀을 때 `http://localhost:3000/courses?view=List&order=popular` 로 뒤늦게 List 값으로 변경이 되는 문제가 있었다.
+
+- **문제가 발생한 이유**
+
+  - `useState`로 view와 order 값을 바꿨을 때, 동기적으로 url에 즉각 값이 반영되어 바뀌지 않았다.
+
+- **시도한 해결 방법**
+
+  - useEffect를 통해 바꾼 값이 바로 반영되게 해서 `router.replace`로 url이 이동되게끔 했다.
+
+  - 하지만 처음 로딩 할 때 useEffect가 실행이 되다보니, `router.replace` 때문에 불필요하게 처음 페이지를 로드 할 때마다 url 이동이 발생했다. 그래서 이 방법으로는 문제를 해결하지 못했다.
+
+- **최종 해결 방법**
+
+  - `useState`로 view와 order 값을 저장하고 변경하는 것 대신에, `useRef`를 사용해서 view와 order 값이 즉각적으로 바뀌게 했다.
+  - 아래 해결 방법은 redux-saga 코드 추가 전에 구현한 것이라 최종적으로 구현된 코드와 차이가 있다.
+
+  1. `useState`로 정의된 queryVIew와 queryOrder를 `useRef`로 다 변경시켜준다.
+
+  ```jsx
+  const queryOrder = (useRef < string) | (null > '');
+  const queryView = (useRef < string) | (null > 'Grid');
+  ```
+
+  2. 그리고 기존 useEffect에서 아래의 코드와 같이 setQueryView로 값을 변경시키던 부분을 `queryView.current = view`로, setQueryOrder는 `queryOrder.current = order`로 변경해준다.
+
+     ◎변경 전
+
+     ```jsx
+     useEffect(() => {
+         ...
+         if (view) setQueryView(view);
+         if (order) setQueryOrder(order);
+
+         dispatch({ type: LOAD_ALL_LECTURES_REQUEST });
+       }, []);
+     ```
+
+     ◎변경 후
+
+     ```jsx
+     useEffect(() => {
+         ...
+         if (view) queryView.current = view;
+         if (order) queryOrder.current = order;
+
+         dispatch({ type: LOAD_ALL_LECTURES_REQUEST });
+       }, []);
+     ```
+
+  3. 이 코드 뿐만 아니라 setQueryView로 되어 있던 부분은 전부 위와 같이 바꿔준다.
+  4. 그리고 `useRef` 통해서 queryList를 빈 객체로 선언하여 view나 order 버튼이 선택될 때 값을 저장한다. 그리고 `router.replace`로 query 값이 전달될 때 queryList에 저장된 값을 저장하도록 한다.
+
+     아래는 view 버튼을 선택했을 때 사용되는 handleListViewClick 코드의 예이다.
+
+     ```jsx
+     const queryList = useRef < queryListProps > {};
+     ```
+
+     ```jsx
+     const handleListViewClick = useCallback(
+       (value: string) => {
+         // 선택한 버튼이 이미 선택되어 있는 경우 if문 아래 코드 실행 안함
+         if (queryView.current === value) {
+           return;
+         }
+
+         queryList.current.view = value;
+
+         router.replace({
+           pathname: '/courses',
+           query: queryList.current,
+         });
+
+         // view 버튼 클릭 시 매번 재요청 하는 것 고민하기
+         // dispatch({ type: LOAD_ALL_LECTURES_REQUEST });
+         queryView.current = value;
+       },
+       [queryView, router]
+     );
+     ```
+
+  5. 이런 식으로 코드를 바꿔주면 url주소가 [http://localhost:3000/courses?view=Grid&order=popular](http://localhost:3000/courses?view=Grid&order=popular) 였을 때, view를 List 버튼으로 눌러주게 되면 [http://localhost:3000/courses?view=List&order=popular](http://localhost:3000/courses?view=List&order=popular로) 로 view 부분만 바뀌게 된다. order 버튼도 마찬가지이다.
+
+## 기존 코드에서 수정사항
+
+- reducers/lecture.tsx에서 `loadLectureLoading: true`에서 `loadLectureLoading: false`로 변경
+  - 처음에 페이지를 로드할 때는 LOAD_ALL_LECTURES_REQUEST를 사용하고, 검색을 할 경우에는 SEARCH_LECTURES_REQUEST가 실행되게 함.
+  - 이에 따라 로딩 스피너를 실행할 때도 loadLectureLoading 뿐만아니라 검색을 할 경우에 사용되는 searchLecturesLoading을 따로 추가하게 됨.
+  - 그래서 로딩 스피너를 불러올 때 사용하는 조건문을 `loadLectureLoading || searchLecturesLoading`로 수정함.
+  - 하지만 loadLectureLoading 초기값이 true임에 따라 LOAD_ALL_LECTURES_REQUEST를 요청하지 않아도 로딩 스피너가 실행되는 문제가 발생함.
+  - 나에게 발생한 문제는 SEARCH_LECTURES_REQUEST를 요청 후 SUCCESS가 되어 searchLecturesLoading가 false로 바뀌어도 loadLectureLoading가 계속 true라서 `loadLectureLoading || searchLecturesLoading` 조건문은 true 만 출력이 되고, 로딩 스피너가 무한히 실행되는 문제가 발생함.
+  - 그래서 이 문제를 해결하기 위해 `loadLectureLoading: false`로 변경함.
+
+## 진행 보류 작업
+
+- 원래 강의 리스트 스타일 선택 버튼(view)과 정렬순 선택 버튼(order)부분을 따로 컴포넌트 분리
+  - 기존 `useState`를 사용해서 쿼리를 변경하던 부분을 `useRef`로 바꾸면서 최적화도 상당 부분 되어 컴포넌트 분리의 이점이 보이지 않는다.
+  - 만약에 컴포넌트 분리를 했을 경우, 쿼리를 변경해야 하기 때문에 부모 컴포넌트에서 자식 컴포넌트(ex. 검색 관련 버튼)에서 변경된 값을 받아와야 하는데 이 과정에서 `useRef` 사용으로 인해 성능 최적화 필요성도 줄어들어서 가독성에 대한 불편함을 감수하고 분리할 이유가 없다.
+  - 하나의 컴포넌트에서 변경되는 값들을 최대한 같이 관리하는게 효율적이라 생각되어 분리 작업을 일단 보류하게 되었다.
+
+## 앞으로 진행할 작업
+
+- 기술 검색 부분 구현하기
+- 검색 관련 API 문서 작성하기
+
+</details>
+
+<details>
+<summary>2021.10.12~13, 16(Tony), 28, 30</summary>
+
+### tinyMCE 설치
+
+npm install --save @tinymce/tinymce-react
+npm i tinymce
+
+- 타입스크립트에서 tinymce를 타입으로 사용하기 위해 설치
+- 원래 기본적으로 @tinymce/tinymce-react 만 설치해도 같이 설치되는 것 같지만 그럴 경우 package.json에 추가가 안되어있어서 타입사용 불가능
+
+### .env 파일 생성, gitignore에 추가
+
+- [.env 파일 내용(멤버공개)](https://www.notion.so/00bd4ff4b0c64c16862efeba772417e4?v=213923c71e3141778c982b4f0adb72c7&p=c39a63b09193487dad27eb1fc34e65e9)
+- 환경변수 수정 : NEXT_PUBLIC_TINYMCE_KEY
+  - https://cpro95.tistory.com/464
+
+### 미리 작성된 HTML을 표시 하기
+
+- Editor의 initialValue속성에 서버에서 받은 html string을 넣어주면 된다
+
+### 사진은 어떻게 업로드하고 전송할까?
+
+- [이미지 파일 업로드 분석1](https://velog.io/@gth1123/WYSIWYG-%EC%9D%B4%EB%AF%B8%EC%A7%80%ED%8C%8C%EC%9D%BC-%EC%97%85%EB%A1%9C%EB%93%9C)
+
+### 각 prop에 대해 알아보기
+
+### 에디터안의 버튼들(이미지 추가 버튼 등)을 어떻게 커스텀하는지 알아보기
+
+### 전송할 때
+
+#### 참고 문헌
+
+- [tinyMCE React integration 공식문서](https://www.tiny.cloud/docs/integrations/react/#tinymcereactintegrationquickstartguide)
+- https://www.npmjs.com/package/@tinymce/tinymce-react
+
+### image upload
+
+- https://codepen.io/pen/?&prefill_data_id=3a898cfe-8e09-42a7-ae28-ee8d7c70a540
+- https://www.tiny.cloud/docs/plugins/opensource/image/#
+
+### WIKI 추가 보완하기
+
+- [ ] 이미지 업로드 관련
+  - [ ] 파일 변환 과정에 대해 자세히 정리하기
+    - [ ] base64, blob, file 차이 파악하기
+- [x] 서버로 받아서 들어오는 데이터 확인해보기
+
+### 설계 미스
+
+- CourseLayout에서 처음에 모든 데이터를 가져오게 했는데 이러면 안될 것 같다
+- 페이지 마다 모든 데이터를 다 불러오는 불필요한 요청이 발생한다
+- CourseLayout에선 강의 정보 / 상세 소개 / ... 등 어떤 것이 다 입력이 된 상태이고 어떤 것이 안된 상태인지 파악하는 API가 있어야 될 것 같다
+
+  - 그리고 각 페이지에서 각페이지에 필요한 데이터를 각각 요청해야될 것 같다
+
+- [ ] CourseLayout에서 데이터 요청 하는 부분 리팩터링 하기
+  - 다음 PR에서 진행할 예정
+
+## 페어 프로그래밍
+
+- [x] 서버로 전송할 때 id 보내주는 코드 추가
+- [x] 전송 실패 시 알람창 띄우기
 
 </details>
