@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import Grid from '@material-ui/core/Grid';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import ListIcon from '@material-ui/icons/List';
+import RefreshIcon from '@material-ui/icons/Refresh';
 import ViewComfyIcon from '@material-ui/icons/ViewComfy';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
@@ -156,6 +157,29 @@ const LectureCardWrapper = styled.ul<LectureViewProps>`
   margin-top: 1rem;
 `;
 
+const ResetBtn = styled.button`
+  position: relative;
+  background: white;
+  border: 1px solid #dbdbdb;
+  cursor: pointer;
+  padding: calc(0.375em - 1px) 0.75em;
+  border-radius: 4px;
+  width: 90px;
+  font-size: 1rem;
+
+  & > svg {
+    position: relative;
+    left: 25px;
+    top: 3px;
+  }
+`;
+
+const ResetText = styled.span`
+  position: absolute;
+  left: 10px;
+  top: 7px;
+`;
+
 const Courses = () => {
   const router = useRouter();
   const { mainLectures, loadLectureLoading, searchLecturesLoading } = useSelector((state: RootState) => state.lecture);
@@ -267,6 +291,23 @@ const Courses = () => {
     queryOrder.current = result;
   }, []);
 
+  const handleResetClick = useCallback(() => {
+    // queryView와 queryList 값이 없는 경우에는 초기화 버튼을 실행시키지 않음으로써 불필요한 서버 요청을 줄임.
+    if (!queryView.current && !Object.keys(queryList.current).length) {
+      return;
+    }
+
+    queryView.current = '';
+    queryOrder.current = '';
+    queryList.current = {};
+
+    router.replace('/courses');
+
+    dispatch({
+      type: LOAD_ALL_LECTURES_REQUEST,
+    });
+  }, [dispatch, router]);
+
   return (
     <AppLayout>
       <CoursesSection>
@@ -284,6 +325,9 @@ const Courses = () => {
                 </LectureSearchForm>
               </CoursesHeader>
               <nav>카테고리 경로</nav>
+              <ResetBtn type="button" onClick={handleResetClick}>
+                <ResetText>초기화</ResetText> <RefreshIcon />
+              </ResetBtn>
               <LectureViewBtn
                 type="button"
                 isSelected={!queryView.current || queryView.current === 'Grid'}
