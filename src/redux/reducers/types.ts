@@ -72,6 +72,13 @@ export interface ILectureInfo {
 // Lecture data on load edit page
 export type LectureData = {
   courseInfo: ILectureInfo;
+  description: DescriptionData;
+};
+
+export type DescriptionData = {
+  summary: string;
+  descriptionHTMLString: string;
+  courseId: string;
 };
 
 export type LectureInfoChild = {
