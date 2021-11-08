@@ -184,13 +184,16 @@ const Courses = () => {
     const params = new URLSearchParams(queryString);
     const view = params.get('view');
     const order = params.get('order');
-    // url(ex. localhost:3000/courses?view=List)을 통해 바로 접근한 경우 쿼리 스트링에 view parameter가 존재한다면,  view parameter 값에 대한 스타일 보여주기
+
+    // url(ex. localhost:3000/courses?view=List)을 통해 바로 접근한 경우 쿼리 스트링에 view가 존재한다면,  이 view 값을 queryView에 저장한 후에 view 스타일을 보여주기
     if (view) queryView.current = view;
+    // 마찬가지로 url의 쿼리 스트링에 order가 존재할 경우, 이 order 값을 queryOrder에 저장한 후에 order 값에 대한 정렬을 보여주기
     if (order) {
       queryOrder.current = order;
       queryList.current.order = order;
     }
 
+    // 검색 필터(ex. Order, View 등등)가 사용되지 않은 경우
     if (Object.keys(queryList.current).length === 0) {
       dispatch({
         type: LOAD_ALL_LECTURES_REQUEST,
@@ -198,6 +201,7 @@ const Courses = () => {
       return;
     }
 
+    // 검색 필터를 사용한 경우
     dispatch({
       type: SEARCH_LECTURES_REQUEST,
       data: queryList.current,
@@ -205,6 +209,7 @@ const Courses = () => {
   }, []);
 
   useEffect(() => {
+    // unmount시 useRef로 관리하는 값들을 초기화
     return () => {
       queryView.current = '';
       queryOrder.current = '';
@@ -253,6 +258,7 @@ const Courses = () => {
       },
     });
 
+    // url 변경 후, 쿼리 스트링에 대한 강의 검색 결과 요청
     dispatch({
       type: SEARCH_LECTURES_REQUEST,
       data: queryList.current,
