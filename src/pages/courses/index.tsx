@@ -151,7 +151,8 @@ const LectureOrderSelect = styled.select`
 `;
 
 const LectureCardWrapper = styled.ul<LectureViewProps>`
-  ${(props) => (props.view === 'Grid' ? 'display: flex; flex-wrap: wrap; align-items: flex-start;' : '')}
+  ${(props) =>
+    props.view === '' || props.view === 'Grid' ? 'display: flex; flex-wrap: wrap; align-items: flex-start;' : ''}
   margin-top: 1rem;
 `;
 
@@ -305,7 +306,7 @@ const Courses = () => {
                   // view의 값은 router.query.view값 가져와서 사용하기
                   <LectureCardWrapper view={queryView.current}>
                     {mainLectures?.map((lecture: ILecture, idx: number) =>
-                      queryView.current === 'Grid' ? (
+                      queryView.current === '' || queryView.current === 'Grid' ? (
                         <LectureCard key={lecture.id} lecture={lecture} />
                       ) : (
                         <HorizonLectureCard key={lecture.id} lecture={lecture} index={idx} />
