@@ -22,6 +22,11 @@ export interface ILectureState {
   saveCourseInfoError?: string;
   searchLecturesLoading: boolean;
   searchLecturesError?: string;
+  loadEditLectureDescriptionLoading: boolean;
+  loadEditLectureDescriptionError?: string;
+  saveEditLectureDescriptionLoading: boolean;
+  saveEditLectureDescriptionError?: string;
+  saveEditLectureDescriptionDone: boolean;
 }
 
 export const initialState: ILectureState = {
@@ -55,12 +60,22 @@ export const initialState: ILectureState = {
       category: [],
       level: [],
     },
+    description: {
+      summary: '',
+      descriptionHTMLString: '',
+      courseId: '',
+    },
   },
   saveCourseInfoLoading: false,
   saveCourseInfoDone: false,
   saveCourseInfoError: undefined,
   searchLecturesLoading: false,
   searchLecturesError: '',
+  loadEditLectureDescriptionLoading: false,
+  loadEditLectureDescriptionError: '',
+  saveEditLectureDescriptionLoading: false,
+  saveEditLectureDescriptionError: '',
+  saveEditLectureDescriptionDone: false,
 };
 
 // action types
@@ -93,6 +108,17 @@ export const SAVE_COURSE_INFO_DONE = 'SAVE_COURSE_INFO_DONE';
 export const SEARCH_LECTURES_REQUEST = 'SEARCH_LECTURES_REQUEST';
 export const SEARCH_LECTURES_SUCCESS = 'SEARCH_LECTURES_SUCCESS';
 export const SEARCH_LECTURES_FAILURE = 'SEARCH_LECTURES_FAILURE';
+
+// get data course description page
+export const LOAD_EDIT_LECTURE_DESCRIPTION_REQUEST = 'LOAD_EDIT_LECTURE_DESCRIPTION_REQUEST';
+export const LOAD_EDIT_LECTURE_DESCRIPTION_SUCCESS = 'LOAD_EDIT_LECTURE_DESCRIPTION_SUCCESS';
+export const LOAD_EDIT_LECTURE_DESCRIPTION_FAILURE = 'LOAD_EDIT_LECTURE_DESCRIPTION_FAILURE';
+
+// save course description page
+export const SAVE_EDIT_LECTURE_DESCRIPTION_REQUEST = 'SAVE_EDIT_LECTURE_DESCRIPTION_REQUEST';
+export const SAVE_EDIT_LECTURE_DESCRIPTION_SUCCESS = 'SAVE_EDIT_LECTURE_DESCRIPTION_SUCCESS';
+export const SAVE_EDIT_LECTURE_DESCRIPTION_FAILURE = 'SAVE_EDIT_LECTURE_DESCRIPTION_FAILURE';
+export const SAVE_EDIT_LECTURE_DESCRIPTION_DONE = 'SAVE_EDIT_LECTURE_DESCRIPTION_DONE';
 
 // reducer
 const reducer = (state = initialState, action: IAction) => {
@@ -182,6 +208,37 @@ const reducer = (state = initialState, action: IAction) => {
         draft.searchLecturesLoading = false;
         draft.searchLecturesError = action.error;
         break;
+
+      // get data course description page
+      case LOAD_EDIT_LECTURE_DESCRIPTION_REQUEST:
+        draft.loadEditLectureDescriptionLoading = true;
+        break;
+      case LOAD_EDIT_LECTURE_DESCRIPTION_SUCCESS:
+        draft.loadEditLectureDescriptionLoading = false;
+        draft.lectureData.description = action.data;
+        break;
+      case LOAD_EDIT_LECTURE_DESCRIPTION_FAILURE:
+        draft.loadEditLectureDescriptionLoading = false;
+        draft.loadEditLectureDescriptionError = action.error;
+        break;
+
+      // save course description page
+      case SAVE_EDIT_LECTURE_DESCRIPTION_REQUEST:
+        draft.saveEditLectureDescriptionLoading = true;
+        break;
+      case SAVE_EDIT_LECTURE_DESCRIPTION_SUCCESS:
+        draft.saveEditLectureDescriptionLoading = false;
+        draft.saveEditLectureDescriptionDone = true;
+        draft.lectureData.description = action.data;
+        break;
+      case SAVE_EDIT_LECTURE_DESCRIPTION_FAILURE:
+        draft.saveEditLectureDescriptionLoading = false;
+        draft.saveEditLectureDescriptionError = action.error;
+        break;
+      case SAVE_EDIT_LECTURE_DESCRIPTION_DONE:
+        draft.saveEditLectureDescriptionDone = false;
+        break;
+
       // 나머지 추후 추가 예정
       default:
         break;

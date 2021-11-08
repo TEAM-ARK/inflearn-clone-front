@@ -17,7 +17,6 @@ const CourseLayoutGrid = styled.div`
   grid-template-columns: 1.8fr 6.4fr 1.8fr;
   padding-top: 24px;
   padding-bottom: 100px;
-  height: 250vh;
 `;
 
 const CourseNav = styled.nav`
@@ -28,6 +27,7 @@ const CourseMain = styled.main`
   box-shadow: 0 2px 10px 0 hsl(0deg 0% 75% / 50%);
   padding: 12px 24px;
   background-color: white;
+  padding-bottom: 3rem;
 `;
 
 const CourseAside = styled.aside`
