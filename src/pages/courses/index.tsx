@@ -204,6 +204,14 @@ const Courses = () => {
     });
   }, []);
 
+  useEffect(() => {
+    return () => {
+      queryView.current = '';
+      queryOrder.current = '';
+      queryList.current = {};
+    };
+  }, []);
+
   const handleSubmit = () => {
     console.log('success!');
   };
