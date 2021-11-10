@@ -110,6 +110,7 @@ const LectureViewBtn = styled.button<LectureViewProps>`
   cursor: pointer;
   padding: calc(0.375em - 1px) 0.75em;
   border-radius: ${(props) => (props.view === 'Grid' ? `4px 0 0 4px` : `0 4px 4px 0`)};
+  height: 40px;
 
   &:hover {
     border-color: #b5b5b5;
@@ -126,6 +127,7 @@ const LectureOrderWrapper = styled.div`
 const LectureOrderSelect = styled.select`
   padding: calc(0.5em - 1px) calc(0.625em - 1px);
   width: 100%;
+  height: 40px;
   background: transparent;
   font-size: 1rem;
   appearance: none;
@@ -165,6 +167,7 @@ const ResetBtn = styled.button`
   padding: calc(0.375em - 1px) 0.75em;
   border-radius: 4px;
   width: 90px;
+  heught: 40px;
   font-size: 1rem;
 
   & > svg {
