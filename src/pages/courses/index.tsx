@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import Grid from '@material-ui/core/Grid';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import ListIcon from '@material-ui/icons/List';
+import RefreshIcon from '@material-ui/icons/Refresh';
 import ViewComfyIcon from '@material-ui/icons/ViewComfy';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
@@ -94,12 +95,12 @@ const getSelectedStyle = () => `
   }
 `;
 
-type ListViewProps = {
+type LectureViewProps = {
   view: string | null;
   isSelected?: boolean;
 };
 
-const ListViewBtn = styled.button<ListViewProps>`
+const LectureViewBtn = styled.button<LectureViewProps>`
   ${(props) => (props.isSelected ? getSelectedStyle() : '')}
 
   background: white;
@@ -109,6 +110,7 @@ const ListViewBtn = styled.button<ListViewProps>`
   cursor: pointer;
   padding: calc(0.375em - 1px) 0.75em;
   border-radius: ${(props) => (props.view === 'Grid' ? `4px 0 0 4px` : `0 4px 4px 0`)};
+  height: 40px;
 
   &:hover {
     border-color: #b5b5b5;
@@ -125,6 +127,7 @@ const LectureOrderWrapper = styled.div`
 const LectureOrderSelect = styled.select`
   padding: calc(0.5em - 1px) calc(0.625em - 1px);
   width: 100%;
+  height: 40px;
   background: transparent;
   font-size: 1rem;
   appearance: none;
@@ -150,9 +153,34 @@ const LectureOrderSelect = styled.select`
   }
 `;
 
-const LectureList = styled.ul<ListViewProps>`
-  ${(props) => (props.view === 'Grid' ? 'display: flex; flex-wrap: wrap; align-items: flex-start;' : '')}
+const LectureCardWrapper = styled.ul<LectureViewProps>`
+  ${(props) =>
+    props.view === '' || props.view === 'Grid' ? 'display: flex; flex-wrap: wrap; align-items: flex-start;' : ''}
   margin-top: 1rem;
+`;
+
+const ResetBtn = styled.button`
+  position: relative;
+  background: white;
+  border: 1px solid #dbdbdb;
+  cursor: pointer;
+  padding: calc(0.375em - 1px) 0.75em;
+  border-radius: 4px;
+  width: 90px;
+  heught: 40px;
+  font-size: 1rem;
+
+  & > svg {
+    position: relative;
+    left: 25px;
+    top: 3px;
+  }
+`;
+
+const ResetText = styled.span`
+  position: absolute;
+  left: 10px;
+  top: 7px;
 `;
 
 const Courses = () => {
@@ -167,7 +195,7 @@ const Courses = () => {
 
   const queryList = useRef<queryListProps>({});
   const queryOrder = useRef<string | null>('');
-  const queryView = useRef<string | null>('Grid');
+  const queryView = useRef<string>('');
   const orderArr = [
     { value: 'recommend', label: '추천순' },
     { value: 'popular', label: '인기순' },
@@ -183,13 +211,16 @@ const Courses = () => {
     const params = new URLSearchParams(queryString);
     const view = params.get('view');
     const order = params.get('order');
-    // url(ex. localhost:3000/courses?view=List)을 통해 바로 접근한 경우 쿼리 스트링에 view parameter가 존재한다면,  view parameter 값에 대한 스타일 보여주기
+
+    // url(ex. localhost:3000/courses?view=List)을 통해 바로 접근한 경우 쿼리 스트링에 view가 존재한다면,  이 view 값을 queryView에 저장한 후에 view 스타일을 보여주기
     if (view) queryView.current = view;
+    // 마찬가지로 url의 쿼리 스트링에 order가 존재할 경우, 이 order 값을 queryOrder에 저장한 후에 order 값에 대한 정렬을 보여주기
     if (order) {
       queryOrder.current = order;
       queryList.current.order = order;
     }
 
+    // 검색 필터(ex. Order, View 등등)가 사용되지 않은 경우
     if (Object.keys(queryList.current).length === 0) {
       dispatch({
         type: LOAD_ALL_LECTURES_REQUEST,
@@ -197,17 +228,27 @@ const Courses = () => {
       return;
     }
 
+    // 검색 필터를 사용한 경우
     dispatch({
       type: SEARCH_LECTURES_REQUEST,
       data: queryList.current,
     });
   }, []);
 
+  useEffect(() => {
+    // unmount시 useRef로 관리하는 값들을 초기화
+    return () => {
+      queryView.current = '';
+      queryOrder.current = '';
+      queryList.current = {};
+    };
+  }, []);
+
   const handleSubmit = () => {
     console.log('success!');
   };
 
-  const handleListViewClick = useCallback(
+  const handleViewClick = useCallback(
     (value: string) => {
       // 선택한 버튼이 이미 선택되어 있는 경우 if문 아래 코드 실행 안함
       if (queryView.current === value) {
@@ -215,12 +256,10 @@ const Courses = () => {
       }
       queryView.current = value;
 
-      const addView = { view: queryView.current } || '';
-
       router.replace({
         pathname: '/courses',
         query: {
-          ...addView,
+          view: queryView.current,
           ...queryList.current,
         },
       });
@@ -231,10 +270,10 @@ const Courses = () => {
     [queryView, router]
   );
 
-  const handleOrderChange = useCallback((e) => {
+  const handleOrderChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
     const result = e.target.value;
     // view는 queryList.current에 포함시켜서 서버에 전달할 필요가 없으므로 따로 객체 추가
-    const addView = { view: queryView.current } || '';
+    const addView = queryView.current.length ? { view: queryView.current } : '';
 
     queryList.current.order = result;
 
@@ -246,6 +285,7 @@ const Courses = () => {
       },
     });
 
+    // url 변경 후, 쿼리 스트링에 대한 강의 검색 결과 요청
     dispatch({
       type: SEARCH_LECTURES_REQUEST,
       data: queryList.current,
@@ -253,6 +293,23 @@ const Courses = () => {
 
     queryOrder.current = result;
   }, []);
+
+  const handleResetClick = useCallback(() => {
+    // queryView와 queryList 값이 없는 경우에는 초기화 버튼을 실행시키지 않음으로써 불필요한 서버 요청을 줄임.
+    if (!queryView.current && !Object.keys(queryList.current).length) {
+      return;
+    }
+
+    queryView.current = '';
+    queryOrder.current = '';
+    queryList.current = {};
+
+    router.replace('/courses');
+
+    dispatch({
+      type: LOAD_ALL_LECTURES_REQUEST,
+    });
+  }, [dispatch, router]);
 
   return (
     <AppLayout>
@@ -271,22 +328,25 @@ const Courses = () => {
                 </LectureSearchForm>
               </CoursesHeader>
               <nav>카테고리 경로</nav>
-              <ListViewBtn
+              <ResetBtn type="button" onClick={handleResetClick}>
+                <ResetText>초기화</ResetText> <RefreshIcon />
+              </ResetBtn>
+              <LectureViewBtn
                 type="button"
-                isSelected={queryView.current === 'Grid'}
+                isSelected={!queryView.current || queryView.current === 'Grid'}
                 view="Grid"
-                onClick={() => handleListViewClick('Grid')}
+                onClick={() => handleViewClick('Grid')}
               >
                 <ViewComfyIcon />
-              </ListViewBtn>
-              <ListViewBtn
+              </LectureViewBtn>
+              <LectureViewBtn
                 type="button"
                 isSelected={queryView.current === 'List'}
                 view="List"
-                onClick={() => handleListViewClick('List')}
+                onClick={() => handleViewClick('List')}
               >
                 <ListIcon />
-              </ListViewBtn>
+              </LectureViewBtn>
               <LectureOrderWrapper>
                 <LectureOrderSelect onChange={handleOrderChange}>
                   {React.Children.toArray(
@@ -305,15 +365,15 @@ const Courses = () => {
                   <LoadingSpinner />
                 ) : (
                   // view의 값은 router.query.view값 가져와서 사용하기
-                  <LectureList view={queryView.current}>
+                  <LectureCardWrapper view={queryView.current}>
                     {mainLectures?.map((lecture: ILecture, idx: number) =>
-                      queryView.current === 'Grid' ? (
+                      queryView.current === '' || queryView.current === 'Grid' ? (
                         <LectureCard key={lecture.id} lecture={lecture} />
                       ) : (
                         <HorizonLectureCard key={lecture.id} lecture={lecture} index={idx} />
                       )
                     )}
-                  </LectureList>
+                  </LectureCardWrapper>
                 )}
               </div>
               <div>페이지네이션</div>
