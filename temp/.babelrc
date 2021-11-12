@@ -1,3 +1,4 @@
+// babel 대신 SWC(Rust compiler)로 컴파일 하기 위해 이 파일을 임시 폴더에 옮겨놓음
 {
   "presets": ["next/babel"],
   "plugins": [

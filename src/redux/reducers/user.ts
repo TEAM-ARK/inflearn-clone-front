@@ -3,7 +3,7 @@ import { IAction, IUserState } from './types';
 
 export const initialState: IUserState = {
   loginLoading: false,
-  loginError: undefined,
+  loginError: '',
   me: null,
 };
 

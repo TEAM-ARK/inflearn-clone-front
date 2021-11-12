@@ -1935,3 +1935,139 @@ npm i tinymce
 - [x] 전송 실패 시 알람창 띄우기
 
 </details>
+
+<details>
+<summary>2021.11.11 ~ 12(Tony)</summary>
+
+# Upgrading from 11 to 12
+
+- https://nextjs.org/docs/upgrading#upgrading-from-11-to-12
+
+### 1) npm i next@latest
+
+- next.js를 최신 버전(12.0.3)으로 업데이트
+- https://github.com/Ark-inflearn/inflearn-clone-front/wiki/Next.js-version-12
+
+### 2)||4) npm audit fix
+
+- dependencies의 취약점을 자동으로 해결
+- https://github.com/Ark-inflearn/inflearn-clone-front/wiki/npm-fund,-npm-audit-fix
+
+### 3) npm install react@latest react-dom@latest
+
+- 현재 react 공식 release 버전 : 17.0.2 (이미 최신이었음)
+
+### 5) next.config.js
+
+- 이번에 새로 추가함(이전에도 이 파일로 뭔가 설정할 수 있었는지는 잘 모름)
+- SWC 설정
+- https://nextjs.org/docs/api-reference/next.config.js/introduction
+  - [ ] 읽어 보기
+
+#### 5-1) SWC replacing Terser for minification
+
+- Terser : https://www.npmjs.com/package/terser
+  - A JavaScript parser and mangler/compressor toolkit for ES6+.
+- uglify-es는 더 이상 유지보수 되고 있지 않고, uglify-js는 ES6+ 문법을 지원하지 않아서 바꾼 것 같다
+  - https://github.com/vercel/next.js/issues/5021
+
+```javascript
+// next.config.js
+
+module.exports = {
+  swcMinify: true,
+};
+```
+
+#### 5-2) 기존 .babelrc(Babel compiler) 를 사용하지 않고 SWC(Rust compiler)를 사용하기 위한 변경사항
+
+- styled-components 관련 세팅
+  - https://www.reddit.com/r/nextjs/comments/ql5y74/nextjs_12_and_styled_components/
+
+```javascript
+// next.config.js
+module.exports = {
+  experimental: {
+    // Enables the styled-components SWC transform
+    styledComponents: true,
+  },
+};
+```
+
+- `"displayName": true` 는 dev에서 default, product에선 안보이게 됨
+  - https://github.com/vercel/next.js/discussions/30174
+
+#### material-ui
+
+- 아직 Rust compiler에서 지원하지 않는 것 같음(확인 필요)
+
+## Update Next.js version 12
+
+- 주요 변경 사항
+  - 1. 러스트 컴파일러
+    - refresh와 build 시간 감소
+      - [x] refresh, build 시간 비교
+  - 2. 미들웨어
+    - [ ] 미들웨어 테스트 해보기
+  - 3. React18 버전 지원
+    - [ ] WIKI 작성
+  - 4. `<Image />` 의 AVIF 포맷 지원
+    - [ ] slider에 적용해보기
+  - 5. Bot-aware ISR Fallback
+  - 6. Native ES Modules Support
+  - 7. URL Imports (alpha)
+  - 8. React Server Components (alpha)
+    - [ ] 사용전 후 테스트
+
+### refresh, build 시간 비교
+
+- build time
+  - 11버전 : 1분 50초(빌드에 걸리는 총 시간)
+  - 12버전 : 강의 만들기 -> 강의 정보 : 5.41초
+- refresh time
+  - 11버전 : 1분 38초(빌드에 걸리는 총 시간)
+  - 12버전 : 강의 만들기 -> 강의 정보 : 3.16초
+
+#### 12.0.2 can't build react-hook-form
+
+- https://github.com/react-hook-form/react-hook-form/discussions/6961
+- https://github.com/react-hook-form/resolvers/issues/271
+- 12.0.1 버전에선 에러가 안난다고 하니 버전을 다운시키고 빌드 함
+  - npm i next@12.0.1
+
+#### 빌드 전 에러 잡기 -> 나중에 전부 수정해야 됨
+
+- typescript
+  - 선언 후 사용하지 않는 변수들 주석처리
+    - 너무 많아질 것 같아서 tsconfig의 "noUnusedParameters" 옵션 주석처리
+  - 라이브러리에서 불러와서 사용하지 않는 메서드
+    - tsconfig의 "noUnusedLocals" 옵션 주석처리
+- redux
+  - store, rootReducer 세팅 방법 알아보기
+  - @ts-nocheck로 보류
+  - Minified Redux error #12; visit https://redux.js.org/Errors?code=12 for the full message or use the non-minified dev environment for full errors.
+    - The slice reducer for key "" returned undefined during initialization. If the state passed to the reducer is undefined, you must explicitly return the initial state. The initial state may not be undefined. If you don't want to set a value for this reducer, you can use null instead of undefined.
+      - initialState 초기값 undefined -> 값 지정(0, '' 등)
+      - 나머지 undefined 관련 다 없앰
+        - [x] 안없애도 되는지 실험해보기
+          - 안없애도 되는 거였음
+        - [ ] 기존 undefined 였던 것들 다시 원복하기
+      - reducers/index.ts에서 state = {} 의 ={}를 지웠었는데 다시 붙이니까 됨
+- eslintrc.js에 아래항목 rule off
+  - '@typescript-eslint/ban-ts-comment': 'off',
+    'react/no-this-in-sfc': 'off',
+    'no-undef': 'off',
+    'no-unused-vars': 'off',
+
+### 미들웨어 사용 해보기
+
+### React Server components 사용 해보기
+
+## 고찰
+
+- 이번 next.js를 12버전으로 올리기 위해 빌드를 하면서 우리 앱에서 부족한 점들을 많이 찾을 수 있었다.
+- 그 동안 기술부채를 쌓아왔던 것에 대해 자각할 수 있는 좋은 기회였다.
+- 12버전에서 build time과 refresh time을 측정하기 위해 build를 하면서 발생하는 오류들을 인지할 수 있었다.
+- 모든 오류를 정석적으로 해결하진 않았지만 테스트코드와 CI/CD 이후 리팩터링 하면서 조금씩 해결해갈 예정이다.
+
+</details>

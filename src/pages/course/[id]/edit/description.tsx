@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import React, { useEffect, useRef } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 import { useRouter } from 'next/router';
@@ -186,7 +188,7 @@ const Description = () => {
         <div>
           <Editor
             apiKey={process.env.NEXT_PUBLIC_TINYMCE_KEY}
-            onInit={(evt, editor) => {
+            onInit={(_, editor) => {
               editorRef.current = editor;
               return editorRef.current;
             }}

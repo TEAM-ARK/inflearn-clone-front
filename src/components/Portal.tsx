@@ -14,6 +14,5 @@ export default function Portal({ children, selector }: IProps) {
     return () => setMounted(false);
   }, []);
 
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   return mounted ? createPortal(children, document.querySelector(selector)!) : null;
 }
