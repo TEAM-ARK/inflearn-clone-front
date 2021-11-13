@@ -2294,3 +2294,12 @@ npm ERR!   @material-ui/core@"^4.12.1" from the root project
 - https://github.com/Ark-inflearn/inflearn-clone-front/wiki/Next.js-12-%EC%A0%81%EC%9A%A9-%ED%9B%84%EA%B8%B0
 
 </details>
+
+<details>
+<summary>2021.11.13(나현, 토니)</summary>
+
+## 페어 프로그래밍
+
+- 상세 소개 작성 후 저장할 때, 서버 문제 발생으로 나타나는 alert를 Material UI의 alert로 변경
+
+</details>
