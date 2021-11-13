@@ -1,14 +1,14 @@
 // redux login state
 export interface IUserState {
   loginLoading: boolean;
-  loginError?: string;
+  loginError: string;
   me: IUser | null;
 }
 
 // from DB lecture table and etc
 export interface ILecture {
   id: string | number;
-  coverImage?: string;
+  coverImage: string;
   title: string;
   description: string;
   author: string;
@@ -16,10 +16,10 @@ export interface ILecture {
   price: number;
   studentCount: number;
   commentCount: number;
-  hashTags?: string[];
-  categories?: string[];
+  hashTags: string[];
+  categories: string[];
   level: 'basic' | 'intermediate' | 'advanced';
-  onDiscount?: number;
+  onDiscount: number;
   isExclusive: boolean;
   createdAt: Date;
 }
@@ -39,8 +39,8 @@ export interface IMainSliderData {
 export interface IUser {
   id: number;
   email: string;
-  nickname?: string;
-  lecture?: ILecture[];
+  nickname: string;
+  lecture: ILecture[];
   latestLecture: ILecture;
   isInstructor: boolean;
 }
@@ -49,7 +49,7 @@ export interface IUser {
 export interface IAction {
   type: string;
   data?: any;
-  error?: string;
+  error: string;
 }
 
 // CreateLectureData

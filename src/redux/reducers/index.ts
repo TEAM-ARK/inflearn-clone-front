@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { HYDRATE } from 'next-redux-wrapper';
 import { combineReducers } from 'redux';
 import lecture from './lecture';

@@ -23,6 +23,7 @@ export const dummyUser: IUser = {
       isExclusive: true,
       createdAt: new Date('2021-07-11T03:24:00'),
       price: 110000,
+      coverImage: 'https://avatars.githubusercontent.com/u/58352248?v=4',
     },
     {
       id: 2,
@@ -39,6 +40,7 @@ export const dummyUser: IUser = {
       isExclusive: true,
       createdAt: new Date('2021-07-14T03:24:00'),
       price: 99000,
+      coverImage: 'https://avatars.githubusercontent.com/u/58352248?v=4',
     },
   ],
   latestLecture: {
@@ -56,13 +58,14 @@ export const dummyUser: IUser = {
     isExclusive: true,
     createdAt: new Date('2021-07-11T03:24:00'),
     price: 110000,
+    coverImage: 'https://avatars.githubusercontent.com/u/58352248?v=4',
   },
 };
 
 export const generateDummyLectureList = (num: number): ILecture[] =>
   Array(num)
     .fill('')
-    .map((_, index) => ({
+    .map(() => ({
       id: shortId.generate(),
       coverImage: faker.image.image(),
       title: faker.name.title(),
@@ -245,5 +248,6 @@ export const dummyLectureEditData: LectureData = {
         String.raw 메소드와 vscode lit-html extension을 이용하면 자동완성 기능을 이용할 수 있습니다.
       </div>
     `,
+    courseId: '1',
   },
 };

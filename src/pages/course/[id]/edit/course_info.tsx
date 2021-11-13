@@ -204,7 +204,7 @@ function CourseInfo() {
       default:
         console.error('check box type of handleSubmitAddItem');
     }
-    inputElement.current.value = ''; // input value 초기화
+    if (inputElement.current) inputElement.current.value = ''; // input value 초기화
   };
 
   const handleId = (value: IHandleIdParams) => {

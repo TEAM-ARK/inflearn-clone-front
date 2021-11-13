@@ -6,7 +6,7 @@ module.exports = {
     jest: true,
   },
   extends: [
-    'plugin:@typescript-eslint/recommended',
+    // 'plugin:@typescript-eslint/recommended',
     'plugin:react/recommended',
     'plugin:react-hooks/recommended',
     'airbnb',
@@ -24,7 +24,14 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: 'module',
   },
-  plugins: ['react', 'react-hooks', '@typescript-eslint', 'prettier', 'import', 'jsx-a11y'],
+  plugins: [
+    'react',
+    'react-hooks',
+    //  '@typescript-eslint',
+    'prettier',
+    'import',
+    'jsx-a11y',
+  ],
   rules: {
     'prettier/prettier': [
       'error',
@@ -32,6 +39,10 @@ module.exports = {
         endOfLine: 'auto',
       },
     ],
+    '@typescript-eslint/ban-ts-comment': 'off',
+    'react/no-this-in-sfc': 'off',
+    'no-undef': 'off',
+    'no-unused-vars': 'off',
     'jsx-a11y/anchor-is-valid': 'off',
     'no-use-before-define': 'off',
     'no-console': 'off',
