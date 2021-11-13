@@ -2013,3 +2013,8 @@ HeaderLayout.tsx에서 `<Link href={href}>` 대신에 `router.push(href)`를 사
 
 - 기술 검색 부분 구현하기
 </details>
+<details>
+<summary>2021.11.13(나현, 토니)<summary>
+- 페어프로그래밍
+  - 상세 소개 작성 후 저장할 때, 서버 문제 발생으로 나타나는 alert를 Material UI의 alert로 변경
+</details>
