@@ -34,3 +34,6 @@ yarn-error.log*
 # vercel
 .vercel
 .vscode
+
+# URL import로 인해 만들어진 cdn cach 폴더
+next.lock

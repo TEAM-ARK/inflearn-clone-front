@@ -2088,7 +2088,6 @@ module.exports = {
   - 2. 미들웨어
     - [x] 미들웨어 테스트 해보기
   - 3. React18 버전 지원
-    - [ ] WIKI 작성
   - 4. `<Image />` 의 AVIF 포맷 지원
   - 5. Bot-aware ISR Fallback
   - 6. Native ES Modules Support
@@ -2127,7 +2126,6 @@ module.exports = {
       - 나머지 undefined 관련 다 없앰
         - [x] 안없애도 되는지 실험해보기
           - 안없애도 되는 거였음
-        - [ ] 기존 undefined 였던 것들 다시 원복하기
       - reducers/index.ts에서 state = {} 의 ={}를 지웠었는데 다시 붙이니까 됨
 - eslintrc.js에 아래항목 rule off
   - '@typescript-eslint/ban-ts-comment': 'off',
@@ -2185,6 +2183,15 @@ const LogoLink = styled.a``;
   </LogoLink>
 </Link>;
 ```
+
+### 7. URL Imports (alpha) 사용해보기
+
+- https://nextjs.org/docs/api-reference/next.config.js/url-imports
+- 사용할 URL
+  - `<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>`
+- URL 가져오기가 감지되면 Next.js는 원격 리소스를 추적하기 위해 next.lock 파일을 생성합니다. URL 가져오기는 오프라인에서 계속 작업할 수 있도록 로컬로 캐시됩니다.
+- 잘 안됨 : testPage.tsx
+  - next.lock 폴더 생기고 그 안에 js파일 또는 이미지 파일 들어온거 보면 될 것도 같은데 왠지 모르게 안됨
 
 ### 8. React Server components 사용 해보기
 

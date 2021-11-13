@@ -2,6 +2,11 @@ module.exports = {
   experimental: {
     // Enables the styled-components SWC transform
     styledComponents: true,
+    urlImports: [
+      'https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js',
+      'https://github.com/vercel/next.js/raw/canary/test/integration/production/public/vercel.png',
+      'https://cdn.inflearn.com/assets/images/lost_pages/coding_cat.gif',
+    ],
   },
   swcMinify: false, // Terser : A JavaScript parser and mangler/compressor toolkit for ES6+.
   images: {
