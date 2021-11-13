@@ -2017,7 +2017,7 @@ HeaderLayout.tsx에서 `<Link href={href}>` 대신에 `router.push(href)`를 사
 </details>
 
 <details>
-<summary>2021.11.11 ~ 12(Tony)</summary>
+<summary>2021.11.11 ~ 13(Tony)</summary>
 
 # Upgrading from 11 to 12
 
@@ -2039,10 +2039,8 @@ HeaderLayout.tsx에서 `<Link href={href}>` 대신에 `router.push(href)`를 사
 
 ### 5) next.config.js
 
-- 이번에 새로 추가함(이전에도 이 파일로 뭔가 설정할 수 있었는지는 잘 모름)
 - SWC 설정
 - https://nextjs.org/docs/api-reference/next.config.js/introduction
-  - [ ] 읽어 보기
 
 #### 5-1) SWC replacing Terser for minification
 
@@ -2053,7 +2051,6 @@ HeaderLayout.tsx에서 `<Link href={href}>` 대신에 `router.push(href)`를 사
 
 ```javascript
 // next.config.js
-
 module.exports = {
   swcMinify: true,
 };
@@ -2099,7 +2096,7 @@ module.exports = {
   - 8. React Server Components (alpha)
     - [ ] 사용전 후 테스트
 
-### refresh, build 시간 비교
+### 1. refresh, build 시간 비교
 
 - build time
   - 11버전 : 1분 50초(빌드에 걸리는 총 시간)
@@ -2139,9 +2136,9 @@ module.exports = {
     'no-undef': 'off',
     'no-unused-vars': 'off',
 
-### 미들웨어 사용 해보기
+### 2. 미들웨어 사용 해보기
 
-### React Server components 사용 해보기
+### 8. React Server components 사용 해보기
 
 ## 고찰
 
