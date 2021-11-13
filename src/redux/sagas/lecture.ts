@@ -189,12 +189,15 @@ function* loadEditCourseDescription(action: IAction) {
 
 function* saveCourseEditDescription(action: IAction) {
   try {
-    // yield call(postSaveLectureDescription, action.data);
+    yield call(postSaveLectureDescription, action.data);
     yield delay(500);
     yield put({
       type: SAVE_EDIT_LECTURE_DESCRIPTION_SUCCESS,
       data: action.data, // 서버에 성공적으로 저장하면 로컬 store에 업데이트 함
     });
+
+    // alert 확인을 위한 임시 에러 처리
+    // throw new Error('error');
   } catch (error) {
     console.error(error);
     yield put({

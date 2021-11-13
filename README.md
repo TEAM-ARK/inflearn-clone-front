@@ -1816,37 +1816,6 @@ React Developer Tools로 강의 생성 페이지의 카테고리 및 강의 수�
 
   4. 그리고 `useRef` 통해서 queryList를 빈 객체로 선언하여 view나 order 버튼이 선택될 때 값을 저장한다. 그리고 `router.replace`로 query 값이 전달될 때 queryList에 저장된 값을 저장하도록 한다.
 
-     아래는 view 버튼을 선택했을 때 사용되는 handleViewClick 코드의 예이다.
-
-     ```jsx
-     const queryList = useRef < queryListProps > {};
-     ```
-
-     ```jsx
-     const handleViewClick = useCallback(
-       (value: string) => {
-         // 선택한 버튼이 이미 선택되어 있는 경우 if문 아래 코드 실행 안함
-         if (queryView.current === value) {
-           return;
-         }
-
-         queryList.current.view = value;
-
-         router.replace({
-           pathname: '/courses',
-           query: queryList.current,
-         });
-
-         // view 버튼 클릭 시 매번 재요청 하는 것 고민하기
-         // dispatch({ type: LOAD_ALL_LECTURES_REQUEST });
-         queryView.current = value;
-       },
-       [queryView, router]
-     );
-     ```
-
-  5. 그리고 `useRef` 통해서 queryList를 빈 객체로 선언하여 view나 order 버튼이 선택될 때 값을 저장한다. 그리고 `router.replace`로 query 값이 전달될 때 queryList에 저장된 값을 저장하도록 한다.
-
      아래는 view 버튼을 선택했을 때 사용되는 handleListViewClick 코드의 예이다.
 
      ```jsx
@@ -1876,7 +1845,7 @@ React Developer Tools로 강의 생성 페이지의 카테고리 및 강의 수�
      );
      ```
 
-  6. 이런 식으로 코드를 바꿔주면 url주소가 [http://localhost:3000/courses?view=Grid&order=popular](http://localhost:3000/courses?view=Grid&order=popular) 였을 때, view를 List 버튼으로 눌러주게 되면 [http://localhost:3000/courses?view=List&order=popular](http://localhost:3000/courses?view=List&order=popular로) 로 view 부분만 바뀌게 된다. order 버튼도 마찬가지이다.
+  5. 이런 식으로 코드를 바꿔주면 url주소가 [http://localhost:3000/courses?view=Grid&order=popular](http://localhost:3000/courses?view=Grid&order=popular) 였을 때, view를 List 버튼으로 눌러주게 되면 [http://localhost:3000/courses?view=List&order=popular](http://localhost:3000/courses?view=List&order=popular로) 로 view 부분만 바뀌게 된다. order 버튼도 마찬가지이다.
 
 ## 기존 코드에서 수정사항
 
@@ -1997,9 +1966,33 @@ view와 order는 useRef로 저장된 값을 컴포넌트가 unmount될 때 초�
 
 HeaderLayout.tsx에서 `<Link href={href}>` 대신에 `router.push(href)`를 사용해보고 next.js API 문서를 참고해서 혹시나 하는 마음에 Shallow 옵션도 router에 추가해봤지만 해결이 되지 않았다.
 
+view나 order 버튼 기능을 이용해서 view에는 List 값이 order에는 recommand 값이 입력되어있다고 할 때, 상단 메뉴에서 다시 '강의'를 눌러서 강의 페이지를 불러오면 이전에 입력했던 값들이 유지되어 있는 모습을 볼 수 있다.
+
+예를 들면, 원래 '강의'를 눌렀을 때 처음 페이지가 로드 되었을 때는 view가 Grid값이어야해서 Grid 상태의 강의 카드 정렬을 보여줘야하는데, view에 이전에 눌렀던 값인 List가 저장되어 있어서 List 스타일의 강의 카드 정렬을 보여준다.
+
+**문제가 발생한 이유**
+
+view와 order는 useRef로 저장된 값을 컴포넌트가 unmount될 때 초기화를 시키지 않았기 때문이다.
+
+**시도한 해결 방법 (1)**
+
+처음에는 unmount를 구현하면 해결이 될 줄 알았다. 그래서 아래와 같은 코드를 추가했는데 페이지를 아예 벗어나야 언마운트 되고 값이 초기화가 되고, 그렇지 않으면 '강의' 메뉴를 눌러도 리렌더링만 될 뿐 언마운트 상태가 되어 값이 초기화가 되지는 않았다.
+
+**시도한 해결 방법 (2)**
+
+HeaderLayout.tsx에서 `<Link href={href}>` 대신에 `router.push(href)`를 사용해보고 next.js API 문서를 참고해서 혹시나 하는 마음에 Shallow 옵션도 router에 추가해봤지만 해결이 되지 않았다.
+
 **최종 해결 방법**
 
 먼저 해결하기 전에 리액트로 구현한 사이트 중 라프텔 홈페이지는 필터 기능을 어떻게 구현했는지 살펴봤다. 라프텔에서는 일단 url의 쿼리 스트링으로 필터값을 받고 있지 않았다.
+
+그리고 내가 구현한 방식인 useRef로 선택한 필터 값을 저장하고 잇는 것 같았다. 왜냐하면 다른 페이지로 이동했다가 뒤로가기로 다시 '태그검색' 페이지로 돌아오면 이전에 선택했던 필터값들이 유지가 되고 있기 때문이다. 아마도 언마운트 처리를 해주지 않은 것 같다.
+
+인프런 방식을 따르면 url에 쿼리 스트링이 추가되니 북마크를 하는 경우에 이점이 있고,
+
+라프텔 방식을 따르면 url에 쿼리 스트링이 추가되지 않으니 북마크 사용은 불가능하지만, 사용자가 메뉴를 눌러서 새로 고침을 하려고 시도를 했을 때 적어도 url이 바뀌지 않으니 새로고침이 되지 않는 구나하고 사용자가 스스로 판단은 할 수 있는 환경이라고 생각했다.
+
+우리는 일단 기존 url에 쿼리 스트링이 추가된 상태에서 메뉴의 '강의'를 눌렀을 때 쿼리 스트링 부분만 없어지만 페이지가 초기화 되지 않으니 사용자 측면에서는 새로고침이 되지 않는 해당 페이지에 문제가 있다고 느낄 것이다.
 
 그리고 내가 구현한 방식인 useRef로 선택한 필터 값을 저장하고 잇는 것 같았다. 왜냐하면 다른 페이지로 이동했다가 뒤로가기로 다시 '태그검색' 페이지로 돌아오면 이전에 선택했던 필터값들이 유지가 되고 있기 때문이다. 아마도 언마운트 처리를 해주지 않은 것 같다.
 
@@ -2149,5 +2142,14 @@ module.exports = {
 - 그 동안 기술부채를 쌓아왔던 것에 대해 자각할 수 있는 좋은 기회였다.
 - 12버전에서 build time과 refresh time을 측정하기 위해 build를 하면서 발생하는 오류들을 인지할 수 있었다.
 - 모든 오류를 정석적으로 해결하진 않았지만 테스트코드와 CI/CD 이후 리팩터링 하면서 조금씩 해결해갈 예정이다.
+
+</details>
+
+<details>
+<summary>2021.11.13(나현, 토니)</summary>
+
+## 페어 프로그래밍
+
+- 상세 소개 작성 후 저장할 때, 서버 문제 발생으로 나타나는 alert를 Material UI의 alert로 변경
 
 </details>
