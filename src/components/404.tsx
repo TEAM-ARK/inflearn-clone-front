@@ -24,6 +24,24 @@ const CodingCatImage = styled.img`
   width: 80%;
 `;
 
+const Main = styled.main`
+  margin: 2rem;
+`;
+
+const Message = styled.div`
+  z-index: 2;
+  position: absolute;
+`;
+
+const Title = styled.h1`
+  font-size: 3rem;
+  margin-bottom: 2rem;
+`;
+
+const Description = styled.p`
+  font-size: 2rem;
+`;
+
 const NotFoundPage = () => {
   return (
     <NotFoundPageWrap>
@@ -34,18 +52,20 @@ const NotFoundPage = () => {
           </LinkTag>
         </Link>
       </Header>
-      <main style={{ margin: '2rem' }}>
-        <div style={{ zIndex: 2, position: 'absolute' }}>
-          <h1 style={{ fontSize: '3rem', marginBottom: '2rem' }}>해당 페이지를 찾지 못 했습니다.</h1>
-          <p style={{ fontSize: '2rem' }}>주소가 잘못되었거나 더 이상 제공되지 않는 페이지 입니다.</p>
+      <Main className="main">
+        <Message className="message">
+          <Title className="title">해당 페이지를 찾지 못 했습니다.</Title>
+          <Description className="description">주소가 잘못되었거나 더 이상 제공되지 않는 페이지 입니다.</Description>
           <Link href="/">
             <LinkTag>
-              <span style={{ fontSize: '2rem' }} role="img" aria-label="emojis">
-                메인페이지로 이동 🏠🏃🏻‍♀
-              </span>
+              <Description>
+                <span className="description" role="img" aria-label="emojis">
+                  메인페이지로 이동 🏠🏃🏻‍♀
+                </span>
+              </Description>
             </LinkTag>
           </Link>
-        </div>
+        </Message>
         {/* <Image src="https://cdn.inflearn.com/assets/images/lost_pages/coding_cat.gif" width="200px" height="200px" /> */}
         <CodingCatImage
           src="https://cdn.inflearn.com/assets/images/lost_pages/coding_cat.gif"
@@ -53,7 +73,24 @@ const NotFoundPage = () => {
           //   height="80%"
           alt="404 image"
         />
-      </main>
+      </Main>
+      {/* style jsx와 styled-components를 같이쓰면 styled-components인식을 못 함 */}
+      {/* <style jsx>{`
+        .main {
+          margin: 2rem;
+        }
+        .message {
+          z-index: 2;
+          position: absolute;
+        }
+        .title {
+          font-size: 3rem;
+          margin-bottom: 2rem;
+        }
+        .description {
+          font-size: 2rem;
+        }
+      `}</style> */}
     </NotFoundPageWrap>
   );
 };

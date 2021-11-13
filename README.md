@@ -2077,6 +2077,7 @@ module.exports = {
 #### material-ui
 
 - 아직 Rust compiler에서 지원하지 않는 것 같음(확인 필요)
+  - material-UI는 잘 됨, 오히려 styled-components가 불안정 함
 
 ## Update Next.js version 12
 
@@ -2166,7 +2167,9 @@ module.exports = {
 };
 ```
 
-- %를 이해 못 하는 것 같음
+- width와 height을 지정할 때 '80%'를 입력값을 주면 80px로 인식함
+  - %를 이해 못 하는 것 같음
+- `Image` 태그는 거의 사용 안 할 것 같음
 
 #### `<Link></Link>` 는 html로 변환은 안되는데 감싸져서 이동은 됨
 
@@ -2232,9 +2235,25 @@ npm ERR!   @material-ui/core@"^4.12.1" from the root project
 - 12버전에서 build time과 refresh time을 측정하기 위해 build를 하면서 발생하는 오류들을 인지할 수 있었다.
 - 모든 오류를 정석적으로 해결하진 않았지만 테스트코드와 CI/CD 이후 리팩터링 하면서 조금씩 해결해갈 예정이다.
 
-### babel compiler를 다시 사용
+### babel compiler를 다시 사용할지 고민 중
 
 - styled component랑 inline style css를 같이 섞어서 쓸 수 없음(404.tsx)
+  - temp 폴더 안에 있는 .babelrc를 꺼내면 됨
+- 일단 12.1.0 이상 버전이 나올 때 까진 babel compiler를 사용하는 것이 나을 것 같아서 rust 컴파일러에서 babel 컴파일러로 되돌림
+
+### inline css 와 styled-components 호환 안됨
+
+- https://github.com/Ark-inflearn/inflearn-clone-front/pull/110#issuecomment-967797484
+  - `<div style={{ zIndex: 2, position: 'absolute' }}>` 이런식으로
+  - inline style과 styled-components를 같은 파일내에 작성을 하면
+  - rust 컴파일러에서 styled-components는 무시
+
+#### style jsx 사용해보기(404컴포넌트)
+
+- https://merrily-code.tistory.com/56
+- 그냥 styled-components 쓰는게 나을 것 같다(별 차이없는데 props를 전달할 수 있음)
+  - 자동완성 지원이 안됨(extension도 없는 듯)
+- inline css와 마찬가지로 styled-components와 호환 안됨
 
 ## 정리글
 
