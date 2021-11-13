@@ -1814,101 +1814,38 @@ React Developer Tools로 강의 생성 페이지의 카테고리 및 강의 수�
 
   3. 이 코드 뿐만 아니라 setQueryView로 되어 있던 부분은 전부 위와 같이 바꿔준다.
 
-4. 그리고 `useRef` 통해서 queryList를 빈 객체로 선언하여 view나 order 버튼이 선택될 때 값을 저장한다. 그리고 `router.replace`로 query 값이 전달될 때 queryList에 저장된 값을 저장하도록 한다.
+  4. 그리고 `useRef` 통해서 queryList를 빈 객체로 선언하여 view나 order 버튼이 선택될 때 값을 저장한다. 그리고 `router.replace`로 query 값이 전달될 때 queryList에 저장된 값을 저장하도록 한다.
 
-      아래는 view 버튼을 선택했을 때 사용되는 handleViewClick 코드의 예이다.
+     아래는 view 버튼을 선택했을 때 사용되는 handleListViewClick 코드의 예이다.
 
-      ```jsx
-      const queryList = useRef<queryListProps>({});
-      ```
+     ```jsx
+     const queryList = useRef < queryListProps > {};
+     ```
 
-      ```jsx
-      const handleViewClick = useCallback(
-          (value: string) => {
-            // 선택한 버튼이 이미 선택되어 있는 경우 if문 아래 코드 실행 안함
-            if (queryView.current === value) {
-              return;
-            }
+     ```jsx
+     const handleListViewClick = useCallback(
+       (value: string) => {
+         // 선택한 버튼이 이미 선택되어 있는 경우 if문 아래 코드 실행 안함
+         if (queryView.current === value) {
+           return;
+         }
 
-            queryList.current.view = value;
+         queryList.current.view = value;
 
-            router.replace({
-              pathname: '/courses',
-              query: queryList.current,
-            });
+         router.replace({
+           pathname: '/courses',
+           query: queryList.current,
+         });
 
-            // view 버튼 클릭 시 매번 재요청 하는 것 고민하기
-            // dispatch({ type: LOAD_ALL_LECTURES_REQUEST });
-            queryView.current = value;
-          },
-          [queryView, router]
-        );
-      ```
+         // view 버튼 클릭 시 매번 재요청 하는 것 고민하기
+         // dispatch({ type: LOAD_ALL_LECTURES_REQUEST });
+         queryView.current = value;
+       },
+       [queryView, router]
+     );
+     ```
 
-5.  # 그리고 `useRef` 통해서 queryList를 빈 객체로 선언하여 view나 order 버튼이 선택될 때 값을 저장한다. 그리고 `router.replace`로 query 값이 전달될 때 queryList에 저장된 값을 저장하도록 한다.
-6.  그리고 `useRef` 통해서 queryList를 빈 객체로 선언하여 view나 order 버튼이 선택될 때 값을 저장한다. 그리고 `router.replace`로 query 값이 전달될 때 queryList에 저장된 값을 저장하도록 한다.
-
-         아래는 view 버튼을 선택했을 때 사용되는 handleViewClick 코드의 예이다.
-
-         ```jsx
-         const queryList = useRef < queryListProps > {};
-         ```
-
-         ```jsx
-         const handleViewClick = useCallback(
-           (value: string) => {
-             // 선택한 버튼이 이미 선택되어 있는 경우 if문 아래 코드 실행 안함
-             if (queryView.current === value) {
-               return;
-             }
-
-             queryList.current.view = value;
-
-             router.replace({
-               pathname: '/courses',
-               query: queryList.current,
-             });
-
-             // view 버튼 클릭 시 매번 재요청 하는 것 고민하기
-             // dispatch({ type: LOAD_ALL_LECTURES_REQUEST });
-             queryView.current = value;
-           },
-           [queryView, router]
-         );
-         ```
-
-7.  그리고 `useRef` 통해서 queryList를 빈 객체로 선언하여 view나 order 버튼이 선택될 때 값을 저장한다. 그리고 `router.replace`로 query 값이 전달될 때 queryList에 저장된 값을 저장하도록 한다.
-
-    아래는 view 버튼을 선택했을 때 사용되는 handleListViewClick 코드의 예이다.
-
-    ```jsx
-    const queryList = useRef < queryListProps > {};
-    ```
-
-    ```jsx
-    const handleListViewClick = useCallback(
-      (value: string) => {
-        // 선택한 버튼이 이미 선택되어 있는 경우 if문 아래 코드 실행 안함
-        if (queryView.current === value) {
-          return;
-        }
-
-        queryList.current.view = value;
-
-        router.replace({
-          pathname: '/courses',
-          query: queryList.current,
-        });
-
-        // view 버튼 클릭 시 매번 재요청 하는 것 고민하기
-        // dispatch({ type: LOAD_ALL_LECTURES_REQUEST });
-        queryView.current = value;
-      },
-      [queryView, router]
-    );
-    ```
-
-8.  이런 식으로 코드를 바꿔주면 url주소가 [http://localhost:3000/courses?view=Grid&order=popular](http://localhost:3000/courses?view=Grid&order=popular) 였을 때, view를 List 버튼으로 눌러주게 되면 [http://localhost:3000/courses?view=List&order=popular](http://localhost:3000/courses?view=List&order=popular로) 로 view 부분만 바뀌게 된다. order 버튼도 마찬가지이다.
+  5. 이런 식으로 코드를 바꿔주면 url주소가 [http://localhost:3000/courses?view=Grid&order=popular](http://localhost:3000/courses?view=Grid&order=popular) 였을 때, view를 List 버튼으로 눌러주게 되면 [http://localhost:3000/courses?view=List&order=popular](http://localhost:3000/courses?view=List&order=popular로) 로 view 부분만 바뀌게 된다. order 버튼도 마찬가지이다.
 
 ## 기존 코드에서 수정사항
 
@@ -2211,7 +2148,7 @@ module.exports = {
 <details>
 <summary>2021.11.13(나현, 토니)</summary>
 
-## 페어프로그래밍
+## 페어 프로그래밍
 
 - 상세 소개 작성 후 저장할 때, 서버 문제 발생으로 나타나는 alert를 Material UI의 alert로 변경
 
