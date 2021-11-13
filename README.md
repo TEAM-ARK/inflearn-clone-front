@@ -2017,7 +2017,7 @@ HeaderLayout.tsx에서 `<Link href={href}>` 대신에 `router.push(href)`를 사
 </details>
 
 <details>
-<summary>2021.11.11 ~ 13(Tony)</summary>
+<summary>2021.11.11 ~ 13(Tony) : Upgrade NextJS from 11 to 12</summary>
 
 # Upgrading from 11 to 12
 
@@ -2085,16 +2085,14 @@ module.exports = {
     - refresh와 build 시간 감소
       - [x] refresh, build 시간 비교
   - 2. 미들웨어
-    - [ ] 미들웨어 테스트 해보기
+    - [x] 미들웨어 테스트 해보기
   - 3. React18 버전 지원
     - [ ] WIKI 작성
   - 4. `<Image />` 의 AVIF 포맷 지원
-    - [ ] slider에 적용해보기
   - 5. Bot-aware ISR Fallback
   - 6. Native ES Modules Support
   - 7. URL Imports (alpha)
   - 8. React Server Components (alpha)
-    - [ ] 사용전 후 테스트
 
 ### 1. refresh, build 시간 비교
 
@@ -2138,7 +2136,94 @@ module.exports = {
 
 ### 2. 미들웨어 사용 해보기
 
+- [x] 간단하게 테스트
+  - course/[id] 에 미들웨어를 만들기
+  - id가 1이 아니면 404 화면을 띄우기
+    - 404 화면 컴포넌트 필요
+    - \_middleware.ts 에선 리액트 컴포넌트 문법(jsx or tsx)를 사용할 수 없음
+  - 서버쪽 코드라고 생각하면 될 것 같다
+    - console.log도 서버(node.js) 터미널에 찍힘
+  - 아직은 언제 어떻게 써야할지 지켜봐야겠다
+  - 완전히 MVC 패턴처럼 서버에서 코딩하는 느낌이다
+- Next.js 공식 예제 코드
+  - https://github.com/vercel/examples/tree/main/edge-functions
+- 미들웨어에서 redirect를 해당 미들웨어가 포함된 라우터 폴더로 보내면 무한 루프에 빠짐
+
+### 4. `<Image />` 의 AVIF 포맷 지원
+
+- https://nextjs.org/docs/api-reference/next/image
+- 다른 도메인의 asset(image 등)을 가져올 때
+  - https://nextjs.org/docs/messages/next-image-unconfigured-host
+- Error: Image with src "https://cdn.inflearn.com/assets/brand/brand_logo.png" must use "width" and "height" properties or "layout='fill'" property.
+  - Image 태그는 불편한게 항상 width, height을 지정해줘야 됨
+
+```javascript
+// next.config.js
+module.exports = {
+  images: {
+    domains: ['assets.example.com'],
+  },
+};
+```
+
+- %를 이해 못 하는 것 같음
+
+#### `<Link></Link>` 는 html로 변환은 안되는데 감싸져서 이동은 됨
+
+- style을 줄 수 없음
+  - a 태그를 넣고 그 안에 style을 주면 됨
+
+```javascript
+const LogoLink = styled.a``;
+
+<Link href="/">
+  <LogoLink>
+    <img src="https://cdn.inflearn.com/assets/brand/brand_logo.png" width="180px" alt="logo" />
+  </LogoLink>
+</Link>;
+```
+
 ### 8. React Server components 사용 해보기
+
+Error: Flag `experimental.concurrentFeatures` is required to be enabled along with `experimental.serverComponents`.
+
+- serverComponents를 사용하기 위해선 concurrentFeatures도 true로 해줘야 한다
+
+```javascript
+module.exports = {
+  experimental: {
+    concurrentFeatures: true,
+    serverComponents: true,
+  },
+};
+```
+
+#### React 18 설치
+
+npm install react@alpha react-dom@alpha
+
+```
+npm ERR! Could not resolve dependency:
+npm ERR! peer react@"^16.8.0 || ^17.0.0" from @material-ui/core@4.12.2
+npm ERR! node_modules/@material-ui/core
+npm ERR!   peer @material-ui/core@"^4.0.0" from @material-ui/icons@4.11.2
+npm ERR!   node_modules/@material-ui/icons
+npm ERR!     @material-ui/icons@"^4.11.2" from the root project
+npm ERR!   @material-ui/core@"^4.12.1" from the root project
+```
+
+- material UI 의 dependency 조건에 의해 실험 불가능
+
+![image](https://user-images.githubusercontent.com/58352248/141493885-7a9f15c8-6f0e-4311-92b6-4b18028856ff.png)
+
+#### 문제점1 : React 18버전이 필요하지만 material UI의 dependency 조건과 맞지 않아 설치 불가능
+
+-> React 18버전 정식 출시 및 material UI 버전 올린 뒤 다시 시도할 예정
+
+#### 문제점2 : Typescript에서 아직 지원이 안되는 것으로 보임
+
+- ts파일로 만들 경우 jsx 문법 사용 불가능
+  - index.tsx -> index.server.js만 가능 (index.server.ts : 에러)
 
 ## 고찰
 
@@ -2146,5 +2231,13 @@ module.exports = {
 - 그 동안 기술부채를 쌓아왔던 것에 대해 자각할 수 있는 좋은 기회였다.
 - 12버전에서 build time과 refresh time을 측정하기 위해 build를 하면서 발생하는 오류들을 인지할 수 있었다.
 - 모든 오류를 정석적으로 해결하진 않았지만 테스트코드와 CI/CD 이후 리팩터링 하면서 조금씩 해결해갈 예정이다.
+
+### babel compiler를 다시 사용
+
+- styled component랑 inline style css를 같이 섞어서 쓸 수 없음(404.tsx)
+
+## 정리글
+
+- https://github.com/Ark-inflearn/inflearn-clone-front/wiki/Next.js-12-%EC%A0%81%EC%9A%A9-%ED%9B%84%EA%B8%B0
 
 </details>
