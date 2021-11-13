@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import Alert from '@material-ui/lab/Alert';
 import { Editor } from '@tinymce/tinymce-react';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
@@ -127,10 +128,8 @@ const Description = () => {
         type: SAVE_EDIT_LECTURE_DESCRIPTION_DONE,
       });
       router.push(`/course/${courseId}/edit/curriculum`);
-    } else if (saveEditLectureDescriptionError) {
-      alert(saveEditLectureDescriptionError); // 더 이쁘게 수정할 예정
     }
-  }, [saveEditLectureDescriptionDone, saveEditLectureDescriptionError]);
+  }, [saveEditLectureDescriptionDone]);
 
   return (
     <CourseLayout>
@@ -263,6 +262,7 @@ const Description = () => {
           </button> */}
         </div>
       </FieldDivMarginTop>
+      {saveEditLectureDescriptionError ? <Alert severity="error">{saveEditLectureDescriptionError}</Alert> : ''}
       <SaveButton text="저장 후 다음이동" onClick={onClickSaveButton} />
     </CourseLayout>
   );
