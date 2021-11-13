@@ -45,7 +45,7 @@ async function postCreateLecture(title: string) {
 }
 
 // save course info (중간 저장 : 저장 후 다음이동)
-async function postSaveCourseInfo(data) {
+async function postSaveCourseInfo(data: any) {
   const result = await axios.post('http://3.34.236.174/api/v1/save/course_info', data);
   return result; // Redundant use of `await` on a return value.eslintno-return-await
 }
@@ -67,7 +67,7 @@ async function postSaveLectureDescription(data: DescriptionData) {
   console.log('postSaveLectureDescription result', result);
 }
 
-function* loadMainPage(action) {
+function* loadMainPage(action: any) {
   try {
     // const result = yield call(loadAllLecturesAPI, action.data);
     yield delay(1000);
@@ -83,7 +83,7 @@ function* loadMainPage(action) {
   }
 }
 
-function* loadSlider(action) {
+function* loadSlider(action: any) {
   try {
     // call 로 API 사용해야 함
     // const result = yield call('api/loadSlider')

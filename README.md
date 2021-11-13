@@ -1814,14 +1814,14 @@ React Developer Tools로 강의 생성 페이지의 카테고리 및 강의 수�
 
   3. 이 코드 뿐만 아니라 setQueryView로 되어 있던 부분은 전부 위와 같이 바꿔준다.
 
-  4. 그리고 `useRef` 통해서 queryList를 빈 객체로 선언하여 view나 order 버튼이 선택될 때 값을 저장한다. 그리고 `router.replace`로 query 값이 전달될 때 queryList에 저장된 값을 저장하도록 한다. 
-  
-      아래는 view 버튼을 선택했을 때 사용되는 handleViewClick 코드의 예이다. 
-      
+4. 그리고 `useRef` 통해서 queryList를 빈 객체로 선언하여 view나 order 버튼이 선택될 때 값을 저장한다. 그리고 `router.replace`로 query 값이 전달될 때 queryList에 저장된 값을 저장하도록 한다.
+
+      아래는 view 버튼을 선택했을 때 사용되는 handleViewClick 코드의 예이다.
+
       ```jsx
       const queryList = useRef<queryListProps>({});
       ```
-      
+
       ```jsx
       const handleViewClick = useCallback(
           (value: string) => {
@@ -1829,14 +1829,14 @@ React Developer Tools로 강의 생성 페이지의 카테고리 및 강의 수�
             if (queryView.current === value) {
               return;
             }
-      
+
             queryList.current.view = value;
-      
+
             router.replace({
               pathname: '/courses',
               query: queryList.current,
             });
-      
+
             // view 버튼 클릭 시 매번 재요청 하는 것 고민하기
             // dispatch({ type: LOAD_ALL_LECTURES_REQUEST });
             queryView.current = value;
@@ -1844,39 +1844,71 @@ React Developer Tools로 강의 생성 페이지의 카테고리 및 강의 수�
           [queryView, router]
         );
       ```
-    
-  5. 그리고 `useRef` 통해서 queryList를 빈 객체로 선언하여 view나 order 버튼이 선택될 때 값을 저장한다. 그리고 `router.replace`로 query 값이 전달될 때 queryList에 저장된 값을 저장하도록 한다.
 
-     아래는 view 버튼을 선택했을 때 사용되는 handleListViewClick 코드의 예이다.
+5.  # 그리고 `useRef` 통해서 queryList를 빈 객체로 선언하여 view나 order 버튼이 선택될 때 값을 저장한다. 그리고 `router.replace`로 query 값이 전달될 때 queryList에 저장된 값을 저장하도록 한다.
+6.  그리고 `useRef` 통해서 queryList를 빈 객체로 선언하여 view나 order 버튼이 선택될 때 값을 저장한다. 그리고 `router.replace`로 query 값이 전달될 때 queryList에 저장된 값을 저장하도록 한다.
 
-     ```jsx
-     const queryList = useRef < queryListProps > {};
-     ```
+         아래는 view 버튼을 선택했을 때 사용되는 handleViewClick 코드의 예이다.
 
-     ```jsx
-     const handleListViewClick = useCallback(
-       (value: string) => {
-         // 선택한 버튼이 이미 선택되어 있는 경우 if문 아래 코드 실행 안함
-         if (queryView.current === value) {
-           return;
-         }
+         ```jsx
+         const queryList = useRef < queryListProps > {};
+         ```
 
-         queryList.current.view = value;
+         ```jsx
+         const handleViewClick = useCallback(
+           (value: string) => {
+             // 선택한 버튼이 이미 선택되어 있는 경우 if문 아래 코드 실행 안함
+             if (queryView.current === value) {
+               return;
+             }
 
-         router.replace({
-           pathname: '/courses',
-           query: queryList.current,
-         });
+             queryList.current.view = value;
 
-         // view 버튼 클릭 시 매번 재요청 하는 것 고민하기
-         // dispatch({ type: LOAD_ALL_LECTURES_REQUEST });
-         queryView.current = value;
-       },
-       [queryView, router]
-     );
-     ```
+             router.replace({
+               pathname: '/courses',
+               query: queryList.current,
+             });
 
-  6. 이런 식으로 코드를 바꿔주면 url주소가 [http://localhost:3000/courses?view=Grid&order=popular](http://localhost:3000/courses?view=Grid&order=popular) 였을 때, view를 List 버튼으로 눌러주게 되면 [http://localhost:3000/courses?view=List&order=popular](http://localhost:3000/courses?view=List&order=popular로) 로 view 부분만 바뀌게 된다. order 버튼도 마찬가지이다.
+             // view 버튼 클릭 시 매번 재요청 하는 것 고민하기
+             // dispatch({ type: LOAD_ALL_LECTURES_REQUEST });
+             queryView.current = value;
+           },
+           [queryView, router]
+         );
+         ```
+
+7.  그리고 `useRef` 통해서 queryList를 빈 객체로 선언하여 view나 order 버튼이 선택될 때 값을 저장한다. 그리고 `router.replace`로 query 값이 전달될 때 queryList에 저장된 값을 저장하도록 한다.
+
+    아래는 view 버튼을 선택했을 때 사용되는 handleListViewClick 코드의 예이다.
+
+    ```jsx
+    const queryList = useRef < queryListProps > {};
+    ```
+
+    ```jsx
+    const handleListViewClick = useCallback(
+      (value: string) => {
+        // 선택한 버튼이 이미 선택되어 있는 경우 if문 아래 코드 실행 안함
+        if (queryView.current === value) {
+          return;
+        }
+
+        queryList.current.view = value;
+
+        router.replace({
+          pathname: '/courses',
+          query: queryList.current,
+        });
+
+        // view 버튼 클릭 시 매번 재요청 하는 것 고민하기
+        // dispatch({ type: LOAD_ALL_LECTURES_REQUEST });
+        queryView.current = value;
+      },
+      [queryView, router]
+    );
+    ```
+
+8.  이런 식으로 코드를 바꿔주면 url주소가 [http://localhost:3000/courses?view=Grid&order=popular](http://localhost:3000/courses?view=Grid&order=popular) 였을 때, view를 List 버튼으로 눌러주게 되면 [http://localhost:3000/courses?view=List&order=popular](http://localhost:3000/courses?view=List&order=popular로) 로 view 부분만 바뀌게 된다. order 버튼도 마찬가지이다.
 
 ## 기존 코드에서 수정사항
 
@@ -1967,10 +1999,12 @@ npm i tinymce
 - [x] 전송 실패 시 알람창 띄우기
 
 </details>
+
 <details>
 <summary>2021.11.2, 8(나현)</summary>
 
 ## 수정한 사항
+
 - addView 부분 코드에서 url 쿼리 스트링에 view가 추가될 때와 그렇지 않을 때의 조건을 다시 생각해서 코드 수정
 - 이해가 쉽게 되지 않는 부분에 대해 주석 추가
 - handleOrderChange의 e에 React.ChangeEventHandler 타입 정의 후 e.target.value의 target 부분에 Property 'target' does not exist on type 'ChangeEventHandler<HTMLSelectElement>'. 에러나는 부분을 토니님이 알려주신 방법을 통해 해결
@@ -1979,33 +2013,57 @@ npm i tinymce
 
 **문제 상황**
 
-view나 order 버튼 기능을 이용해서 view에는 List 값이 order에는 recommand 값이 입력되어있다고 할 때, 상단 메뉴에서 다시 '강의'를 눌러서 강의 페이지를 불러오면 이전에 입력했던 값들이 유지되어 있는 모습을 볼 수 있다. 
+view나 order 버튼 기능을 이용해서 view에는 List 값이 order에는 recommand 값이 입력되어있다고 할 때, 상단 메뉴에서 다시 '강의'를 눌러서 강의 페이지를 불러오면 이전에 입력했던 값들이 유지되어 있는 모습을 볼 수 있다.
 
-예를 들면, 원래 '강의'를 눌렀을 때 처음 페이지가 로드 되었을 때는 view가 Grid값이어야해서 Grid 상태의 강의 카드 정렬을 보여줘야하는데, view에 이전에 눌렀던 값인 List가 저장되어 있어서 List 스타일의 강의 카드 정렬을 보여준다. 
+예를 들면, 원래 '강의'를 눌렀을 때 처음 페이지가 로드 되었을 때는 view가 Grid값이어야해서 Grid 상태의 강의 카드 정렬을 보여줘야하는데, view에 이전에 눌렀던 값인 List가 저장되어 있어서 List 스타일의 강의 카드 정렬을 보여준다.
 
 **문제가 발생한 이유**
 
-view와 order는 useRef로 저장된 값을 컴포넌트가 unmount될 때 초기화를 시키지 않았기 때문이다. 
+view와 order는 useRef로 저장된 값을 컴포넌트가 unmount될 때 초기화를 시키지 않았기 때문이다.
 
 **시도한 해결 방법 (1)**
 
-처음에는 unmount를 구현하면 해결이 될 줄 알았다. 그래서 아래와 같은 코드를 추가했는데 페이지를 아예 벗어나야 언마운트 되고 값이 초기화가 되고, 그렇지 않으면 '강의' 메뉴를 눌러도 리렌더링만 될 뿐 언마운트 상태가 되어 값이 초기화가 되지는 않았다. 
+처음에는 unmount를 구현하면 해결이 될 줄 알았다. 그래서 아래와 같은 코드를 추가했는데 페이지를 아예 벗어나야 언마운트 되고 값이 초기화가 되고, 그렇지 않으면 '강의' 메뉴를 눌러도 리렌더링만 될 뿐 언마운트 상태가 되어 값이 초기화가 되지는 않았다.
 
 **시도한 해결 방법 (2)**
 
-HeaderLayout.tsx에서 `<Link href={href}>` 대신에 `router.push(href)`를 사용해보고 next.js API 문서를 참고해서 혹시나 하는 마음에 Shallow 옵션도 router에 추가해봤지만 해결이 되지 않았다. 
+HeaderLayout.tsx에서 `<Link href={href}>` 대신에 `router.push(href)`를 사용해보고 next.js API 문서를 참고해서 혹시나 하는 마음에 Shallow 옵션도 router에 추가해봤지만 해결이 되지 않았다.
+
+view나 order 버튼 기능을 이용해서 view에는 List 값이 order에는 recommand 값이 입력되어있다고 할 때, 상단 메뉴에서 다시 '강의'를 눌러서 강의 페이지를 불러오면 이전에 입력했던 값들이 유지되어 있는 모습을 볼 수 있다.
+
+예를 들면, 원래 '강의'를 눌렀을 때 처음 페이지가 로드 되었을 때는 view가 Grid값이어야해서 Grid 상태의 강의 카드 정렬을 보여줘야하는데, view에 이전에 눌렀던 값인 List가 저장되어 있어서 List 스타일의 강의 카드 정렬을 보여준다.
+
+**문제가 발생한 이유**
+
+view와 order는 useRef로 저장된 값을 컴포넌트가 unmount될 때 초기화를 시키지 않았기 때문이다.
+
+**시도한 해결 방법 (1)**
+
+처음에는 unmount를 구현하면 해결이 될 줄 알았다. 그래서 아래와 같은 코드를 추가했는데 페이지를 아예 벗어나야 언마운트 되고 값이 초기화가 되고, 그렇지 않으면 '강의' 메뉴를 눌러도 리렌더링만 될 뿐 언마운트 상태가 되어 값이 초기화가 되지는 않았다.
+
+**시도한 해결 방법 (2)**
+
+HeaderLayout.tsx에서 `<Link href={href}>` 대신에 `router.push(href)`를 사용해보고 next.js API 문서를 참고해서 혹시나 하는 마음에 Shallow 옵션도 router에 추가해봤지만 해결이 되지 않았다.
 
 **최종 해결 방법**
 
 먼저 해결하기 전에 리액트로 구현한 사이트 중 라프텔 홈페이지는 필터 기능을 어떻게 구현했는지 살펴봤다. 라프텔에서는 일단 url의 쿼리 스트링으로 필터값을 받고 있지 않았다.
 
-그리고 내가 구현한 방식인 useRef로 선택한 필터 값을 저장하고 잇는 것 같았다.  왜냐하면 다른 페이지로 이동했다가 뒤로가기로 다시 '태그검색' 페이지로 돌아오면 이전에 선택했던 필터값들이 유지가 되고 있기 때문이다. 아마도 언마운트 처리를 해주지 않은 것 같다. 
+그리고 내가 구현한 방식인 useRef로 선택한 필터 값을 저장하고 잇는 것 같았다. 왜냐하면 다른 페이지로 이동했다가 뒤로가기로 다시 '태그검색' 페이지로 돌아오면 이전에 선택했던 필터값들이 유지가 되고 있기 때문이다. 아마도 언마운트 처리를 해주지 않은 것 같다.
 
-인프런 방식을 따르면 url에 쿼리 스트링이 추가되니 북마크를 하는 경우에 이점이 있고, 
+인프런 방식을 따르면 url에 쿼리 스트링이 추가되니 북마크를 하는 경우에 이점이 있고,
 
-라프텔 방식을 따르면 url에 쿼리 스트링이 추가되지 않으니 북마크 사용은 불가능하지만, 사용자가 메뉴를 눌러서 새로 고침을 하려고 시도를 했을 때 적어도 url이 바뀌지 않으니 새로고침이 되지 않는 구나하고 사용자가 스스로 판단은 할 수 있는 환경이라고 생각했다. 
+라프텔 방식을 따르면 url에 쿼리 스트링이 추가되지 않으니 북마크 사용은 불가능하지만, 사용자가 메뉴를 눌러서 새로 고침을 하려고 시도를 했을 때 적어도 url이 바뀌지 않으니 새로고침이 되지 않는 구나하고 사용자가 스스로 판단은 할 수 있는 환경이라고 생각했다.
 
-우리는 일단 기존 url에 쿼리 스트링이 추가된 상태에서 메뉴의 '강의'를 눌렀을 때 쿼리 스트링 부분만 없어지만 페이지가 초기화 되지 않으니 사용자 측면에서는 새로고침이 되지 않는 해당 페이지에 문제가 있다고 느낄 것이다. 
+우리는 일단 기존 url에 쿼리 스트링이 추가된 상태에서 메뉴의 '강의'를 눌렀을 때 쿼리 스트링 부분만 없어지만 페이지가 초기화 되지 않으니 사용자 측면에서는 새로고침이 되지 않는 해당 페이지에 문제가 있다고 느낄 것이다.
+
+그리고 내가 구현한 방식인 useRef로 선택한 필터 값을 저장하고 잇는 것 같았다. 왜냐하면 다른 페이지로 이동했다가 뒤로가기로 다시 '태그검색' 페이지로 돌아오면 이전에 선택했던 필터값들이 유지가 되고 있기 때문이다. 아마도 언마운트 처리를 해주지 않은 것 같다.
+
+인프런 방식을 따르면 url에 쿼리 스트링이 추가되니 북마크를 하는 경우에 이점이 있고,
+
+라프텔 방식을 따르면 url에 쿼리 스트링이 추가되지 않으니 북마크 사용은 불가능하지만, 사용자가 메뉴를 눌러서 새로 고침을 하려고 시도를 했을 때 적어도 url이 바뀌지 않으니 새로고침이 되지 않는 구나하고 사용자가 스스로 판단은 할 수 있는 환경이라고 생각했다.
+
+우리는 일단 기존 url에 쿼리 스트링이 추가된 상태에서 메뉴의 '강의'를 눌렀을 때 쿼리 스트링 부분만 없어지만 페이지가 초기화 되지 않으니 사용자 측면에서는 새로고침이 되지 않는 해당 페이지에 문제가 있다고 느낄 것이다.
 
 이렇게 문제가 발생하는 이유는 SPA의 문제인 것 같기도 했고, useRef를 사용해서 그런 것 같다는 생각도 들었다. 일단은 토니님과 상의하여 라프텔처럼 초기화 버튼을 추가하기로 했다.
 
@@ -2013,8 +2071,148 @@ HeaderLayout.tsx에서 `<Link href={href}>` 대신에 `router.push(href)`를 사
 
 - 기술 검색 부분 구현하기
 </details>
+
 <details>
-<summary>2021.11.13(나현, 토니)<summary>
-- 페어프로그래밍
-  - 상세 소개 작성 후 저장할 때, 서버 문제 발생으로 나타나는 alert를 Material UI의 alert로 변경
+<summary>2021.11.11 ~ 12(Tony)</summary>
+
+# Upgrading from 11 to 12
+
+- https://nextjs.org/docs/upgrading#upgrading-from-11-to-12
+
+### 1) npm i next@latest
+
+- next.js를 최신 버전(12.0.3)으로 업데이트
+- https://github.com/Ark-inflearn/inflearn-clone-front/wiki/Next.js-version-12
+
+### 2)||4) npm audit fix
+
+- dependencies의 취약점을 자동으로 해결
+- https://github.com/Ark-inflearn/inflearn-clone-front/wiki/npm-fund,-npm-audit-fix
+
+### 3) npm install react@latest react-dom@latest
+
+- 현재 react 공식 release 버전 : 17.0.2 (이미 최신이었음)
+
+### 5) next.config.js
+
+- 이번에 새로 추가함(이전에도 이 파일로 뭔가 설정할 수 있었는지는 잘 모름)
+- SWC 설정
+- https://nextjs.org/docs/api-reference/next.config.js/introduction
+  - [ ] 읽어 보기
+
+#### 5-1) SWC replacing Terser for minification
+
+- Terser : https://www.npmjs.com/package/terser
+  - A JavaScript parser and mangler/compressor toolkit for ES6+.
+- uglify-es는 더 이상 유지보수 되고 있지 않고, uglify-js는 ES6+ 문법을 지원하지 않아서 바꾼 것 같다
+  - https://github.com/vercel/next.js/issues/5021
+
+```javascript
+// next.config.js
+
+module.exports = {
+  swcMinify: true,
+};
+```
+
+#### 5-2) 기존 .babelrc(Babel compiler) 를 사용하지 않고 SWC(Rust compiler)를 사용하기 위한 변경사항
+
+- styled-components 관련 세팅
+  - https://www.reddit.com/r/nextjs/comments/ql5y74/nextjs_12_and_styled_components/
+
+```javascript
+// next.config.js
+module.exports = {
+  experimental: {
+    // Enables the styled-components SWC transform
+    styledComponents: true,
+  },
+};
+```
+
+- `"displayName": true` 는 dev에서 default, product에선 안보이게 됨
+  - https://github.com/vercel/next.js/discussions/30174
+
+#### material-ui
+
+- 아직 Rust compiler에서 지원하지 않는 것 같음(확인 필요)
+
+## Update Next.js version 12
+
+- 주요 변경 사항
+  - 1. 러스트 컴파일러
+    - refresh와 build 시간 감소
+      - [x] refresh, build 시간 비교
+  - 2. 미들웨어
+    - [ ] 미들웨어 테스트 해보기
+  - 3. React18 버전 지원
+    - [ ] WIKI 작성
+  - 4. `<Image />` 의 AVIF 포맷 지원
+    - [ ] slider에 적용해보기
+  - 5. Bot-aware ISR Fallback
+  - 6. Native ES Modules Support
+  - 7. URL Imports (alpha)
+  - 8. React Server Components (alpha)
+    - [ ] 사용전 후 테스트
+
+### refresh, build 시간 비교
+
+- build time
+  - 11버전 : 1분 50초(빌드에 걸리는 총 시간)
+  - 12버전 : 1분 38초(빌드에 걸리는 총 시간)
+- refresh time
+  - 11버전 : 강의 만들기 -> 강의 정보 : 5.41초
+  - 12버전 : 강의 만들기 -> 강의 정보 : 3.16초
+
+#### 12.0.2 can't build react-hook-form
+
+- https://github.com/react-hook-form/react-hook-form/discussions/6961
+- https://github.com/react-hook-form/resolvers/issues/271
+- 12.0.1 버전에선 에러가 안난다고 하니 버전을 다운시키고 빌드 함
+  - npm i next@12.0.1
+
+#### 빌드 전 에러 잡기 -> 나중에 전부 수정해야 됨
+
+- typescript
+  - 선언 후 사용하지 않는 변수들 주석처리
+    - 너무 많아질 것 같아서 tsconfig의 "noUnusedParameters" 옵션 주석처리
+  - 라이브러리에서 불러와서 사용하지 않는 메서드
+    - tsconfig의 "noUnusedLocals" 옵션 주석처리
+- redux
+  - store, rootReducer 세팅 방법 알아보기
+  - @ts-nocheck로 보류
+  - Minified Redux error #12; visit https://redux.js.org/Errors?code=12 for the full message or use the non-minified dev environment for full errors.
+    - The slice reducer for key "" returned undefined during initialization. If the state passed to the reducer is undefined, you must explicitly return the initial state. The initial state may not be undefined. If you don't want to set a value for this reducer, you can use null instead of undefined.
+      - initialState 초기값 undefined -> 값 지정(0, '' 등)
+      - 나머지 undefined 관련 다 없앰
+        - [x] 안없애도 되는지 실험해보기
+          - 안없애도 되는 거였음
+        - [ ] 기존 undefined 였던 것들 다시 원복하기
+      - reducers/index.ts에서 state = {} 의 ={}를 지웠었는데 다시 붙이니까 됨
+- eslintrc.js에 아래항목 rule off
+  - '@typescript-eslint/ban-ts-comment': 'off',
+    'react/no-this-in-sfc': 'off',
+    'no-undef': 'off',
+    'no-unused-vars': 'off',
+
+### 미들웨어 사용 해보기
+
+### React Server components 사용 해보기
+
+## 고찰
+
+- 이번 next.js를 12버전으로 올리기 위해 빌드를 하면서 우리 앱에서 부족한 점들을 많이 찾을 수 있었다.
+- 그 동안 기술부채를 쌓아왔던 것에 대해 자각할 수 있는 좋은 기회였다.
+- 12버전에서 build time과 refresh time을 측정하기 위해 build를 하면서 발생하는 오류들을 인지할 수 있었다.
+- 모든 오류를 정석적으로 해결하진 않았지만 테스트코드와 CI/CD 이후 리팩터링 하면서 조금씩 해결해갈 예정이다.
+
+</details>
+
+<details>
+<summary>2021.11.13(나현, 토니)</summary>
+
+## 페어프로그래밍
+
+- 상세 소개 작성 후 저장할 때, 서버 문제 발생으로 나타나는 alert를 Material UI의 alert로 변경
+
 </details>

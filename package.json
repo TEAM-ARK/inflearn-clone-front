@@ -9,7 +9,8 @@
     "start": "next start",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "next": "next"
   },
   "dependencies": {
     "@hookform/resolvers": "^2.6.0",
@@ -26,7 +27,7 @@
     "faker": "^5.5.3",
     "immer": "^9.0.5",
     "lodash": "^4.17.21",
-    "next": "^11.1.0",
+    "next": "^12.0.1",
     "next-redux-wrapper": "^7.0.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",

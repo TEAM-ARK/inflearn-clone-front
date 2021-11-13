@@ -6,26 +6,26 @@ export interface ILectureState {
   mainLectures: ILecture[];
   totalLectureCount: number;
   loadLectureLoading: boolean;
-  loadLectureError?: string;
+  loadLectureError: string;
   mainSliderList: IMainSliderData[];
   loadSliderLoading: boolean;
   loadSliderError?: string;
   createLectureLoading: boolean;
   createLectureDone: boolean;
-  createLectureError?: string;
+  createLectureError: string;
   createLectureData: ILectureInfo;
   editLectureLoading: boolean;
-  editLectureError?: string;
+  editLectureError: string;
   lectureData: LectureData; // edit page layout에서 불러오는 data
   saveCourseInfoLoading: boolean;
   saveCourseInfoDone: boolean;
-  saveCourseInfoError?: string;
+  saveCourseInfoError: string;
   searchLecturesLoading: boolean;
-  searchLecturesError?: string;
+  searchLecturesError: string;
   loadEditLectureDescriptionLoading: boolean;
-  loadEditLectureDescriptionError?: string;
+  loadEditLectureDescriptionError: string;
   saveEditLectureDescriptionLoading: boolean;
-  saveEditLectureDescriptionError?: string;
+  saveEditLectureDescriptionError: string;
   saveEditLectureDescriptionDone: boolean;
 }
 
@@ -33,27 +33,28 @@ export const initialState: ILectureState = {
   mainLectures: [],
   totalLectureCount: 0,
   loadLectureLoading: false,
-  loadLectureError: undefined,
+  loadLectureError: '',
   mainSliderList: [],
   loadSliderLoading: true,
-  loadSliderError: '',
+  loadSliderError: undefined,
   createLectureLoading: false,
   createLectureData: {
-    id: undefined,
-    title: undefined,
+    id: 0,
+    title: '',
     whatYouCanLearn: [],
     expectedStudents: [],
     requiredKnowledge: [],
     category: [],
     level: [],
   },
-  createLectureError: undefined,
+  createLectureError: '',
   createLectureDone: false,
   editLectureLoading: false,
+  editLectureError: '',
   lectureData: {
     courseInfo: {
-      id: undefined,
-      title: undefined,
+      id: 0,
+      title: '',
       whatYouCanLearn: [],
       expectedStudents: [],
       requiredKnowledge: [],
@@ -68,7 +69,7 @@ export const initialState: ILectureState = {
   },
   saveCourseInfoLoading: false,
   saveCourseInfoDone: false,
-  saveCourseInfoError: undefined,
+  saveCourseInfoError: '',
   searchLecturesLoading: false,
   searchLecturesError: '',
   loadEditLectureDescriptionLoading: false,

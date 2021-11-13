@@ -2,11 +2,12 @@
 // eslint-disable-next-line no-use-before-define
 import React from 'react';
 import { ServerStyleSheets } from '@material-ui/core/styles';
+import { DocumentContext as CtxType } from 'next/dist/shared/lib/utils';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
 
 export default class MyDocument extends Document {
-  static async getInitialProps(ctx) {
+  static async getInitialProps(ctx: CtxType) {
     const sheet = new ServerStyleSheet();
     const originalRenderpage = ctx.renderPage;
 
@@ -17,7 +18,7 @@ export default class MyDocument extends Document {
           enhanceApp: (App) => (props) => sheet.collectStyles(<App {...props} />),
         });
       const initialProps = await Document.getInitialProps(ctx);
-      return {
+      const combinedInitialProps = {
         ...initialProps,
         styles: (
           <>
@@ -26,8 +27,10 @@ export default class MyDocument extends Document {
           </>
         ),
       };
+      return new Promise<typeof combinedInitialProps>((resolve) => resolve);
     } catch (error) {
       console.error(error);
+      throw new Error('error');
     } finally {
       sheet.seal();
     }
@@ -92,6 +95,12 @@ MyDocument.getInitialProps = async (ctx) => {
   return {
     ...initialProps,
     // Styles fragment is rendered after the app and page rendering finish.
-    styles: [...React.Children.toArray(initialProps.styles), sheets.getStyleElement()],
+    // styles: [...React.Children.toArray(initialProps.styles), sheets.getStyleElement()],
+    styles: (
+      <>
+        {[...React.Children.toArray(initialProps.styles)]}
+        {sheets.getStyleElement()}
+      </>
+    ),
   };
 };
