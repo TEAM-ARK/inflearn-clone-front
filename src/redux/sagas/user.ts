@@ -17,7 +17,7 @@ function* login(action: IAction) {
       data: action.data,
       // data: result.data
     });
-  } catch (err) {
+  } catch (err: any) {
     yield put({
       type: LOG_IN_FAILURE,
       error: err.response.data,
