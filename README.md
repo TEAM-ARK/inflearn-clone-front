@@ -1786,66 +1786,100 @@ React Developer Tools로 강의 생성 페이지의 카테고리 및 강의 수�
   const queryView = (useRef < string) | (null > 'Grid');
   ```
 
-  2. 그리고 기존 useEffect에서 아래의 코드와 같이 setQueryView로 값을 변경시키던 부분을 `queryView.current = view`로, setQueryOrder는 `queryOrder.current = order`로 변경해준다.
+  2.  그리고 기존 useEffect에서 아래의 코드와 같이 setQueryView로 값을 변경시키던 부분을 `queryView.current = view`로, setQueryOrder는 `queryOrder.current = order`로 변경해준다.
 
-     ◎변경 전
+      ◎변경 전
 
-     ```jsx
-     useEffect(() => {
-         ...
-         if (view) setQueryView(view);
-         if (order) setQueryOrder(order);
+      ```jsx
+      useEffect(() => {
+          ...
+          if (view) setQueryView(view);
+          if (order) setQueryOrder(order);
 
-         dispatch({ type: LOAD_ALL_LECTURES_REQUEST });
-       }, []);
-     ```
+          dispatch({ type: LOAD_ALL_LECTURES_REQUEST });
+        }, []);
+      ```
 
-     ◎변경 후
+      ◎변경 후
 
-     ```jsx
-     useEffect(() => {
-         ...
-         if (view) queryView.current = view;
-         if (order) queryOrder.current = order;
+      ```jsx
+      useEffect(() => {
+          ...
+          if (view) queryView.current = view;
+          if (order) queryOrder.current = order;
 
-         dispatch({ type: LOAD_ALL_LECTURES_REQUEST });
-       }, []);
-     ```
+          dispatch({ type: LOAD_ALL_LECTURES_REQUEST });
+        }, []);
+      ```
 
-  3. 이 코드 뿐만 아니라 setQueryView로 되어 있던 부분은 전부 위와 같이 바꿔준다.
+  3.  이 코드 뿐만 아니라 setQueryView로 되어 있던 부분은 전부 위와 같이 바꿔준다.
 
-  4. 그리고 `useRef` 통해서 queryList를 빈 객체로 선언하여 view나 order 버튼이 선택될 때 값을 저장한다. 그리고 `router.replace`로 query 값이 전달될 때 queryList에 저장된 값을 저장하도록 한다.
+  4.  그리고 `useRef` 통해서 queryList를 빈 객체로 선언하여 view나 order 버튼이 선택될 때 값을 저장한다. 그리고 `router.replace`로 query 값이 전달될 때 queryList에 저장된 값을 저장하도록 한다.
+      <<<<<<< HEAD
 
-     아래는 view 버튼을 선택했을 때 사용되는 handleListViewClick 코드의 예이다.
+           아래는 view 버튼을 선택했을 때 사용되는 handleViewClick 코드의 예이다.
 
-     ```jsx
-     const queryList = useRef < queryListProps > {};
-     ```
+           ```jsx
+           const queryList = useRef < queryListProps > {};
+           ```
 
-     ```jsx
-     const handleListViewClick = useCallback(
-       (value: string) => {
-         // 선택한 버튼이 이미 선택되어 있는 경우 if문 아래 코드 실행 안함
-         if (queryView.current === value) {
-           return;
-         }
+           ```jsx
+           const handleViewClick = useCallback(
+             (value: string) => {
+               // 선택한 버튼이 이미 선택되어 있는 경우 if문 아래 코드 실행 안함
+               if (queryView.current === value) {
+                 return;
+               }
 
-         queryList.current.view = value;
+               queryList.current.view = value;
 
-         router.replace({
-           pathname: '/courses',
-           query: queryList.current,
-         });
+               router.replace({
+                 pathname: '/courses',
+                 query: queryList.current,
+               });
 
-         // view 버튼 클릭 시 매번 재요청 하는 것 고민하기
-         // dispatch({ type: LOAD_ALL_LECTURES_REQUEST });
-         queryView.current = value;
-       },
-       [queryView, router]
-     );
-     ```
+               // view 버튼 클릭 시 매번 재요청 하는 것 고민하기
+               // dispatch({ type: LOAD_ALL_LECTURES_REQUEST });
+               queryView.current = value;
+             },
+             [queryView, router]
+           );
+           ```
 
-  5. 이런 식으로 코드를 바꿔주면 url주소가 [http://localhost:3000/courses?view=Grid&order=popular](http://localhost:3000/courses?view=Grid&order=popular) 였을 때, view를 List 버튼으로 눌러주게 되면 [http://localhost:3000/courses?view=List&order=popular](http://localhost:3000/courses?view=List&order=popular로) 로 view 부분만 바뀌게 된다. order 버튼도 마찬가지이다.
+  5.  # 그리고 `useRef` 통해서 queryList를 빈 객체로 선언하여 view나 order 버튼이 선택될 때 값을 저장한다. 그리고 `router.replace`로 query 값이 전달될 때 queryList에 저장된 값을 저장하도록 한다.
+
+      > > > > > > > c3cce09f9fc7ac27d585f55213399a3be8d785f9
+
+           아래는 view 버튼을 선택했을 때 사용되는 handleListViewClick 코드의 예이다.
+
+           ```jsx
+           const queryList = useRef < queryListProps > {};
+           ```
+
+           ```jsx
+           const handleListViewClick = useCallback(
+             (value: string) => {
+               // 선택한 버튼이 이미 선택되어 있는 경우 if문 아래 코드 실행 안함
+               if (queryView.current === value) {
+                 return;
+               }
+
+               queryList.current.view = value;
+
+               router.replace({
+                 pathname: '/courses',
+                 query: queryList.current,
+               });
+
+               // view 버튼 클릭 시 매번 재요청 하는 것 고민하기
+               // dispatch({ type: LOAD_ALL_LECTURES_REQUEST });
+               queryView.current = value;
+             },
+             [queryView, router]
+           );
+           ```
+
+  6.  이런 식으로 코드를 바꿔주면 url주소가 [http://localhost:3000/courses?view=Grid&order=popular](http://localhost:3000/courses?view=Grid&order=popular) 였을 때, view를 List 버튼으로 눌러주게 되면 [http://localhost:3000/courses?view=List&order=popular](http://localhost:3000/courses?view=List&order=popular로) 로 view 부분만 바뀌게 된다. order 버튼도 마찬가지이다.
 
 ## 기존 코드에서 수정사항
 
@@ -2010,7 +2044,7 @@ HeaderLayout.tsx에서 `<Link href={href}>` 대신에 `router.push(href)`를 사
 </details>
 
 <details>
-<summary>2021.11.11 ~ 12(Tony)</summary>
+<summary>2021.11.11 ~ 13(Tony) : Upgrade NextJS from 11 to 12</summary>
 
 # Upgrading from 11 to 12
 
@@ -2032,10 +2066,8 @@ HeaderLayout.tsx에서 `<Link href={href}>` 대신에 `router.push(href)`를 사
 
 ### 5) next.config.js
 
-- 이번에 새로 추가함(이전에도 이 파일로 뭔가 설정할 수 있었는지는 잘 모름)
 - SWC 설정
 - https://nextjs.org/docs/api-reference/next.config.js/introduction
-  - [ ] 읽어 보기
 
 #### 5-1) SWC replacing Terser for minification
 
@@ -2046,7 +2078,6 @@ HeaderLayout.tsx에서 `<Link href={href}>` 대신에 `router.push(href)`를 사
 
 ```javascript
 // next.config.js
-
 module.exports = {
   swcMinify: true,
 };
@@ -2073,6 +2104,7 @@ module.exports = {
 #### material-ui
 
 - 아직 Rust compiler에서 지원하지 않는 것 같음(확인 필요)
+  - material-UI는 잘 됨, 오히려 styled-components가 불안정 함
 
 ## Update Next.js version 12
 
@@ -2081,18 +2113,15 @@ module.exports = {
     - refresh와 build 시간 감소
       - [x] refresh, build 시간 비교
   - 2. 미들웨어
-    - [ ] 미들웨어 테스트 해보기
+    - [x] 미들웨어 테스트 해보기
   - 3. React18 버전 지원
-    - [ ] WIKI 작성
   - 4. `<Image />` 의 AVIF 포맷 지원
-    - [ ] slider에 적용해보기
   - 5. Bot-aware ISR Fallback
   - 6. Native ES Modules Support
   - 7. URL Imports (alpha)
   - 8. React Server Components (alpha)
-    - [ ] 사용전 후 테스트
 
-### refresh, build 시간 비교
+### 1. refresh, build 시간 비교
 
 - build time
   - 11버전 : 1분 50초(빌드에 걸리는 총 시간)
@@ -2124,7 +2153,6 @@ module.exports = {
       - 나머지 undefined 관련 다 없앰
         - [x] 안없애도 되는지 실험해보기
           - 안없애도 되는 거였음
-        - [ ] 기존 undefined 였던 것들 다시 원복하기
       - reducers/index.ts에서 state = {} 의 ={}를 지웠었는데 다시 붙이니까 됨
 - eslintrc.js에 아래항목 rule off
   - '@typescript-eslint/ban-ts-comment': 'off',
@@ -2132,9 +2160,107 @@ module.exports = {
     'no-undef': 'off',
     'no-unused-vars': 'off',
 
-### 미들웨어 사용 해보기
+### 2. 미들웨어 사용 해보기
 
-### React Server components 사용 해보기
+- [x] 간단하게 테스트
+  - course/[id] 에 미들웨어를 만들기
+  - id가 1이 아니면 404 화면을 띄우기
+    - 404 화면 컴포넌트 필요
+    - \_middleware.ts 에선 리액트 컴포넌트 문법(jsx or tsx)를 사용할 수 없음
+  - 서버쪽 코드라고 생각하면 될 것 같다
+    - console.log도 서버(node.js) 터미널에 찍힘
+  - 아직은 언제 어떻게 써야할지 지켜봐야겠다
+  - 완전히 MVC 패턴처럼 서버에서 코딩하는 느낌이다
+- Next.js 공식 예제 코드
+  - https://github.com/vercel/examples/tree/main/edge-functions
+- 미들웨어에서 redirect를 해당 미들웨어가 포함된 라우터 폴더로 보내면 무한 루프에 빠짐
+
+### 4. `<Image />` 의 AVIF 포맷 지원
+
+- https://nextjs.org/docs/api-reference/next/image
+- 다른 도메인의 asset(image 등)을 가져올 때
+  - https://nextjs.org/docs/messages/next-image-unconfigured-host
+- Error: Image with src "https://cdn.inflearn.com/assets/brand/brand_logo.png" must use "width" and "height" properties or "layout='fill'" property.
+  - Image 태그는 불편한게 항상 width, height을 지정해줘야 됨
+
+```javascript
+// next.config.js
+module.exports = {
+  images: {
+    domains: ['assets.example.com'],
+  },
+};
+```
+
+- width와 height을 지정할 때 '80%'를 입력값을 주면 80px로 인식함
+  - %를 이해 못 하는 것 같음
+- `Image` 태그는 거의 사용 안 할 것 같음
+
+#### `<Link></Link>` 는 html로 변환은 안되는데 감싸져서 이동은 됨
+
+- style을 줄 수 없음
+  - a 태그를 넣고 그 안에 style을 주면 됨
+
+```javascript
+const LogoLink = styled.a``;
+
+<Link href="/">
+  <LogoLink>
+    <img src="https://cdn.inflearn.com/assets/brand/brand_logo.png" width="180px" alt="logo" />
+  </LogoLink>
+</Link>;
+```
+
+### 7. URL Imports (alpha) 사용해보기
+
+- https://nextjs.org/docs/api-reference/next.config.js/url-imports
+- 사용할 URL
+  - `<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>`
+- URL 가져오기가 감지되면 Next.js는 원격 리소스를 추적하기 위해 next.lock 파일을 생성합니다. URL 가져오기는 오프라인에서 계속 작업할 수 있도록 로컬로 캐시됩니다.
+- 잘 안됨 : testPage.tsx
+  - next.lock 폴더 생기고 그 안에 js파일 또는 이미지 파일 들어온거 보면 될 것도 같은데 왠지 모르게 안됨
+
+### 8. React Server components 사용 해보기
+
+Error: Flag `experimental.concurrentFeatures` is required to be enabled along with `experimental.serverComponents`.
+
+- serverComponents를 사용하기 위해선 concurrentFeatures도 true로 해줘야 한다
+
+```javascript
+module.exports = {
+  experimental: {
+    concurrentFeatures: true,
+    serverComponents: true,
+  },
+};
+```
+
+#### React 18 설치
+
+npm install react@alpha react-dom@alpha
+
+```
+npm ERR! Could not resolve dependency:
+npm ERR! peer react@"^16.8.0 || ^17.0.0" from @material-ui/core@4.12.2
+npm ERR! node_modules/@material-ui/core
+npm ERR!   peer @material-ui/core@"^4.0.0" from @material-ui/icons@4.11.2
+npm ERR!   node_modules/@material-ui/icons
+npm ERR!     @material-ui/icons@"^4.11.2" from the root project
+npm ERR!   @material-ui/core@"^4.12.1" from the root project
+```
+
+- material UI 의 dependency 조건에 의해 실험 불가능
+
+![image](https://user-images.githubusercontent.com/58352248/141493885-7a9f15c8-6f0e-4311-92b6-4b18028856ff.png)
+
+#### 문제점1 : React 18버전이 필요하지만 material UI의 dependency 조건과 맞지 않아 설치 불가능
+
+-> React 18버전 정식 출시 및 material UI 버전 올린 뒤 다시 시도할 예정
+
+#### 문제점2 : Typescript에서 아직 지원이 안되는 것으로 보임
+
+- ts파일로 만들 경우 jsx 문법 사용 불가능
+  - index.tsx -> index.server.js만 가능 (index.server.ts : 에러)
 
 ## 고찰
 
@@ -2142,6 +2268,30 @@ module.exports = {
 - 그 동안 기술부채를 쌓아왔던 것에 대해 자각할 수 있는 좋은 기회였다.
 - 12버전에서 build time과 refresh time을 측정하기 위해 build를 하면서 발생하는 오류들을 인지할 수 있었다.
 - 모든 오류를 정석적으로 해결하진 않았지만 테스트코드와 CI/CD 이후 리팩터링 하면서 조금씩 해결해갈 예정이다.
+
+### babel compiler를 다시 사용할지 고민 중
+
+- styled component랑 inline style css를 같이 섞어서 쓸 수 없음(404.tsx)
+  - temp 폴더 안에 있는 .babelrc를 꺼내면 됨
+- 일단 12.1.0 이상 버전이 나올 때 까진 babel compiler를 사용하는 것이 나을 것 같아서 rust 컴파일러에서 babel 컴파일러로 되돌림
+
+### inline css 와 styled-components 호환 안됨
+
+- https://github.com/Ark-inflearn/inflearn-clone-front/pull/110#issuecomment-967797484
+  - `<div style={{ zIndex: 2, position: 'absolute' }}>` 이런식으로
+  - inline style과 styled-components를 같은 파일내에 작성을 하면
+  - rust 컴파일러에서 styled-components는 무시
+
+#### style jsx 사용해보기(404컴포넌트)
+
+- https://merrily-code.tistory.com/56
+- 그냥 styled-components 쓰는게 나을 것 같다(별 차이없는데 props를 전달할 수 있음)
+  - 자동완성 지원이 안됨(extension도 없는 듯)
+- inline css와 마찬가지로 styled-components와 호환 안됨
+
+## 정리글
+
+- https://github.com/Ark-inflearn/inflearn-clone-front/wiki/Next.js-12-%EC%A0%81%EC%9A%A9-%ED%9B%84%EA%B8%B0
 
 </details>
 

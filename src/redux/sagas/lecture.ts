@@ -75,7 +75,7 @@ function* loadMainPage(action: any) {
       type: LOAD_ALL_LECTURES_SUCCESS,
       data: generateDummyLectureList(10),
     });
-  } catch (err) {
+  } catch (err: any) {
     yield put({
       type: LOAD_ALL_LECTURES_FAILURE,
       error: err.response.data,
@@ -92,7 +92,7 @@ function* loadSlider(action: any) {
       type: LOAD_SLIDER_SUCCESS,
       data: mainSliderData,
     });
-  } catch (err) {
+  } catch (err: any) {
     yield put({
       type: LOAD_SLIDER_FAILURE,
       error: err.response.data,
