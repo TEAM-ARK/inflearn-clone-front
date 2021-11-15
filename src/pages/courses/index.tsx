@@ -3,6 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import CloseIcon from '@material-ui/icons/Close';
 import ListIcon from '@material-ui/icons/List';
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import ViewComfyIcon from '@material-ui/icons/ViewComfy';
 import { useRouter } from 'next/router';
@@ -17,6 +18,7 @@ import AppLayout from 'src/layouts/AppLayout';
 import { RootState } from 'src/redux/reducers';
 import { LOAD_ALL_LECTURES_REQUEST, SEARCH_LECTURES_REQUEST } from 'src/redux/reducers/lecture';
 import { ILecture } from 'src/redux/reducers/types';
+import { dummySkillTagsData } from '../../api/dummyData';
 
 const CoursesSection = styled.section`
   background: white;
@@ -228,6 +230,34 @@ const SkillsSearchBtn = styled.button`
   }
 `;
 
+const SkillTagBtn = styled.button`
+  background: #b8b8b8;
+  color: #fff;
+  font-size: 1rem;
+  border-radius: 4px;
+  border: none;
+  padding: 1px 0.6rem 2px 0.8rem;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+  height: 31px;
+
+  & > svg {
+    font-size: 0.7rem;
+    margin-left: 8px;
+  }
+`;
+
+const SkillMoreViewBtn = styled.button`
+  position: absolute;
+  background: #3298dc;
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  height: 31px;
+  border-radius: 4px;
+`;
+
 const Courses = () => {
   const router = useRouter();
   const { mainLectures, loadLectureLoading, searchLecturesLoading } = useSelector((state: RootState) => state.lecture);
@@ -248,7 +278,6 @@ const Courses = () => {
     { value: 'rating', label: '평점순' },
     { value: 'famous', label: '학생순수' },
   ];
-
   useEffect(() => {
     // 외부에서 접근하는 url을 다루는 경우에는 window.location을 사용해야함.
     // next/router는 클라이언트 측 전환을 처리함.
@@ -404,12 +433,25 @@ const Courses = () => {
                 </LectureOrderSelect>
                 <ArrowForwardIosIcon />
               </LectureOrderWrapper>
-              <SkillsSearchForm>
-                <SkillsSearchInput type="text" placeholder="기술검색" />
-                <SkillsSearchBtn type="button">
-                  <CloseIcon />
-                </SkillsSearchBtn>
-              </SkillsSearchForm>
+              <div>
+                <SkillsSearchForm>
+                  <SkillsSearchInput type="text" placeholder="기술검색" />
+                  <SkillsSearchBtn type="button">
+                    <CloseIcon />
+                  </SkillsSearchBtn>
+                </SkillsSearchForm>
+                <div>
+                  {dummySkillTagsData.map((val) => (
+                    <SkillTagBtn type="button">
+                      {val}
+                      <CloseIcon />
+                    </SkillTagBtn>
+                  ))}
+                  <SkillMoreViewBtn>
+                    <MoreHorizIcon />
+                  </SkillMoreViewBtn>
+                </div>
+              </div>
               <div className="lecture-list">
                 {loadLectureLoading || searchLecturesLoading ? (
                   <LoadingSpinner />
