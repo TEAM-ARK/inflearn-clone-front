@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import Grid from '@material-ui/core/Grid';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import CloseIcon from '@material-ui/icons/Close';
 import ListIcon from '@material-ui/icons/List';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import ViewComfyIcon from '@material-ui/icons/ViewComfy';
@@ -63,6 +64,8 @@ const LectureSearchInput = styled.input`
   height: 36px;
   padding: 5px 9px;
   border: 1px solid #dedede;
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
 
   &:focus {
     outline: 0.05cm auto #1dc078;
@@ -181,6 +184,48 @@ const ResetText = styled.span`
   position: absolute;
   left: 10px;
   top: 7px;
+`;
+
+const SkillsSearchForm = styled.div`
+  width: 11rem;
+  display: flex;
+`;
+
+const SkillsSearchInput = styled.input`
+  height: 31px;
+  border-radius: 3px;
+  box-shadow: none;
+  background: #f6f6f6;
+  color: #5f5f5f;
+  border: 1px solid transparent;
+  padding: 5px 9px;
+  width: 100%;
+
+  &:focus {
+    outline: 0.04rem auto #1dc078;
+    box-shadow: 0 0 0 0.125em rgb(29 192 120 / 25%);
+  }
+
+  &&::placeholder {
+    color: #b8b8b8db;
+  }
+`;
+
+const SkillsSearchBtn = styled.button`
+  color: white;
+  background-color: #1dc078;
+  border-color: transparent;
+  border-width: 1px;
+  border-radius: 3px;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+  padding: calc(0.375em - 1px) 0.75em;
+
+  & > svg {
+    font-size: 1rem;
+    stroke: white;
+    stroke-width: 2;
+  }
 `;
 
 const Courses = () => {
@@ -359,7 +404,12 @@ const Courses = () => {
                 </LectureOrderSelect>
                 <ArrowForwardIosIcon />
               </LectureOrderWrapper>
-              <div>기술검색</div>
+              <SkillsSearchForm>
+                <SkillsSearchInput type="text" placeholder="기술검색" />
+                <SkillsSearchBtn type="button">
+                  <CloseIcon />
+                </SkillsSearchBtn>
+              </SkillsSearchForm>
               <div className="lecture-list">
                 {loadLectureLoading || searchLecturesLoading ? (
                   <LoadingSpinner />
