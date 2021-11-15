@@ -2303,3 +2303,5 @@ npm ERR!   @material-ui/core@"^4.12.1" from the root project
 - 상세 소개 작성 후 저장할 때, 서버 문제 발생으로 나타나는 alert를 Material UI의 alert로 변경
 
 </details>
+
+test pr
