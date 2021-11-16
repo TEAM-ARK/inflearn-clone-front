@@ -190,7 +190,9 @@ const ResetText = styled.span`
 
 const SkillsSearchForm = styled.div`
   width: 11rem;
-  display: flex;
+  display: inline-flex;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
 `;
 
 const SkillsSearchInput = styled.input`
@@ -440,17 +442,19 @@ const Courses = () => {
                     <CloseIcon />
                   </SkillsSearchBtn>
                 </SkillsSearchForm>
-                <div>
-                  {dummySkillTagsData.map((val) => (
-                    <SkillTagBtn type="button">
-                      {val}
-                      <CloseIcon />
-                    </SkillTagBtn>
-                  ))}
+                <span>
+                  {React.Children.toArray(
+                    dummySkillTagsData.map((val) => (
+                      <SkillTagBtn type="button">
+                        {val}
+                        <CloseIcon />
+                      </SkillTagBtn>
+                    ))
+                  )}
                   <SkillMoreViewBtn>
                     <MoreHorizIcon />
                   </SkillMoreViewBtn>
-                </div>
+                </span>
               </div>
               <div className="lecture-list">
                 {loadLectureLoading || searchLecturesLoading ? (
