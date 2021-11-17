@@ -409,7 +409,7 @@ const Courses = () => {
     });
   }, [dispatch, router]);
 
-  const handleSkillCheck = (skillInfo: ISkillData): void => {
+  const handleSkillClick = (skillInfo: ISkillData): void => {
     const { name } = skillInfo;
 
     if (querySkills.current.map((val) => val.name).indexOf(name) > -1) {
@@ -518,7 +518,7 @@ const Courses = () => {
                   {!querySkills.current.length ||
                     React.Children.toArray(
                       querySkills.current.map((val) => (
-                        <SkillTagBtn type="button" selected onClick={() => handleSkillCheck(val)}>
+                        <SkillTagBtn type="button" selected onClick={() => handleSkillClick(val)}>
                           {val.name}
                           <CloseIcon />
                         </SkillTagBtn>
@@ -528,7 +528,7 @@ const Courses = () => {
                   {React.Children.toArray(
                     skillTags
                       .map((val) => (
-                        <SkillTagBtn type="button" selected={false} onClick={() => handleSkillCheck(val)}>
+                        <SkillTagBtn type="button" selected={false} onClick={() => handleSkillClick(val)}>
                           {val.name}
                         </SkillTagBtn>
                       ))
