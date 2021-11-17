@@ -217,15 +217,25 @@ const SkillsSearchInput = styled.input`
   }
 `;
 
-const SkillsSearchBtn = styled.button`
+type SkillSearchBtnProps = {
+  isSearchable: boolean;
+};
+
+const SkillsSearchBtn = styled.button<SkillSearchBtnProps>`
   color: white;
   background-color: #1dc078;
   border-color: transparent;
   border-width: 1px;
   border-radius: 3px;
-  border-bottom-left-radius: 0;
-  border-top-left-radius: 0;
   padding: calc(0.375em - 1px) 0.75em;
+  height: 31px;
+
+  ${(props) =>
+    props.isSearchable
+      ? `border-bottom-left-radius: 0;
+  border-top-left-radius: 0;`
+      : `margin-right: 0.5rem;
+      margin-bottom: 0.5rem;`}
 
   & > svg {
     font-size: 1rem;
@@ -281,6 +291,7 @@ const Courses = () => {
   const [skillTags, setSkillTags] = useState<ISkillData[]>([...dummySkillTagsData]);
   const [isSelectedSkill, setIsSelectedSkill] = useState<boolean>(false);
   const [skillRange, setSkillRange] = useState<number>(15);
+  const [isViewSkillInput, setIsViewSkillInput] = useState<boolean>(false);
   const querySkills = useRef<ISkillData[]>([]);
   const queryList = useRef<queryListProps>({});
   const queryOrder = useRef<string | null>('');
@@ -430,6 +441,14 @@ const Courses = () => {
     setSkillRange(15);
   };
 
+  const handleSkillSearchClick = () => {
+    if (isViewSkillInput) {
+      setIsViewSkillInput(false);
+      return;
+    }
+    setIsViewSkillInput(true);
+  };
+
   return (
     <AppLayout>
       <CoursesSection>
@@ -479,12 +498,22 @@ const Courses = () => {
                 <ArrowForwardIosIcon />
               </LectureOrderWrapper>
               <div>
-                <SkillsSearchForm>
-                  <SkillsSearchInput type="text" placeholder="기술검색" />
-                  <SkillsSearchBtn type="button">
-                    <CloseIcon />
-                  </SkillsSearchBtn>
-                </SkillsSearchForm>
+                {isViewSkillInput ? (
+                  <>
+                    <SkillsSearchForm>
+                      <SkillsSearchInput type="text" placeholder="기술검색" />
+                      <SkillsSearchBtn type="button" onClick={handleSkillSearchClick} isSearchable>
+                        <CloseIcon />
+                      </SkillsSearchBtn>
+                    </SkillsSearchForm>
+                  </>
+                ) : (
+                  <>
+                    <SkillsSearchBtn type="button" onClick={handleSkillSearchClick} isSearchable={false}>
+                      <SearchIcon />
+                    </SkillsSearchBtn>
+                  </>
+                )}
                 <span>
                   {/* 선택한 기술들 */}
                   {!querySkills.current.length ||
