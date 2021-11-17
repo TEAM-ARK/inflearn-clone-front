@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import CloseIcon from '@material-ui/icons/Close';
@@ -17,7 +17,7 @@ import LoadingSpinner from '@components/LoadingSpinner';
 import AppLayout from 'src/layouts/AppLayout';
 import { RootState } from 'src/redux/reducers';
 import { LOAD_ALL_LECTURES_REQUEST, SEARCH_LECTURES_REQUEST } from 'src/redux/reducers/lecture';
-import { ILecture } from 'src/redux/reducers/types';
+import { ILecture, ISkillData } from 'src/redux/reducers/types';
 import { dummySkillTagsData } from '../../api/dummyData';
 
 const CoursesSection = styled.section`
@@ -232,8 +232,12 @@ const SkillsSearchBtn = styled.button`
   }
 `;
 
-const SkillTagBtn = styled.button`
-  background: #b8b8b8;
+type SkillTagBtnProps = {
+  selected: boolean;
+};
+
+const SkillTagBtn = styled.button<SkillTagBtnProps>`
+  background: ${(props) => (props.selected ? '#1dc078' : '#b8b8b8')};
   color: #fff;
   font-size: 1rem;
   border-radius: 4px;
@@ -268,8 +272,12 @@ const Courses = () => {
   type queryListProps = {
     view?: string | null;
     order?: string | null;
+    skill?: string | null;
   };
 
+  const [skillTags, setSkillTags] = useState<ISkillData[]>([...dummySkillTagsData]);
+  const [isSkillSelected, setIsSkillSelected] = useState<boolean>(false);
+  const querySkills = useRef<ISkillData[]>([]);
   const queryList = useRef<queryListProps>({});
   const queryOrder = useRef<string | null>('');
   const queryView = useRef<string>('');
@@ -387,6 +395,26 @@ const Courses = () => {
     });
   }, [dispatch, router]);
 
+  const handleSkillCheck = (skillInfo: ISkillData): void => {
+    const { name } = skillInfo;
+
+    if (querySkills.current.map((val) => val.name).indexOf(name) > -1) {
+      // 이미 선택된 skill을 취소할 때
+
+      // url쿼리의 skill 파라미터에 저장된 기술을 제거
+      querySkills.current = querySkills.current.filter((val) => val.name !== name);
+      // 선택되지않은 기술들이 모여있는 배열(skillTags)에 선택한 기술을 다시 추가
+      setSkillTags(skillTags.concat(skillInfo).sort((a, b) => a.id - b.id));
+    } else {
+      // 새로운 skill을 선택했을 때
+
+      // url쿼리의 skill 파라미터에 선택한 기술을 추가
+      querySkills.current.push(skillInfo);
+      // 선택되지않은 기술들이 모여있는 배열(skillTags)에서 선택한 기술을 제거
+      setSkillTags(skillTags.filter((val) => val.name !== name));
+    }
+  };
+
   return (
     <AppLayout>
       <CoursesSection>
@@ -443,11 +471,21 @@ const Courses = () => {
                   </SkillsSearchBtn>
                 </SkillsSearchForm>
                 <span>
+                  {/* 선택한 기술들 */}
+                  {!querySkills.current.length ||
+                    React.Children.toArray(
+                      querySkills.current.map((val) => (
+                        <SkillTagBtn type="button" selected onClick={() => handleSkillCheck(val)}>
+                          {val.name}
+                          <CloseIcon />
+                        </SkillTagBtn>
+                      ))
+                    )}
+                  {/* 선택하지 않은 기술들 */}
                   {React.Children.toArray(
-                    dummySkillTagsData.map((val) => (
-                      <SkillTagBtn type="button">
-                        {val}
-                        <CloseIcon />
+                    skillTags.map((val) => (
+                      <SkillTagBtn type="button" selected={false} onClick={() => handleSkillCheck(val)}>
+                        {val.name}
                       </SkillTagBtn>
                     ))
                   )}
