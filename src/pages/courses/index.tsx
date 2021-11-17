@@ -233,6 +233,7 @@ const SkillsSearchBtn = styled.button<SkillSearchBtnProps>`
   border-radius: 3px;
   padding: calc(0.375em - 1px) 0.75em;
   height: 31px;
+  font-size: 0.9rem;
 
   ${(props) =>
     props.isSearchable
