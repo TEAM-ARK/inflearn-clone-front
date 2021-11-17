@@ -442,9 +442,12 @@ const Courses = () => {
 
   const handleSkillSearchClick = () => {
     if (isViewSkillSearchForm) {
+      // 기술 검색 폼 숨기기
       setIsViewSkillSearchForm(false);
       return;
     }
+
+    // 기술 검색 폼 나타내기
     setIsViewSkillSearchForm(true);
   };
 
