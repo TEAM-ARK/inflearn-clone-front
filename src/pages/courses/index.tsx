@@ -5,6 +5,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import ListIcon from '@material-ui/icons/List';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import RefreshIcon from '@material-ui/icons/Refresh';
+import SearchIcon from '@material-ui/icons/Search';
 import ViewComfyIcon from '@material-ui/icons/ViewComfy';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
@@ -257,11 +258,12 @@ const SkillMoreViewBtn = styled.button`
   position: absolute;
   background: #3298dc;
   color: #fff;
-  font-weight: 800;
+  font-weight: 600;
   font-size: 0.9rem;
   margin-bottom: 0.5rem;
   height: 31px;
   border-radius: 4px;
+  padding: 1px 0.6rem;
 `;
 
 const Courses = () => {
@@ -277,6 +279,7 @@ const Courses = () => {
 
   const [skillTags, setSkillTags] = useState<ISkillData[]>([...dummySkillTagsData]);
   const [isSkillSelected, setIsSkillSelected] = useState<boolean>(false);
+  const [skillRange, setSkillRange] = useState<number>(15);
   const querySkills = useRef<ISkillData[]>([]);
   const queryList = useRef<queryListProps>({});
   const queryOrder = useRef<string | null>('');
@@ -415,6 +418,17 @@ const Courses = () => {
     }
   };
 
+  const handleSkillMoreClick = () => {
+    if (skillRange === 15) {
+      // 기술 태그 더보기
+      setSkillRange(skillTags.length);
+      return;
+    }
+
+    // 기술 태그 15개만 보기
+    setSkillRange(15);
+  };
+
   return (
     <AppLayout>
       <CoursesSection>
@@ -489,10 +503,10 @@ const Courses = () => {
                           {val.name}
                         </SkillTagBtn>
                       ))
-                      .splice(0, 15)
+                      .splice(0, skillRange)
                   )}
-                  <SkillMoreViewBtn>
-                    <MoreHorizIcon />
+                  <SkillMoreViewBtn type="button" onClick={handleSkillMoreClick}>
+                    {skillRange === 15 ? <MoreHorizIcon /> : '접기'}
                   </SkillMoreViewBtn>
                 </span>
               </div>
