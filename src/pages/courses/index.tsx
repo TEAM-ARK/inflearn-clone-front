@@ -279,7 +279,7 @@ const Courses = () => {
   };
 
   const [skillTags, setSkillTags] = useState<ISkillData[]>([...dummySkillTagsData]);
-  const [isSkillSelected, setIsSkillSelected] = useState<boolean>(false);
+  const [isSelectedSkill, setIsSelectedSkill] = useState<boolean>(false);
   const [skillRange, setSkillRange] = useState<number>(15);
   const querySkills = useRef<ISkillData[]>([]);
   const queryList = useRef<queryListProps>({});
