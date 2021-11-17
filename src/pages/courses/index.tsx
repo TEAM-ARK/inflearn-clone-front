@@ -483,11 +483,13 @@ const Courses = () => {
                     )}
                   {/* 선택하지 않은 기술들 */}
                   {React.Children.toArray(
-                    skillTags.map((val) => (
-                      <SkillTagBtn type="button" selected={false} onClick={() => handleSkillCheck(val)}>
-                        {val.name}
-                      </SkillTagBtn>
-                    ))
+                    skillTags
+                      .map((val) => (
+                        <SkillTagBtn type="button" selected={false} onClick={() => handleSkillCheck(val)}>
+                          {val.name}
+                        </SkillTagBtn>
+                      ))
+                      .splice(0, 15)
                   )}
                   <SkillMoreViewBtn>
                     <MoreHorizIcon />
