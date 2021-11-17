@@ -205,6 +205,7 @@ const SkillsSearchInput = styled.input`
   border: 1px solid transparent;
   padding: 5px 9px;
   width: 100%;
+  font-size: 0.9rem;
 
   &:focus {
     outline: 0.04rem auto #1dc078;
