@@ -290,7 +290,7 @@ const Courses = () => {
 
   const [skillTags, setSkillTags] = useState<ISkillData[]>([...dummySkillTagsData]);
   const [skillRange, setSkillRange] = useState<number>(15);
-  const [isViewSkillInput, setIsViewSkillInput] = useState<boolean>(false);
+  const [isViewSkillSearchForm, setIsViewSkillSearchForm] = useState<boolean>(false);
   const querySkills = useRef<ISkillData[]>([]);
   const queryList = useRef<queryListProps>({});
   const queryOrder = useRef<string | null>('');
@@ -441,11 +441,11 @@ const Courses = () => {
   };
 
   const handleSkillSearchClick = () => {
-    if (isViewSkillInput) {
-      setIsViewSkillInput(false);
+    if (isViewSkillSearchForm) {
+      setIsViewSkillSearchForm(false);
       return;
     }
-    setIsViewSkillInput(true);
+    setIsViewSkillSearchForm(true);
   };
 
   return (
@@ -497,7 +497,7 @@ const Courses = () => {
                 <ArrowForwardIosIcon />
               </LectureOrderWrapper>
               <div>
-                {isViewSkillInput ? (
+                {isViewSkillSearchForm ? (
                   <>
                     <SkillsSearchForm>
                       <SkillsSearchInput type="text" placeholder="기술검색" />
