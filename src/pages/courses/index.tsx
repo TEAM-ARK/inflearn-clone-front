@@ -189,7 +189,7 @@ const ResetText = styled.span`
   top: 7px;
 `;
 
-const SkillsSearchForm = styled.div`
+const SkillSearchForm = styled.div`
   width: 11rem;
   display: inline-flex;
   margin-right: 0.5rem;
@@ -499,12 +499,12 @@ const Courses = () => {
               <div>
                 {isViewSkillSearchForm ? (
                   <>
-                    <SkillsSearchForm>
+                    <SkillSearchForm>
                       <SkillsSearchInput type="text" placeholder="기술검색" />
                       <SkillsSearchBtn type="button" onClick={handleSkillSearchClick} isSearchable>
                         <CloseIcon />
                       </SkillsSearchBtn>
-                    </SkillsSearchForm>
+                    </SkillSearchForm>
                   </>
                 ) : (
                   <>
