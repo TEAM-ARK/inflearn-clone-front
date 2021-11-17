@@ -189,6 +189,10 @@ const ResetText = styled.span`
   top: 7px;
 `;
 
+const SkillSearchWrapper = styled.div`
+  margin-top: 8px;
+`;
+
 const SkillSearchForm = styled.div`
   width: 11rem;
   display: inline-flex;
@@ -499,7 +503,7 @@ const Courses = () => {
                 </LectureOrderSelect>
                 <ArrowForwardIosIcon />
               </LectureOrderWrapper>
-              <div>
+              <SkillSearchWrapper>
                 {isViewSkillSearchForm ? (
                   <>
                     <SkillSearchForm>
@@ -516,7 +520,7 @@ const Courses = () => {
                     </SkillsSearchBtn>
                   </>
                 )}
-                <span>
+                <span id="skill-tags">
                   {/* 선택한 기술들 */}
                   {!querySkills.current.length ||
                     React.Children.toArray(
@@ -541,7 +545,7 @@ const Courses = () => {
                     {skillRange === 15 ? <MoreHorizIcon /> : '접기'}
                   </SkillMoreViewBtn>
                 </span>
-              </div>
+              </SkillSearchWrapper>
               <div className="lecture-list">
                 {loadLectureLoading || searchLecturesLoading ? (
                   <LoadingSpinner />
