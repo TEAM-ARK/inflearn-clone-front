@@ -173,7 +173,7 @@ const ResetBtn = styled.button`
   padding: calc(0.375em - 1px) 0.75em;
   border-radius: 4px;
   width: 90px;
-  heught: 40px;
+  height: 40px;
   font-size: 1rem;
 
   & > svg {
