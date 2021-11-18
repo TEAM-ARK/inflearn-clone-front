@@ -295,7 +295,7 @@ const Courses = () => {
 
   const [skillTags, setSkillTags] = useState<ISkillData[]>([...dummySkillTagsData]);
   const [skillRange, setSkillRange] = useState<number>(15);
-  const [isViewSkillSearchForm, setIsViewSkillSearchForm] = useState<boolean>(false);
+  const [isViewSkillSearchForm, setIsViewSkillSearchForm] = useState<boolean>(true);
   const querySkills = useRef<ISkillData[]>([]);
   const queryList = useRef<queryListProps>({});
   const queryOrder = useRef<string | null>('');
