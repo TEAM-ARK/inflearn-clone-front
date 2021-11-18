@@ -422,7 +422,7 @@ const Courses = () => {
 
       // url쿼리의 skill 파라미터에 저장된 기술을 제거
       querySkills.current = querySkills.current.filter((val) => val.name !== name);
-      // 선택되지않은 기술들이 모여있는 배열(skillTags)에 선택한 기술을 다시 추가
+      // 선택되지않은 기술들이 모여있는 배열(skillTags)에 선택한 기술을 원래 자리에 다시 추가
       setSkillTags(skillTags.concat(skillInfo).sort((a, b) => a.id - b.id));
     } else {
       // 새로운 skill을 선택했을 때
