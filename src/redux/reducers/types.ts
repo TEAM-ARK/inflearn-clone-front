@@ -90,3 +90,11 @@ export type LectureInfoChild = {
 export interface ISearchQueryData {
   order?: string;
 }
+
+// 기술 검색 관련 데이터
+export interface ISkillData {
+  id: number;
+  type: string;
+  slug: string;
+  name: string;
+}
