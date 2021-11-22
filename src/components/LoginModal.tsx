@@ -85,6 +85,8 @@ export default function LoginModal({ handleFindPasswordModal, onClose }: IProps)
   const mutation = useMutation(({ email, password }: ILogin) => requestLogin(email, password), {
     onSuccess: (res) => {
       console.log(res);
+      onClose(); // 로그인 창 닫기
+      // 리덕스에 로그인 여부 저장
       Router.replace('/');
     },
     onError: (err: AxiosError) => {
