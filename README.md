@@ -2326,3 +2326,49 @@ npm ERR!   @material-ui/core@"^4.12.1" from the root project
 - 버튼 디자인 구현할 때 색상을 제외한 font-size, margin 등의 값이 겹치는 것은 class로 빼서 스타일이 적용가능하게끔 하기
 
 </details>
+
+<details>
+<summary>2021.11.21 ~ 22 login (Tony)</summary>
+
+### 로그인 연동
+
+- 현재 로그인 시 200으로 응답이 오지만 서버에서 보낸 쿠키를 저장하지 못 하고 있음
+  - SameSite: Lax
+
+### Things to do
+
+- [x] 로그인 후 메인페이지에서 창 안닫히는 현상 수정
+- [ ] 로그인 인식해서 헤더 UI 변경
+- [ ] 로그인 여부 리덕스에 저장
+  - react-query에서 로컬변수 관리하는 방법을 찾아보던가 리덕스로 관리해야 함
+  - 일단 임시로 true로 설정
+
+### 로그인 시 쿠키 못 가져오는 문제
+
+#### 도메인이 달라서 서로 withCredentials을 true로 설정해줘야함
+
+```typescript
+// utils/fetcher.ts
+axios.defaults.withCredentials = true;
+
+// redux/sagas/index.ts
+axios.defaults.withCredentials = true;
+```
+
+#### SSR에서 설정
+
+- [ ] 쿠키를 먼저 가져오는 것을 설정 한 이후에 진행할 예정
+  - [ ] https로 배포를 해야 될 것 같음
+
+### 백엔드 주소 변경
+
+```javascript
+// config/config.js
+export const backUrl = 'https://www.ark-inflearn.shop'; // 기존 : 'http://3.34.236.174';
+```
+
+### 참고
+
+- [도메인이 다를 때 cookie 전달하기](https://velog.io/@gth1123/%EB%8F%84%EB%A9%94%EC%9D%B8%EC%9D%B4-%EB%8B%A4%EB%A5%BC-%EB%95%8C-cookie-%EC%A0%84%EB%8B%AC%ED%95%98%EA%B8%B0)
+
+</details>
