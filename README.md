@@ -2372,3 +2372,16 @@ export const backUrl = 'https://www.ark-inflearn.shop'; // 기존 : 'http://3.34
 - [도메인이 다를 때 cookie 전달하기](https://velog.io/@gth1123/%EB%8F%84%EB%A9%94%EC%9D%B8%EC%9D%B4-%EB%8B%A4%EB%A5%BC-%EB%95%8C-cookie-%EC%A0%84%EB%8B%AC%ED%95%98%EA%B8%B0)
 
 </details>
+
+<details>
+<summary>2021.11.28 (나현)</summary>
+
+## 구현한 것
+
+- [기술 검색 부분에서 추가로 진행할 작업](https://github.com/TEAM-ARK/inflearn-clone-front/issues/118)에서 성능 최적화를 위해 기술 검색 부분 컴포넌트 분리함.
+
+## 앞으로 진행할 작업
+
+- 카테고리 선택 부분 UI 구현
+- 기술 검색 부분과 관련하여 추가로 진행할 작업은 전체적인 UI 부분 구현이 완료될 때까지 보류
+</details>
