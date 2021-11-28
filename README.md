@@ -2372,3 +2372,17 @@ export const backUrl = 'https://www.ark-inflearn.shop'; // 기존 : 'http://3.34
 - [도메인이 다를 때 cookie 전달하기](https://velog.io/@gth1123/%EB%8F%84%EB%A9%94%EC%9D%B8%EC%9D%B4-%EB%8B%A4%EB%A5%BC-%EB%95%8C-cookie-%EC%A0%84%EB%8B%AC%ED%95%98%EA%B8%B0)
 
 </details>
+
+<details>
+<summary>cookie 문제 해결하기</summary>
+
+# 프론트 프록시 설정
+
+- [ ] package.json
+  - 왠지 모르게 안되는 중
+
+# 참고
+
+- https://soulcactus.dev/react/set-next-proxy/
+
+</details>
