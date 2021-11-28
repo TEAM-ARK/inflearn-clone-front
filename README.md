@@ -2374,6 +2374,19 @@ export const backUrl = 'https://www.ark-inflearn.shop'; // 기존 : 'http://3.34
 </details>
 
 <details>
+<summary>2021.11.28 (나현)</summary>
+
+## 구현한 것
+
+- [기술 검색 부분에서 추가로 진행할 작업](https://github.com/TEAM-ARK/inflearn-clone-front/issues/118)에서 성능 최적화를 위해 기술 검색 부분 컴포넌트 분리함.
+
+## 앞으로 진행할 작업
+
+- 카테고리 선택 부분 UI 구현
+- 기술 검색 부분과 관련하여 추가로 진행할 작업은 전체적인 UI 부분 구현이 완료될 때까지 보류
+</details>
+
+<details>
 <summary>cookie 문제 해결하기</summary>
 
 # 프론트 프록시 설정
