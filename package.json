@@ -45,7 +45,6 @@
     "tinymce": "^5.10.0",
     "yup": "^0.32.9"
   },
-  "proxy": "https://ark-inflearn.shop/",
   "devDependencies": {
     "@testing-library/dom": "^7.30.0",
     "@testing-library/jest-dom": "^5.11.9",

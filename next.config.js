@@ -16,8 +16,8 @@ module.exports = {
   async rewrites() {
     return [
       {
-        destination: 'https://www.ark-inflearn.shop/',
-        source: '/',
+        destination: 'https://www.ark-inflearn.shop/api/:path*',
+        source: '/api/:path*',
       },
     ];
   },
