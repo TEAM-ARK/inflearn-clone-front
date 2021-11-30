@@ -91,6 +91,7 @@ export default function LoginModal({ handleFindPasswordModal, onClose }: IProps)
     },
     onError: (err: AxiosError) => {
       console.error(err.response?.data);
+      // 로그인 실패 시 경고 메세지 띄우기(비밀번호 입력칸과 로그인 버튼 사이에)
     },
   });
 

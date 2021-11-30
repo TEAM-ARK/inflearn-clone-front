@@ -2385,3 +2385,39 @@ export const backUrl = 'https://www.ark-inflearn.shop'; // 기존 : 'http://3.34
 - 카테고리 선택 부분 UI 구현
 - 기술 검색 부분과 관련하여 추가로 진행할 작업은 전체적인 UI 부분 구현이 완료될 때까지 보류
 </details>
+
+<details>
+<summary>2021.11.30 cookie 문제 해결하기(토니, 나현)</summary>
+
+## 프론트 프록시 설정
+
+- [x] package.json
+  - 왠지 모르게 안되는 중
+  - Next.js에선 안됨
+
+```json
+// package.json 에 아래와 같이 추가하는 것은 next.js에선 동작하지 않음
+"proxy" : "https://www.ark-inflearn.shop/"
+```
+
+## next.js에서 프록시 설정하기
+
+```javascript
+// next.config.js 에 아래와 같이 프록시 서버 주소 추가
+module.exports = {
+  async rewrites() {
+    return [
+      {
+        destination: 'https://www.ark-inflearn.shop/api/:path*',
+        source: '/api/:path*',
+      },
+    ];
+  },
+};
+```
+
+# 참고
+
+- https://soulcactus.dev/react/set-next-proxy/
+
+</details>

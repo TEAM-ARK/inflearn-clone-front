@@ -9,6 +9,7 @@ export const createSignup = async (email: string, password: string) => {
 };
 
 export const requestLogin = async (email: string, password: string) => {
-  const res = await axios.post(`${backUrl}/api/v1/login`, { email, password });
+  // const res = await axios.post(`${backUrl}/api/v1/login`, { email, password });
+  const res = await axios.post(`/api/v1/login`, { email, password });
   return res.data;
 };
